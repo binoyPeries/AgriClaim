@@ -1,4 +1,4 @@
-# agriclaim
+# AgriClaim
 
 An app to assess crop damage
 

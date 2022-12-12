@@ -1,16 +1,12 @@
 # AgriClaim
 
-An app to assess crop damage
+An app to assess crop damage.
 
-## Getting Started
+## Introduction
 
-This project is a starting point for a Flutter application.
+This project focuses on creating a mobile application to assess the crop damage incurred by Sri Lankan farmers due to various reasons and provide a way for them to get compensation from the government. The mobile application (as we have outlined so far) can be used by farmers and government officers who have been assigned for crop damage assessment.
 
-A few resources to get you started if this is your first Flutter project:
+The current system involves a visit by the assigned government officer to the farm, where the damage will be assessed and appropriate paperwork will be submitted to the relevant governing body. The paperwork will have to be approved for the farmer to receive the compensation. However, this existing system is time consuming and will not account for fraudulent claims.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+The proposed solution will digitise this process and allow farmers to submit claims electronically via the mobile application, and the government officers can view and assess the claim via the mobile application without having to go to the farm. The compensation will be collected by the farmer via their bank account or in person, based on their preference.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.

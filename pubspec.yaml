@@ -43,7 +43,7 @@ dependencies:
   form_builder_validators: ^8.4.0
 
   flutter_svg: ^1.1.6
-
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:
@@ -99,3 +99,7 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
+flutter_intl:
+  main_locale: en_US
+  enabled: true

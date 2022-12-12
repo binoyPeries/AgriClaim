@@ -3,7 +3,7 @@
    <application
         android:label="AgriClaim"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/agriclaim_logo">
         <activity
             android:name=".MainActivity"
             android:exported="true"

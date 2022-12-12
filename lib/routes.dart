@@ -7,8 +7,8 @@ abstract class AgriClaimRoutes {
   static List<GoRoute> get routes {
     return [
       ...commonRoutes,
-      ...patientRoutes,
-      ...doctorRoutes,
+      ...farmerRoutes,
+      ...officerRoutes,
     ];
   }
 
@@ -16,11 +16,11 @@ abstract class AgriClaimRoutes {
     return [];
   }
 
-  static List<GoRoute> get patientRoutes {
+  static List<GoRoute> get farmerRoutes {
     return [];
   }
 
-  static List<GoRoute> get doctorRoutes {
+  static List<GoRoute> get officerRoutes {
     return [];
   }
 }

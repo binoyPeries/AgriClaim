@@ -1,3 +1,6 @@
+import 'package:agriclaim/routes.dart';
+import 'package:agriclaim/theme.dart';
+import 'package:agriclaim/ui/common/pages/router_error_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'generated/l10n.dart';
@@ -19,10 +22,9 @@ class AgriClaim extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      title: 'AgriClaim',
+      debugShowCheckedModeBanner: false,
+      theme: AgriClaimTheme.theme,
       localizationsDelegates: const [
         S.delegate,
         GlobalMaterialLocalizations.delegate,

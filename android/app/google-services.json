@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "684694988814",
+    "project_id": "agriclaim-c6cfd",
+    "storage_bucket": "agriclaim-c6cfd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:684694988814:android:90725086011fb49f97745f",
+        "android_client_info": {
+          "package_name": "com.ethos.agriclaim"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "684694988814-m03qa7tk36gq3eka1kq8ahqofh65i59s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ethos.agriclaim",
+            "certificate_hash": "2f6ab1ba960db7c680800edc60a2dc06a053619a"
+          }
+        },
+        {
+          "client_id": "684694988814-fs7vbufn43rmd7rg8t6r02pg96ipcote.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAwPni5LDKLIo6RCB5HvbOVT_LBbv17CDU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "684694988814-fs7vbufn43rmd7rg8t6r02pg96ipcote.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

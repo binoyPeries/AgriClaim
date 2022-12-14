@@ -7,17 +7,17 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:684694988814:android:90725086011fb49f97745f",
+        "mobilesdk_app_id": "1:684694988814:android:19a92983e2ce452997745f",
         "android_client_info": {
-          "package_name": "com.ethos.agriclaim"
+          "package_name": "com.example.agriclaim"
         }
       },
       "oauth_client": [
         {
-          "client_id": "684694988814-m03qa7tk36gq3eka1kq8ahqofh65i59s.apps.googleusercontent.com",
+          "client_id": "684694988814-7jd3mcl1gs8ru2k5n59hj7pl7us8r8eg.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.ethos.agriclaim",
+            "package_name": "com.example.agriclaim",
             "certificate_hash": "2f6ab1ba960db7c680800edc60a2dc06a053619a"
           }
         },

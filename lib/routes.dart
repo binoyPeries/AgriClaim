@@ -1,3 +1,4 @@
+import 'package:agriclaim/ui/common/pages/welcome_page.dart';
 import "package:go_router/go_router.dart";
 
 abstract class AgriClaimRoutes {
@@ -13,7 +14,9 @@ abstract class AgriClaimRoutes {
   }
 
   static List<GoRoute> get commonRoutes {
-    return [];
+    return [
+      GoRoute(path: welcome, builder: (_, __) => const WelcomePage()),
+    ];
   }
 
   static List<GoRoute> get farmerRoutes {

@@ -1,12 +1,13 @@
 import 'package:agriclaim/ui/constants/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 
 class PrimaryButton extends StatelessWidget {
   final Color buttonColor;
   final Color textColor;
   final String text;
-  final double fontSize;
-  final double height;
+  final double? fontSize;
+  final double? height;
   final Function onPressed;
   final double? elevation;
 
@@ -16,15 +17,15 @@ class PrimaryButton extends StatelessWidget {
     required this.text,
     this.buttonColor = AgriClaimColors.tertiaryColor,
     this.textColor = Colors.white,
-    this.fontSize = 18,
-    this.height = 45,
+    this.fontSize,
+    this.height,
     this.elevation,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: height,
+      height: height ?? 6.5.h,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: buttonColor,
@@ -36,7 +37,7 @@ class PrimaryButton extends StatelessWidget {
           text,
           style: TextStyle(
             color: textColor,
-            fontSize: fontSize,
+            fontSize: fontSize ?? 2.5.h,
           ),
         ),
       ),

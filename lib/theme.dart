@@ -5,6 +5,7 @@ class AgriClaimTheme {
   static ThemeData get theme {
     return ThemeData(
       primarySwatch: AgriClaimColors.primaryMaterialColor,
+      fontFamily: 'Poppins',
       inputDecorationTheme: InputDecorationTheme(
         contentPadding: const EdgeInsets.symmetric(horizontal: 12),
         focusedBorder: const OutlineInputBorder(

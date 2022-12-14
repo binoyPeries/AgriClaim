@@ -1,6 +1,9 @@
-# AgriClaim
+<h1 align="center">AgriClaim</h1>
 
-An app to assess crop damage.
+<p align="center">
+ <img src="https://github.com/binoyPeries/AgriClaim/blob/master/assets/images/app-logo-128.svg?raw=true"
+    alt="AgriClaim Logo" height="128"/>
+</p>
 
 ## Introduction
 

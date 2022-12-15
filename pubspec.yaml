@@ -37,7 +37,7 @@ dependencies:
   # routing
   go_router: ^5.2.4
   # state management
-  riverpod: ^2.1.1
+  flutter_riverpod: ^2.1.1
   # forms related
   flutter_form_builder: ^7.7.0
   form_builder_validators: ^8.4.0

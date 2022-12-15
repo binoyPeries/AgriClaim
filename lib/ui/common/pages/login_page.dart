@@ -1,3 +1,4 @@
+import 'package:agriclaim/generated/l10n.dart';
 import 'package:agriclaim/ui/common/components/default_appbar.dart';
 import 'package:agriclaim/ui/common/components/default_scaffold.dart';
 import 'package:agriclaim/ui/common/components/primary_button.dart';
@@ -20,7 +21,8 @@ class LoginPage extends StatelessWidget {
     final formKey = GlobalKey<FormBuilderState>();
     return SafeArea(
       child: DefaultScaffold(
-        appBar: const DefaultAppBar(title: "Sign Up", backButtonVisible: true),
+        appBar:
+            DefaultAppBar(title: S.of(context).login, backButtonVisible: true),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -47,7 +49,7 @@ class LoginPage extends StatelessWidget {
                     children: [
                       FormTextField(
                         fieldName: "mobileNo",
-                        label: "Mobile Number",
+                        label: S.of(context).mobile_no,
                         keyboardType: TextInputType.number,
                         validators: [
                           FormBuilderValidators.equalLength(10,
@@ -56,14 +58,15 @@ class LoginPage extends StatelessWidget {
                         ],
                       ),
                       SizedBox(height: 2.h),
-                      const FormTextField(
+                      FormTextField(
                         fieldName: "password",
-                        label: "Password",
+                        label: S.of(context).password,
                         obscureText: true,
                       ),
                       SizedBox(height: 8.h),
                       PrimaryButton(
-                          onPressed: () => submitLogin(formKey), text: "Login")
+                          onPressed: () => submitLogin(formKey),
+                          text: S.of(context).login)
                     ],
                   ),
                 )

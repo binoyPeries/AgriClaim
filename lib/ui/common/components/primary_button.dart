@@ -32,7 +32,7 @@ class PrimaryButton extends StatelessWidget {
           shape: const StadiumBorder(),
           elevation: elevation ?? 1,
         ),
-        onPressed: () => onPressed,
+        onPressed: () => onPressed(),
         child: Text(
           text,
           style: TextStyle(

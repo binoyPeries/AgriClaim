@@ -1,9 +1,11 @@
+import 'package:agriclaim/routes.dart';
 import 'package:agriclaim/ui/common/components/default_scaffold.dart';
 import 'package:agriclaim/ui/common/components/primary_button.dart';
 import 'package:agriclaim/ui/constants/assests.dart';
 import 'package:agriclaim/ui/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sizer/sizer.dart';
 
 class WelcomePage extends StatelessWidget {
@@ -30,19 +32,19 @@ class WelcomePage extends StatelessWidget {
             SizedBox(height: 1.h),
             Center(
               child: Text(
-                "Please select your profile type",
+                "Please select your profile type.",
                 style: TextStyle(
                     fontSize: 2.5.h, color: AgriClaimColors.hintColor),
               ),
             ),
             SizedBox(height: 5.h),
             PrimaryButton(
-                onPressed: () {},
+                onPressed: () => context.push(AgriClaimRoutes.farmerLogin),
                 text: "Farmer",
                 buttonColor: AgriClaimColors.primaryColor),
             SizedBox(height: 2.h),
             PrimaryButton(
-                onPressed: () {},
+                onPressed: () => context.push(AgriClaimRoutes.officerLogin),
                 text: "Officer",
                 buttonColor: AgriClaimColors.primaryColor)
           ],

@@ -2,13 +2,14 @@ import 'package:agriclaim/routes.dart';
 import 'package:agriclaim/theme.dart';
 import 'package:agriclaim/ui/common/pages/router_error_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sizer/sizer.dart';
 import 'generated/l10n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
-  runApp(AgriClaim());
+  runApp(ProviderScope(child: AgriClaim()));
 }
 
 class AgriClaim extends StatelessWidget {

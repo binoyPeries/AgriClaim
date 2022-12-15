@@ -59,6 +59,66 @@ class S {
       args: [],
     );
   }
+
+  /// `Password`
+  String get password {
+    return Intl.message(
+      'Password',
+      name: 'password',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Welcome!`
+  String get welcome {
+    return Intl.message(
+      'Welcome!',
+      name: 'welcome',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please select your profile type.`
+  String get select_profile {
+    return Intl.message(
+      'Please select your profile type.',
+      name: 'select_profile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Farmer`
+  String get farmer {
+    return Intl.message(
+      'Farmer',
+      name: 'farmer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Officer`
+  String get officer {
+    return Intl.message(
+      'Officer',
+      name: 'officer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Login`
+  String get login {
+    return Intl.message(
+      'Login',
+      name: 'login',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

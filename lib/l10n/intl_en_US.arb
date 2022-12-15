@@ -1,4 +1,10 @@
 {
   "@@locale" : "en_US",
-  "username": "Username"
+  "username": "Username",
+  "password": "Password",
+  "welcome": "Welcome!",
+  "select_profile": "Please select your profile type.",
+  "farmer": "Farmer",
+  "officer": "Officer",
+  "login": "Login"
 }

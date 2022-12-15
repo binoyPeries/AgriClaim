@@ -1,3 +1,4 @@
+import 'package:agriclaim/generated/l10n.dart';
 import 'package:agriclaim/routes.dart';
 import 'package:agriclaim/ui/common/components/default_scaffold.dart';
 import 'package:agriclaim/ui/common/components/primary_button.dart';
@@ -25,14 +26,14 @@ class WelcomePage extends StatelessWidget {
             SizedBox(height: 2.h),
             Center(
               child: Text(
-                "Welcome!",
+                S.of(context).welcome,
                 style: TextStyle(fontSize: 4.h, fontWeight: FontWeight.w800),
               ),
             ),
             SizedBox(height: 1.h),
             Center(
               child: Text(
-                "Please select your profile type.",
+                S.of(context).select_profile,
                 style: TextStyle(
                     fontSize: 2.5.h, color: AgriClaimColors.hintColor),
               ),
@@ -40,12 +41,12 @@ class WelcomePage extends StatelessWidget {
             SizedBox(height: 5.h),
             PrimaryButton(
                 onPressed: () => context.push(AgriClaimRoutes.farmerLogin),
-                text: "Farmer",
+                text: S.of(context).farmer,
                 buttonColor: AgriClaimColors.primaryColor),
             SizedBox(height: 2.h),
             PrimaryButton(
                 onPressed: () => context.push(AgriClaimRoutes.officerLogin),
-                text: "Officer",
+                text: S.of(context).officer,
                 buttonColor: AgriClaimColors.primaryColor)
           ],
         ),

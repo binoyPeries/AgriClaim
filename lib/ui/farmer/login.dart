@@ -12,7 +12,7 @@ class FarmerLoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormBuilderState>();
     return DefaultScaffold(
-      appBar: const DefaultAppBar(title: "Login"),
+      appBar: DefaultAppBar(title: S.of(context).login),
       body: Column(
         children: [
           FormBuilder(

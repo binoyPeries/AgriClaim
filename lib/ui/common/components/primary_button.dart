@@ -29,10 +29,11 @@ class PrimaryButton extends StatelessWidget {
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: buttonColor,
-          shape: const StadiumBorder(),
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(8))),
           elevation: elevation ?? 1,
         ),
-        onPressed: () => onPressed,
+        onPressed: () => onPressed(),
         child: Text(
           text,
           style: TextStyle(

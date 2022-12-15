@@ -3,7 +3,7 @@ import 'package:agriclaim/ui/common/components/default_appbar.dart';
 import 'package:agriclaim/ui/common/components/default_scaffold.dart';
 import 'package:agriclaim/ui/common/components/primary_button.dart';
 import 'package:agriclaim/ui/common/form_fields/form_text_field.dart';
-import 'package:agriclaim/ui/constants/assests.dart';
+import 'package:agriclaim/ui/constants/assets.dart';
 import 'package:agriclaim/ui/constants/colors.dart';
 import 'package:agriclaim/ui/constants/enums.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +12,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:sizer/sizer.dart';
 
+int a = 1;
+
 class LoginPage extends StatelessWidget {
   final UserRoles userType;
   const LoginPage({Key? key, required this.userType}) : super(key: key);
@@ -19,6 +21,7 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormBuilderState>();
+
     return SafeArea(
       child: DefaultScaffold(
         appBar:

@@ -1,7 +1,7 @@
 import 'package:agriclaim/routes.dart';
 import 'package:agriclaim/ui/common/components/default_scaffold.dart';
 import 'package:agriclaim/ui/common/components/primary_button.dart';
-import 'package:agriclaim/ui/constants/assests.dart';
+import 'package:agriclaim/ui/constants/assets.dart';
 import 'package:agriclaim/ui/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';

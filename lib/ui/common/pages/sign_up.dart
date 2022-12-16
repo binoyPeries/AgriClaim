@@ -81,8 +81,6 @@ class CommonSignUpPage extends StatelessWidget {
       return false;
     }
     //:TODO signup logic
-    print("hello");
-    print(userType == UserRoles.farmer);
     userType == UserRoles.farmer
         ? context.push(AgriClaimRoutes.farmerSignUp)
         : context.push(AgriClaimRoutes.officerSignUp);

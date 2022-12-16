@@ -68,11 +68,11 @@ class LoginPage extends StatelessWidget {
                         label: S.of(context).password,
                         obscureText: true,
                       ),
-                      SizedBox(height: 8.h),
+                      SizedBox(height: 5.h),
                       PrimaryButton(
                           onPressed: () => submitLogin(formKey),
                           text: S.of(context).login),
-                      SizedBox(height: 1.8.h),
+                      SizedBox(height: 5.h),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,

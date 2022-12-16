@@ -3,7 +3,7 @@ import 'package:agriclaim/ui/common/pages/sign_up.dart';
 import 'package:agriclaim/ui/common/pages/welcome_page.dart';
 import 'package:agriclaim/ui/constants/enums.dart';
 import 'package:agriclaim/ui/farmer/signup_page.dart';
-import 'package:agriclaim/ui/officer/sign_up.dart';
+import 'package:agriclaim/ui/officer/signup_page.dart';
 import 'package:flutter/foundation.dart';
 import "package:go_router/go_router.dart";
 

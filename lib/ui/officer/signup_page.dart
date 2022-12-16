@@ -16,7 +16,8 @@ class OfficerSignUpPage extends StatelessWidget {
 
     return SafeArea(
       child: DefaultScaffold(
-        appBar: const DefaultAppBar(title: "Sign Up", backButtonVisible: true),
+        appBar: const DefaultAppBar(
+            title: "Officer Details", backButtonVisible: true),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),

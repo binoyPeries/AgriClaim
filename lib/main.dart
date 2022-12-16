@@ -2,14 +2,20 @@ import 'package:agriclaim/routes.dart';
 import 'package:agriclaim/theme.dart';
 import 'package:agriclaim/ui/common/pages/router_error_page.dart';
 import 'package:agriclaim/ui/common/utils/logger.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sizer/sizer.dart';
+import 'firebase_options.dart';
 import 'generated/l10n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(ProviderScope(observers: const [StateLogger()], child: AgriClaim()));
 }
 

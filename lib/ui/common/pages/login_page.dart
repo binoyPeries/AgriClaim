@@ -1,4 +1,5 @@
 import 'package:agriclaim/generated/l10n.dart';
+import 'package:agriclaim/routes.dart';
 import 'package:agriclaim/ui/common/components/default_appbar.dart';
 import 'package:agriclaim/ui/common/components/default_scaffold.dart';
 import 'package:agriclaim/ui/common/components/primary_button.dart';
@@ -10,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sizer/sizer.dart';
 
 int a = 1;
@@ -44,7 +46,7 @@ class LoginPage extends StatelessWidget {
                         color: AgriClaimColors.primaryColor),
                   ),
                 ),
-                SizedBox(height: 10.h),
+                SizedBox(height: 9.h),
                 FormBuilder(
                   key: formKey,
                   child: Column(
@@ -66,10 +68,35 @@ class LoginPage extends StatelessWidget {
                         label: S.of(context).password,
                         obscureText: true,
                       ),
-                      SizedBox(height: 8.h),
+                      SizedBox(height: 5.h),
                       PrimaryButton(
                           onPressed: () => submitLogin(formKey),
-                          text: S.of(context).login)
+                          text: S.of(context).login),
+                      SizedBox(height: 5.h),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Don't have an account?",
+                            style: TextStyle(
+                                fontSize: 2.h,
+                                color: AgriClaimColors.primaryColor),
+                          ),
+                          const SizedBox(width: 8),
+                          InkWell(
+                            onTap: () => context
+                                .push(AgriClaimRoutes.userSignUpPath(userType)),
+                            child: Text(
+                              "Sign Up",
+                              style: TextStyle(
+                                  fontSize: 2.2.h,
+                                  fontWeight: FontWeight.w800,
+                                  color: AgriClaimColors.tertiaryColor),
+                            ),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 )

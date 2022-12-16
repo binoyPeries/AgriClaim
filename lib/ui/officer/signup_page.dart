@@ -16,7 +16,8 @@ class OfficerSignUpPage extends StatelessWidget {
 
     return SafeArea(
       child: DefaultScaffold(
-        appBar: DefaultAppBar(title: "Sign Up", backButtonVisible: true),
+        appBar: const DefaultAppBar(
+            title: "Officer Details", backButtonVisible: true),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -56,6 +57,7 @@ class OfficerSignUpPage extends StatelessWidget {
                           FormBuilderValidators.email(
                               errorText: "Please enter a valid email address.")
                         ],
+                        keyboardType: TextInputType.emailAddress,
                       ),
                       SizedBox(height: 8.h),
                       PrimaryButton(

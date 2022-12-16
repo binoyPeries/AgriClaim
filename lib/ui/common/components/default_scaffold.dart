@@ -21,7 +21,7 @@ class DefaultScaffold extends StatelessWidget {
         child: Scaffold(
           appBar: appBar,
           body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+            padding: const EdgeInsets.symmetric(horizontal: 15.0),
             child: body,
           ),
         ),

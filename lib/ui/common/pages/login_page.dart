@@ -80,9 +80,20 @@ class LoginPage extends ConsumerWidget {
                         obscureText: true,
                       ),
                       SizedBox(height: 5.h),
-                      PrimaryButton(
-                          onPressed: () => submitLogin(formKey, ref),
-                          text: S.of(context).login),
+                      Consumer(
+                        builder: (BuildContext context, WidgetRef ref,
+                            Widget? child) {
+                          final loginStateProvider =
+                              ref.watch(loginControllerProvider);
+
+                          return PrimaryButton(
+                            onPressed: () => submitLogin(formKey, ref),
+                            text: S.of(context).login,
+                            submitted:
+                                loginStateProvider == LoginStates.loading,
+                          );
+                        },
+                      ),
                       SizedBox(height: 5.h),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,

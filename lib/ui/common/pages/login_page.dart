@@ -4,6 +4,7 @@ import 'package:agriclaim/providers/login_error_provider.dart';
 import 'package:agriclaim/routes.dart';
 import 'package:agriclaim/ui/common/components/default_appbar.dart';
 import 'package:agriclaim/ui/common/components/default_scaffold.dart';
+import 'package:agriclaim/ui/common/components/info_snack_bar.dart';
 import 'package:agriclaim/ui/common/components/primary_button.dart';
 import 'package:agriclaim/ui/common/form_fields/form_text_field.dart';
 import 'package:agriclaim/ui/constants/assets.dart';
@@ -26,9 +27,8 @@ class LoginPage extends ConsumerWidget {
     final formKey = GlobalKey<FormBuilderState>();
     ref.listen<LoginStates>(loginControllerProvider, ((previous, state) {
       if (state == LoginStates.failed) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(ref.read(loginErrorStateProvider) ?? "ERROR"),
-        ));
+        ScaffoldMessenger.of(context)
+            .showSnackBar(infoSnackBar(msg: ref.read(loginErrorStateProvider)));
       }
       if (state == LoginStates.successful) {
         context.push(AgriClaimRoutes.home);

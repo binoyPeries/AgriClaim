@@ -19,6 +19,7 @@ class CommonSignUpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormBuilderState>();
+    TextEditingController otpCode = TextEditingController();
     return SafeArea(
       child: DefaultScaffold(
         appBar: const DefaultAppBar(title: "Sign Up", backButtonVisible: true),
@@ -62,7 +63,29 @@ class CommonSignUpPage extends StatelessWidget {
                       PrimaryButton(
                           onPressed: () =>
                               submitSignUp(formKey, context, userType),
-                          text: "Sign Up")
+                          text: "Sign Up"),
+                      TextFormField(
+                        keyboardType: TextInputType.number,
+                        controller: otpCode,
+                        obscureText: true,
+                        decoration: const InputDecoration(
+                          labelText: "Enter Otp",
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 15.0, horizontal: 10.0),
+                          suffixIcon: Padding(
+                            padding: EdgeInsets.only(top: 15, left: 15),
+                            child: Text("Something"),
+                          ),
+                        ),
+                      ),
+                      PrimaryButton(
+                        onPressed: () async {
+                          // await phoneSignIn(
+                          //     phoneNumber:
+                          //         formKey.currentState?.fields['mobileNo']);
+                        },
+                        text: '',
+                      ),
                     ],
                   ),
                 )
@@ -81,6 +104,7 @@ class CommonSignUpPage extends StatelessWidget {
       return false;
     }
     //:TODO signup logic
+    print(formKey.currentState?.value["mobileNo"]);
     userType == UserRoles.farmer
         ? context.push(AgriClaimRoutes.farmerSignUp)
         : context.push(AgriClaimRoutes.officerSignUp);

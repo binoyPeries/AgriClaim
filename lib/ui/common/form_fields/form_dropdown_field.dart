@@ -4,7 +4,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:sizer/sizer.dart';
 
-class FormTextField extends StatelessWidget {
+class FormDropdownField extends StatelessWidget {
   final String fieldName;
   final String label;
   final String? hintText;
@@ -13,7 +13,7 @@ class FormTextField extends StatelessWidget {
   final bool obscureText;
   final TextInputType? keyboardType;
   final List<String> items;
-  const FormTextField({
+  const FormDropdownField({
     Key? key,
     required this.fieldName,
     required this.label,

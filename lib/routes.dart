@@ -1,8 +1,6 @@
 import 'package:agriclaim/ui/common/pages/home_screen.dart';
 import 'package:agriclaim/ui/common/pages/login_check.dart';
 import 'package:agriclaim/ui/farmer/register_farm.dart';
-import 'package:agriclaim/ui/common/pages/home_screen.dart';
-import 'package:agriclaim/ui/common/pages/login_check.dart';
 import 'package:agriclaim/ui/common/pages/login_page.dart';
 import 'package:agriclaim/ui/common/pages/sign_up.dart';
 import 'package:agriclaim/ui/common/pages/welcome_page.dart';
@@ -11,7 +9,6 @@ import 'package:agriclaim/ui/farmer/signup_page.dart';
 import 'package:agriclaim/ui/officer/signup_page.dart';
 import 'package:flutter/foundation.dart';
 import "package:go_router/go_router.dart";
-
 
 abstract class AgriClaimRoutes {
   //  path names

@@ -1,4 +1,6 @@
+import 'package:agriclaim/controllers/login_controller.dart';
 import 'package:agriclaim/generated/l10n.dart';
+import 'package:agriclaim/providers/login_error_provider.dart';
 import 'package:agriclaim/routes.dart';
 import 'package:agriclaim/ui/common/components/default_appbar.dart';
 import 'package:agriclaim/ui/common/components/default_scaffold.dart';
@@ -9,6 +11,7 @@ import 'package:agriclaim/ui/constants/colors.dart';
 import 'package:agriclaim/ui/constants/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:go_router/go_router.dart';
@@ -16,13 +19,24 @@ import 'package:sizer/sizer.dart';
 
 int a = 1;
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends ConsumerWidget {
   final UserRoles userType;
   const LoginPage({Key? key, required this.userType}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final formKey = GlobalKey<FormBuilderState>();
+    ref.listen<LoginStates>(loginControllerProvider, ((previous, state) {
+      if (state == LoginStates.failed) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(ref.watch(loginErrorStateProvider.notifier).state ??
+              "An error has occurred."),
+        ));
+      }
+      if (state == LoginStates.successful) {
+        context.push(AgriClaimRoutes.home);
+      }
+    }));
 
     return SafeArea(
       child: DefaultScaffold(
@@ -70,7 +84,7 @@ class LoginPage extends StatelessWidget {
                       ),
                       SizedBox(height: 5.h),
                       PrimaryButton(
-                          onPressed: () => submitLogin(formKey),
+                          onPressed: () => submitLogin(formKey, ref),
                           text: S.of(context).login),
                       SizedBox(height: 5.h),
                       Row(
@@ -108,12 +122,14 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  bool submitLogin(GlobalKey<FormBuilderState> formKey) {
+  bool submitLogin(GlobalKey<FormBuilderState> formKey, WidgetRef ref) {
     final isValid = formKey.currentState?.saveAndValidate() ?? false;
     if (!isValid) {
       return false;
     }
-    //:TODO login logic
+    String phoneNumber = formKey.currentState?.value["mobileNo"];
+    String password = formKey.currentState?.value["password"];
+    ref.read(loginControllerProvider.notifier).login(phoneNumber, password);
     return true;
   }
 }

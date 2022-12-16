@@ -2,12 +2,14 @@ import 'package:agriclaim/ui/common/components/default_appbar.dart';
 import 'package:agriclaim/ui/common/components/default_scaffold.dart';
 import 'package:agriclaim/ui/common/components/primary_button.dart';
 import 'package:agriclaim/ui/common/form_fields/form_text_field.dart';
+import 'package:agriclaim/ui/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:sizer/sizer.dart';
 
 import '../common/form_fields/form_text_area_field.dart';
+import '../common/form_fields/location_addition_text_box.dart';
 
 class RegisterFarmPage extends StatelessWidget {
   const RegisterFarmPage({Key? key}) : super(key: key);
@@ -46,16 +48,42 @@ class RegisterFarmPage extends StatelessWidget {
                         maxLines: 3,
                         validators: [FormBuilderValidators.min(1)],
                       ),
-                      SizedBox(height: 2.h),
-                      FormTextField(
-                        fieldName: "lastName",
-                        label: "Last Name",
-                        validators: [FormBuilderValidators.min(1)],
+                      FormLocationAdditionField(
+                        fieldName: '',
+                        hintText: 'Location 1',
+                        label: '',
+                        onPressed: () {},
                       ),
-                      SizedBox(height: 8.h),
+                      FormLocationAdditionField(
+                        fieldName: '',
+                        hintText: 'Location 2',
+                        label: '',
+                        onPressed: () {},
+                      ),
+                      FormLocationAdditionField(
+                        fieldName: '',
+                        hintText: 'Location 3',
+                        label: '',
+                        onPressed: () {},
+                      ),
+                      FormLocationAdditionField(
+                        fieldName: '',
+                        hintText: 'Location 4',
+                        label: '',
+                        onPressed: () {},
+                      ),
+                      SizedBox(height: 3.h),
                       PrimaryButton(
                           onPressed: () => registerFarm(formKey),
-                          text: "Register Farm")
+                          buttonColor: Colors.white,
+                          textColor: AgriClaimColors.primaryColor,
+                          borderColor: AgriClaimColors.primaryColor,
+                          text: "Add Another Location"),
+                      SizedBox(height: 3.h),
+                      PrimaryButton(
+                          onPressed: () => registerFarm(formKey),
+                          text: "Register Farm"),
+                      SizedBox(height: 3.h),
                     ],
                   ),
                 )

@@ -21,8 +21,8 @@ class LoginController extends StateNotifier<LoginStates> {
           );
       state = LoginStates.successful;
     } on AuthException catch (e) {
-      state = LoginStates.failed;
       ref.read(loginErrorStateProvider.notifier).state = e.message;
+      state = LoginStates.failed;
     }
   }
 

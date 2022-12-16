@@ -1,4 +1,5 @@
 import 'package:agriclaim/ui/common/pages/home_screen.dart';
+import 'package:agriclaim/ui/common/pages/login_check.dart';
 import 'package:agriclaim/ui/common/pages/login_page.dart';
 import 'package:agriclaim/ui/common/pages/sign_up.dart';
 import 'package:agriclaim/ui/common/pages/welcome_page.dart';
@@ -10,7 +11,8 @@ import "package:go_router/go_router.dart";
 
 abstract class AgriClaimRoutes {
   //  path names
-  static const String welcome = "/";
+  static const String loginCheck = "/";
+  static const String welcome = "/welcome";
   static const String login = "/login/:role";
   static const String commonSignUp = "/signup/:role";
   static const String farmerSignUp = "/signup-farmer";
@@ -32,6 +34,7 @@ abstract class AgriClaimRoutes {
 
   static List<GoRoute> get commonRoutes {
     return [
+      GoRoute(path: loginCheck, builder: (_, __) => const LoginCheck()),
       GoRoute(path: welcome, builder: (_, __) => const WelcomePage()),
       GoRoute(path: home, builder: (_, __) => const HomeScreen()),
       GoRoute(

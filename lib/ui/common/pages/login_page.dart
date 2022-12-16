@@ -27,8 +27,7 @@ class LoginPage extends ConsumerWidget {
     ref.listen<LoginStates>(loginControllerProvider, ((previous, state) {
       if (state == LoginStates.failed) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(ref.watch(loginErrorStateProvider.notifier).state ??
-              "An error has occurred."),
+          content: Text(ref.read(loginErrorStateProvider) ?? "ERROR"),
         ));
       }
       if (state == LoginStates.successful) {

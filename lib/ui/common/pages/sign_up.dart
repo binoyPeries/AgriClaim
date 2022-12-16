@@ -3,20 +3,13 @@ import 'package:agriclaim/ui/common/components/default_appbar.dart';
 import 'package:agriclaim/ui/common/components/default_scaffold.dart';
 import 'package:agriclaim/ui/common/components/primary_button.dart';
 import 'package:agriclaim/ui/common/form_fields/form_text_field.dart';
-import 'package:agriclaim/ui/constants/assets.dart';
-import 'package:agriclaim/ui/constants/colors.dart';
-import 'package:agriclaim/ui/constants/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:sizer/sizer.dart';
 
-int a = 1;
-
-class LoginPage extends StatelessWidget {
-  final UserRoles userType;
-  const LoginPage({Key? key, required this.userType}) : super(key: key);
+class CommonSignUpPage extends StatelessWidget {
+  const CommonSignUpPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +17,7 @@ class LoginPage extends StatelessWidget {
 
     return SafeArea(
       child: DefaultScaffold(
-        appBar:
-            DefaultAppBar(title: S.of(context).login, backButtonVisible: true),
+        appBar: DefaultAppBar(title: "Sign Up", backButtonVisible: true),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -33,23 +25,12 @@ class LoginPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                SizedBox(height: 5.h),
-                SvgPicture.asset(AgriClaimAssets.agriClaimLogo128),
-                Center(
-                  child: Text(
-                    "AgriClaim",
-                    style: TextStyle(
-                        fontSize: 5.h,
-                        fontWeight: FontWeight.w800,
-                        color: AgriClaimColors.primaryColor),
-                  ),
-                ),
-                SizedBox(height: 10.h),
                 FormBuilder(
                   key: formKey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
+                      SizedBox(height: 2.h),
                       FormTextField(
                         fieldName: "mobileNo",
                         label: S.of(context).mobile_no,
@@ -66,10 +47,17 @@ class LoginPage extends StatelessWidget {
                         label: S.of(context).password,
                         obscureText: true,
                       ),
+                      SizedBox(height: 2.h),
+                      FormTextField(
+                        fieldName: "confirm_password",
+                        label: S.of(context).confirm_password,
+                        hintText: S.of(context).confirm_password,
+                        obscureText: true,
+                      ),
                       SizedBox(height: 8.h),
                       PrimaryButton(
-                          onPressed: () => submitLogin(formKey),
-                          text: S.of(context).login)
+                          onPressed: () => submitSignUp(formKey),
+                          text: "Sign Up")
                     ],
                   ),
                 )
@@ -81,12 +69,12 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  bool submitLogin(GlobalKey<FormBuilderState> formKey) {
+  bool submitSignUp(GlobalKey<FormBuilderState> formKey) {
     final isValid = formKey.currentState?.saveAndValidate() ?? false;
     if (!isValid) {
       return false;
     }
-    //:TODO login logic
+    //:TODO signup logic
     return true;
   }
 }

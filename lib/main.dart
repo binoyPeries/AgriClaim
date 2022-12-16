@@ -1,6 +1,7 @@
 import 'package:agriclaim/routes.dart';
 import 'package:agriclaim/theme.dart';
 import 'package:agriclaim/ui/common/pages/router_error_page.dart';
+import 'package:agriclaim/ui/common/utils/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -9,7 +10,7 @@ import 'generated/l10n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
-  runApp(ProviderScope(child: AgriClaim()));
+  runApp(ProviderScope(observers: const [StateLogger()], child: AgriClaim()));
 }
 
 class AgriClaim extends StatelessWidget {

@@ -85,9 +85,8 @@ class LoginPage extends StatelessWidget {
                           ),
                           const SizedBox(width: 8),
                           InkWell(
-                            //:TODO check user role
-                            onTap: () =>
-                                context.push(AgriClaimRoutes.farmerSignup),
+                            onTap: () => context
+                                .push(AgriClaimRoutes.userSignUpPath(userType)),
                             child: Text(
                               "Sign Up",
                               style: TextStyle(

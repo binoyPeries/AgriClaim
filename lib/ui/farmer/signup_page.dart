@@ -1,3 +1,4 @@
+import 'package:agriclaim/routes.dart';
 import 'package:agriclaim/ui/common/components/default_appbar.dart';
 import 'package:agriclaim/ui/common/components/default_scaffold.dart';
 import 'package:agriclaim/ui/common/components/primary_button.dart';
@@ -7,6 +8,7 @@ import 'package:agriclaim/ui/common/utils/regex.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sizer/sizer.dart';
 
 class FarmerSignupPage extends StatelessWidget {
@@ -66,7 +68,8 @@ class FarmerSignupPage extends StatelessWidget {
                 ),
                 SizedBox(height: 4.h),
                 PrimaryButton(
-                    onPressed: () => submitRegister(formKey), text: "Register"),
+                    onPressed: () => submitRegister(formKey, context),
+                    text: "Register"),
               ],
             ),
           ),
@@ -75,7 +78,8 @@ class FarmerSignupPage extends StatelessWidget {
     );
   }
 
-  bool submitRegister(GlobalKey<FormBuilderState> formKey) {
+  bool submitRegister(
+      GlobalKey<FormBuilderState> formKey, BuildContext context) {
     final isValid = formKey.currentState?.saveAndValidate() ?? false;
     if (!isValid) {
       return false;

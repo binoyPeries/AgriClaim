@@ -1,23 +1,27 @@
 import 'package:agriclaim/generated/l10n.dart';
+import 'package:agriclaim/routes.dart';
 import 'package:agriclaim/ui/common/components/default_appbar.dart';
 import 'package:agriclaim/ui/common/components/default_scaffold.dart';
 import 'package:agriclaim/ui/common/components/primary_button.dart';
 import 'package:agriclaim/ui/common/form_fields/form_text_field.dart';
+import 'package:agriclaim/ui/constants/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sizer/sizer.dart';
 
 class CommonSignUpPage extends StatelessWidget {
-  const CommonSignUpPage({Key? key}) : super(key: key);
+  final UserRoles userType;
+
+  const CommonSignUpPage({Key? key, required this.userType}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormBuilderState>();
-
     return SafeArea(
       child: DefaultScaffold(
-        appBar: DefaultAppBar(title: "Sign Up", backButtonVisible: true),
+        appBar: const DefaultAppBar(title: "Sign Up", backButtonVisible: true),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -56,7 +60,8 @@ class CommonSignUpPage extends StatelessWidget {
                       ),
                       SizedBox(height: 8.h),
                       PrimaryButton(
-                          onPressed: () => submitSignUp(formKey),
+                          onPressed: () =>
+                              submitSignUp(formKey, context, userType),
                           text: "Sign Up")
                     ],
                   ),
@@ -69,12 +74,19 @@ class CommonSignUpPage extends StatelessWidget {
     );
   }
 
-  bool submitSignUp(GlobalKey<FormBuilderState> formKey) {
+  bool submitSignUp(GlobalKey<FormBuilderState> formKey, BuildContext context,
+      UserRoles userType) {
     final isValid = formKey.currentState?.saveAndValidate() ?? false;
     if (!isValid) {
       return false;
     }
     //:TODO signup logic
+    print("hello");
+    print(userType == UserRoles.farmer);
+    userType == UserRoles.farmer
+        ? context.push(AgriClaimRoutes.farmerSignUp)
+        : context.push(AgriClaimRoutes.officerSignUp);
+
     return true;
   }
 }

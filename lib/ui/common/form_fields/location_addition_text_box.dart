@@ -8,7 +8,7 @@ class FormLocationAdditionField extends StatelessWidget {
   final String fieldName;
   final String label;
   final String? hintText;
-  final bool required;
+  final bool notRemovable;
   final Function onPressed;
   final List<FormFieldValidator<String>> validators;
   const FormLocationAdditionField({
@@ -17,7 +17,7 @@ class FormLocationAdditionField extends StatelessWidget {
     required this.label,
     this.hintText,
     this.validators = const [],
-    this.required = true,
+    this.notRemovable = true,
     required this.onPressed,
   }) : super(key: key);
 
@@ -58,7 +58,7 @@ class FormLocationAdditionField extends StatelessWidget {
             ),
           ),
           validator: FormBuilderValidators.compose([
-            if (required)
+            if (notRemovable)
               FormBuilderValidators.required(
                   errorText: "The $label is required"),
             ...validators,

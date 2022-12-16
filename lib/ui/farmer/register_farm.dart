@@ -11,8 +11,21 @@ import 'package:sizer/sizer.dart';
 import '../common/form_fields/form_text_area_field.dart';
 import '../common/form_fields/location_addition_text_box.dart';
 
-class RegisterFarmPage extends StatelessWidget {
+class RegisterFarmPage extends StatefulWidget {
   const RegisterFarmPage({Key? key}) : super(key: key);
+
+  @override
+  State<RegisterFarmPage> createState() => _RegisterFarmPageState();
+}
+
+class _RegisterFarmPageState extends State<RegisterFarmPage> {
+  int _count = 0;
+
+  void _addNewLocationBox() {
+    setState(() {
+      _count = _count + 1;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,9 +85,21 @@ class RegisterFarmPage extends StatelessWidget {
                         label: '',
                         onPressed: () {},
                       ),
+                      ListView.builder(
+                        itemCount: _count,
+                        shrinkWrap: true,
+                        itemBuilder: (BuildContext context, int index) {
+                          return FormLocationAdditionField(
+                              fieldName: '',
+                              hintText: "Location ${index + 5}",
+                              label: "",
+                              notRemovable: false,
+                              onPressed: () {});
+                        },
+                      ),
                       SizedBox(height: 3.h),
                       PrimaryButton(
-                          onPressed: () => registerFarm(formKey),
+                          onPressed: () => _addNewLocationBox(),
                           buttonColor: Colors.white,
                           textColor: AgriClaimColors.primaryColor,
                           borderColor: AgriClaimColors.primaryColor,

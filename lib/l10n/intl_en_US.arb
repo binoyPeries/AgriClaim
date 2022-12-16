@@ -7,5 +7,6 @@
   "farmer": "Farmer",
   "officer": "Officer",
   "mobile_no": "Mobile Number",
-  "login": "Login"
+  "login": "Login",
+  "confirm_password": "Confirm Password"
 }

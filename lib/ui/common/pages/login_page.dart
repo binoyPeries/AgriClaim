@@ -17,8 +17,6 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sizer/sizer.dart';
 
-int a = 1;
-
 class LoginPage extends ConsumerWidget {
   final UserRoles userType;
   const LoginPage({Key? key, required this.userType}) : super(key: key);

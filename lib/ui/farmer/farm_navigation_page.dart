@@ -11,9 +11,18 @@ class FarmNavigationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PrimaryButton(
-      onPressed: () => context.push(AgriClaimRoutes.registerFarm),
-      text: 'Register Farm',
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        PrimaryButton(
+          onPressed: () => context.push(AgriClaimRoutes.registerFarm),
+          text: 'View Farms',
+        ),
+        PrimaryButton(
+          onPressed: () => context.push(AgriClaimRoutes.registerFarm),
+          text: 'Register Farm',
+        ),
+      ],
     );
   }
 }

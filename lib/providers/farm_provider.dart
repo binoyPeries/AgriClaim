@@ -2,8 +2,12 @@ import 'package:agriclaim/repository/farm_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final farmRepositoryProvider = Provider<FarmRepository>(
-    (ref) => FarmRepository(FirebaseFirestore.instance));
+import 'auth_provider.dart';
+
+final farmRepositoryProvider = Provider<FarmRepository>((ref) {
+  final currentUser = ref.read(authRepositoryProvider).getLoggedInUser();
+  return FarmRepository(FirebaseFirestore.instance, currentUser?.uid);
+});
 
 final farmLocationCountStateProvider =
     StateNotifierProvider<FarmLocationsNotifier, List>((ref) {

@@ -13,11 +13,11 @@ import 'package:sizer/sizer.dart';
 import '../common/form_fields/form_text_area_field.dart';
 import '../common/form_fields/location_addition_text_box.dart';
 
-class RegisterFarmPage extends StatelessWidget {
+class RegisterFarmPage extends ConsumerWidget {
   const RegisterFarmPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final formKey = GlobalKey<FormBuilderState>();
     return SafeArea(
       child: DefaultScaffold(
@@ -76,7 +76,7 @@ class RegisterFarmPage extends StatelessWidget {
                       FarmLocationsWidget(),
                       SizedBox(height: 3.h),
                       PrimaryButton(
-                          onPressed: () => registerFarm(formKey),
+                          onPressed: () => registerFarm(formKey, context, ref),
                           text: "Register Farm"),
                       SizedBox(height: 3.h),
                     ],
@@ -90,12 +90,18 @@ class RegisterFarmPage extends StatelessWidget {
     );
   }
 
-  bool registerFarm(GlobalKey<FormBuilderState> formKey) {
+  bool registerFarm(GlobalKey<FormBuilderState> formKey, BuildContext context,
+      WidgetRef ref) {
     final isValid = formKey.currentState?.saveAndValidate() ?? false;
+    final farmRepository = ref.read(farmRepositoryProvider);
+
     if (!isValid) {
       return false;
     }
-    //:TODO register farm logic
+
+    final data = formKey.currentState?.value ?? {};
+    print("data");
+    print(data);
     return true;
   }
 }

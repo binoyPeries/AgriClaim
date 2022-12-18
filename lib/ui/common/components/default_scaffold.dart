@@ -4,7 +4,9 @@ import 'package:flutter/services.dart';
 class DefaultScaffold extends StatelessWidget {
   final PreferredSizeWidget? appBar;
   final Widget body;
-  const DefaultScaffold({Key? key, this.appBar, required this.body})
+  final Widget? bottomNavBar;
+  const DefaultScaffold(
+      {Key? key, this.appBar, required this.body, this.bottomNavBar})
       : super(key: key);
 
   @override
@@ -24,6 +26,7 @@ class DefaultScaffold extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 15.0),
             child: body,
           ),
+          bottomNavigationBar: bottomNavBar,
         ),
       ),
     );

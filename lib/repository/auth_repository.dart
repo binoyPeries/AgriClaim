@@ -53,6 +53,10 @@ class AuthRepository {
     }
   }
 
+  User? getLoggedInUser() {
+    return _auth.currentUser;
+  }
+
   Future<void> signOut() async {
     await _auth.signOut();
   }

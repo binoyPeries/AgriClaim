@@ -1,3 +1,4 @@
+import 'package:agriclaim/ui/common/components/default_appbar.dart';
 import 'package:agriclaim/ui/common/components/default_scaffold.dart';
 import 'package:agriclaim/ui/constants/colors.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,8 @@ class _FarmerHomePageState extends State<FarmerHomePage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: DefaultScaffold(
+        appBar: DefaultAppBar(
+            title: _appbarTitle[_selectedIndex], backButtonVisible: false),
         body: Center(
           child: _pages.elementAt(_selectedIndex),
         ),
@@ -57,6 +60,7 @@ class _FarmerHomePageState extends State<FarmerHomePage> {
     );
   }
 
+  static const List<String> _appbarTitle = ["Claims", "Farms", "Profile"];
   static const List<Widget> _pages = <Widget>[
     Icon(
       Icons.call,

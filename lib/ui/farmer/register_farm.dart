@@ -8,9 +8,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sizer/sizer.dart';
 import 'package:geolocator/geolocator.dart';
 import '../../generated/l10n.dart';
+import '../../routes.dart';
+import '../common/components/submission_button.dart';
 import '../common/form_fields/form_text_area_field.dart';
 import '../common/form_fields/location_addition_text_box.dart';
 
@@ -50,35 +53,21 @@ class RegisterFarmPage extends ConsumerWidget {
                         maxLines: 3,
                         validators: [FormBuilderValidators.min(1)],
                       ),
-                      FormLocationAdditionField(
-                        fieldName: '',
-                        hintText: 'Location 1',
-                        label: '',
-                        onPressed: () {},
-                      ),
-                      FormLocationAdditionField(
-                        fieldName: '',
-                        hintText: 'Location 2',
-                        label: '',
-                        onPressed: () {},
-                      ),
-                      FormLocationAdditionField(
-                        fieldName: '',
-                        hintText: 'Location 3',
-                        label: '',
-                        onPressed: () {},
-                      ),
-                      FormLocationAdditionField(
-                        fieldName: '',
-                        hintText: 'Location 4',
-                        label: '',
-                        onPressed: () {},
-                      ),
                       FarmLocationsWidget(),
                       SizedBox(height: 3.h),
-                      PrimaryButton(
-                          onPressed: () => registerFarm(formKey, context, ref),
-                          text: "Register Farm"),
+                      // PrimaryButton(
+                      //     onPressed: () => registerFarm(formKey, context, ref),
+                      //     text: "Register Farm"),
+                      SubmissionButton(
+                        text: S.of(context).register,
+                        onSubmit: () => registerFarm(formKey, context, ref),
+                        afterSubmit: (context) {
+                          context.push(AgriClaimRoutes.farmerHome);
+                          ref
+                              .read(farmLocationCountStateProvider.notifier)
+                              .clearList();
+                        },
+                      ),
                       SizedBox(height: 3.h),
                     ],
                   ),
@@ -91,18 +80,23 @@ class RegisterFarmPage extends ConsumerWidget {
     );
   }
 
-  bool registerFarm(GlobalKey<FormBuilderState> formKey, BuildContext context,
-      WidgetRef ref) {
+  Future<bool> registerFarm(GlobalKey<FormBuilderState> formKey,
+      BuildContext context, WidgetRef ref) async {
     final isValid = formKey.currentState?.saveAndValidate() ?? false;
     final farmRepository = ref.read(farmRepositoryProvider);
+    final locationsList = ref.watch(farmLocationCountStateProvider);
 
     if (!isValid) {
       return false;
     }
 
-    final data = formKey.currentState?.value ?? {};
-    print("data");
+    Map farmData = formKey.currentState?.value ?? {};
+    locationsList
+        .removeWhere((element) => element["lat"] == 0 && element["long"] == 0);
+    Map<String, dynamic> data = {...farmData, "locations": locationsList};
     print(data);
+    await farmRepository.addFarm(data);
+
     return true;
   }
 }
@@ -125,8 +119,7 @@ class FarmLocationsWidget extends ConsumerWidget {
                 label: "",
                 notRemovable: false,
                 onPressed: () async {
-                  bool isLocationServiceEnabled =
-                      await Geolocator.isLocationServiceEnabled();
+                  await Geolocator.isLocationServiceEnabled();
                   await Geolocator.checkPermission();
                   await Geolocator.requestPermission();
 
@@ -161,7 +154,7 @@ class FarmLocationsWidget extends ConsumerWidget {
             onPressed: () {
               ref
                   .read(farmLocationCountStateProvider.notifier)
-                  .addLocation({'x': 0, 'y': 0});
+                  .addLocation({'lat': 0, 'long': 0});
             },
             buttonColor: Colors.white,
             textColor: AgriClaimColors.primaryColor,

@@ -1,4 +1,3 @@
-import 'package:agriclaim/repository/auth_repository.dart';
 import 'package:agriclaim/ui/constants/database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -17,18 +16,7 @@ class FarmRepository {
       final result = await _store.collection(DatabaseNames.farm).add(data);
       return result;
     } catch (e) {
-      throw throw AuthException(e.toString());
-    }
-  }
-
-  Future<DocumentReference<Map<String, dynamic>>> addOfficer(
-      Map<String, dynamic> userData) async {
-    Map<String, dynamic> data = {"uid": loggedUserId, ...userData};
-    try {
-      final result = await _store.collection(DatabaseNames.officer).add(data);
-      return result;
-    } catch (e) {
-      throw throw AuthException(e.toString());
+      throw FarmException(e.toString());
     }
   }
 }

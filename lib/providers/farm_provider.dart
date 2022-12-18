@@ -42,6 +42,15 @@ class FarmLocationsNotifier extends StateNotifier<List> {
     state = state.removeAt(index);
   }
 
+  void clearList() {
+    state = [
+      {'lat': 0, 'long': 0},
+      {'lat': 0, 'long': 0},
+      {'lat': 0, 'long': 0},
+      {'lat': 0, 'long': 0}
+    ];
+  }
+
   Map getLocation(int index) {
     return state[index];
   }

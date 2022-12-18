@@ -12,7 +12,6 @@ import 'package:go_router/go_router.dart';
 import 'package:sizer/sizer.dart';
 import 'package:geolocator/geolocator.dart';
 import '../../generated/l10n.dart';
-import '../../routes.dart';
 import '../common/components/submission_button.dart';
 import '../common/form_fields/form_text_area_field.dart';
 import '../common/form_fields/location_addition_text_box.dart';
@@ -59,7 +58,7 @@ class RegisterFarmPage extends ConsumerWidget {
                         text: S.of(context).register,
                         onSubmit: () => registerFarm(formKey, context, ref),
                         afterSubmit: (context) {
-                          context.push(AgriClaimRoutes.farmerHome);
+                          context.pop();
                           ref
                               .read(farmLocationCountStateProvider.notifier)
                               .clearList();

@@ -50,6 +50,7 @@ dependencies:
   sizer: ^2.0.15
   intl: ^0.17.0
   json_annotation: ^4.7.0
+  font_awesome_flutter: ^10.3.0
 
   # firebase
   firebase_core: ^2.4.0

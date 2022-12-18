@@ -19,7 +19,7 @@ class AuthRepository {
         email: email,
         password: password,
       );
-      // to set the user type, here user type will be set as the display name for convenience
+      // To set the user type, here user type will be set as the display name for convenience
       await result.user?.updateDisplayName(userType.name);
       return _auth.currentUser;
     } on FirebaseAuthException catch (e) {

@@ -73,8 +73,9 @@ class LoginPage extends ConsumerWidget {
                       SubmissionButton(
                         text: S.of(context).login,
                         onSubmit: () => submitLogin(formKey, ref),
-                        afterSubmit: (context) =>
-                            context.push(AgriClaimRoutes.home),
+                        afterSubmit: (context) => userType == UserRoles.farmer
+                            ? context.push(AgriClaimRoutes.farmerHome)
+                            : context.push(AgriClaimRoutes.officerHome),
                       ),
                       SizedBox(height: 5.h),
                       Row(

@@ -3,7 +3,9 @@ import 'package:agriclaim/ui/common/pages/login_page.dart';
 import 'package:agriclaim/ui/common/pages/sign_up.dart';
 import 'package:agriclaim/ui/common/pages/welcome_page.dart';
 import 'package:agriclaim/ui/constants/enums.dart';
+import 'package:agriclaim/ui/farmer/home_screen.dart';
 import 'package:agriclaim/ui/farmer/signup_page.dart';
+import 'package:agriclaim/ui/officer/home_screen.dart';
 import 'package:agriclaim/ui/officer/signup_page.dart';
 import 'package:flutter/foundation.dart';
 import "package:go_router/go_router.dart";
@@ -16,7 +18,8 @@ abstract class AgriClaimRoutes {
   static const String commonSignUp = "/signup/:role";
   static const String farmerSignUp = "/signup-farmer";
   static const String officerSignUp = "/signup-officer";
-  static const String home = "/home";
+  static const String farmerHome = "/home-farmer";
+  static const String officerHome = "/home-farmer";
 
   static List<GoRoute> get routes {
     return [
@@ -35,7 +38,6 @@ abstract class AgriClaimRoutes {
     return [
       GoRoute(path: loginCheck, builder: (_, __) => const LoginCheck()),
       GoRoute(path: welcome, builder: (_, __) => const WelcomePage()),
-      // GoRoute(path: home, builder: (_, __) => const HomeScreen()),
       GoRoute(
         path: login,
         builder: (_, state) => LoginPage(userType: _getUserRole(state)),
@@ -50,6 +52,7 @@ abstract class AgriClaimRoutes {
   static List<GoRoute> get farmerRoutes {
     return [
       GoRoute(path: farmerSignUp, builder: (_, __) => const FarmerSignupPage()),
+      GoRoute(path: farmerHome, builder: (_, __) => const FarmerHomePage()),
     ];
   }
 
@@ -57,6 +60,7 @@ abstract class AgriClaimRoutes {
     return [
       GoRoute(
           path: officerSignUp, builder: (_, __) => const OfficerSignUpPage()),
+      GoRoute(path: officerHome, builder: (_, __) => const OfficerHomePage()),
     ];
   }
 

@@ -1,3 +1,4 @@
+import 'package:agriclaim/ui/common/utils/agriclaim_exception.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../ui/common/utils/helper_functions.dart';
@@ -53,13 +54,11 @@ class AuthRepository {
   }
 }
 
-class AuthException implements Exception {
+class AuthException implements AgriclaimException {
   final String message;
 
   AuthException(this.message);
 
   @override
-  String toString() {
-    return message;
-  }
+  String get errorMsg => message;
 }

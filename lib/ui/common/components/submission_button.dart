@@ -1,6 +1,6 @@
-import 'package:agriclaim/repository/auth_repository.dart';
 import 'package:agriclaim/ui/common/components/default_button.dart';
 import 'package:agriclaim/ui/common/components/info_snack_bar.dart';
+import 'package:agriclaim/ui/common/utils/agriclaim_exception.dart';
 import 'package:flutter/material.dart';
 
 class SubmissionButton extends StatefulWidget {
@@ -31,10 +31,9 @@ class _SubmissionButtonState extends State<SubmissionButton> {
           if (mounted) {
             widget.afterSubmit(context);
           }
-          //:TODO have to add every exception, might have to create a common class
-        } on AuthException catch (e) {
+        } on AgriclaimException catch (e) {
           ScaffoldMessenger.of(context)
-              .showSnackBar(infoSnackBar(msg: e.message));
+              .showSnackBar(infoSnackBar(msg: e.errorMsg));
         }
       },
     );

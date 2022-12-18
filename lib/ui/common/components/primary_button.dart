@@ -11,6 +11,7 @@ class PrimaryButton extends StatelessWidget {
   final double? height;
   final Function onPressed;
   final double? elevation;
+  final bool submitted;
 
   const PrimaryButton({
     Key? key,
@@ -22,6 +23,7 @@ class PrimaryButton extends StatelessWidget {
     this.fontSize,
     this.height,
     this.elevation,
+    this.submitted = false,
   }) : super(key: key);
 
   @override
@@ -41,14 +43,18 @@ class PrimaryButton extends StatelessWidget {
           )),
           elevation: elevation ?? 1,
         ),
-        onPressed: () => onPressed(),
-        child: Text(
-          text,
-          style: TextStyle(
-            color: textColor,
-            fontSize: fontSize ?? 2.5.h,
-          ),
-        ),
+        onPressed: submitted ? () {} : () => onPressed(),
+        child: submitted
+            ? const CircularProgressIndicator(
+                color: Colors.white,
+              )
+            : Text(
+                text,
+                style: TextStyle(
+                  color: textColor,
+                  fontSize: fontSize ?? 2.5.h,
+                ),
+              ),
       ),
     );
   }

@@ -7,10 +7,14 @@ import '../../../routes.dart';
 import '../components/default_appbar.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  final String name;
+  const HomeScreen({Key? key, required this.name}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Text("HOME!!!$name"),
     return SafeArea(
       child: DefaultScaffold(
         appBar: DefaultAppBar(title: "Home", backButtonVisible: true),

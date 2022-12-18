@@ -1,18 +1,22 @@
+import 'package:agriclaim/providers/user_provider.dart';
+import 'package:agriclaim/routes.dart';
 import 'package:agriclaim/ui/common/components/default_appbar.dart';
 import 'package:agriclaim/ui/common/components/default_scaffold.dart';
-import 'package:agriclaim/ui/common/components/primary_button.dart';
+import 'package:agriclaim/ui/common/components/submission_button.dart';
 import 'package:agriclaim/ui/common/form_fields/form_text_area_field.dart';
 import 'package:agriclaim/ui/common/form_fields/form_text_field.dart';
 import 'package:agriclaim/ui/common/utils/regex.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sizer/sizer.dart';
 
-class FarmerSignupPage extends StatelessWidget {
+class FarmerSignupPage extends ConsumerWidget {
   const FarmerSignupPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final formKey = GlobalKey<FormBuilderState>();
 
     return SafeArea(
@@ -58,15 +62,19 @@ class FarmerSignupPage extends StatelessWidget {
                 ),
                 SizedBox(height: 2.h),
                 const FormTextAreaField(
-                  fieldName: "address",
+                  fieldName: "homeAddress",
                   label: "Home Address",
                   keyboardType: TextInputType.streetAddress,
                   maxLines: 4,
                 ),
                 SizedBox(height: 4.h),
-                PrimaryButton(
-                    onPressed: () => submitRegister(formKey, context),
-                    text: "Register"),
+                SubmissionButton(
+                  text: "Register",
+                  onSubmit: () => submitRegister(formKey, context, ref),
+                  afterSubmit: (context) {
+                    context.push(AgriClaimRoutes.farmerHome);
+                  },
+                ),
               ],
             ),
           ),
@@ -75,13 +83,16 @@ class FarmerSignupPage extends StatelessWidget {
     );
   }
 
-  bool submitRegister(
-      GlobalKey<FormBuilderState> formKey, BuildContext context) {
+  Future<bool> submitRegister(GlobalKey<FormBuilderState> formKey,
+      BuildContext context, WidgetRef ref) async {
     final isValid = formKey.currentState?.saveAndValidate() ?? false;
+    final userRepository = ref.read(userRepositoryProvider);
     if (!isValid) {
       return false;
     }
-    //:TODO login logic
+    final data = formKey.currentState?.value ?? {};
+
+    await userRepository.addFarmer(data);
     return true;
   }
 }

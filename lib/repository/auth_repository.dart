@@ -7,6 +7,25 @@ class AuthRepository {
 
   Stream<User?> get authStateChange => _auth.idTokenChanges();
 
+  Future<User?> createUserWithEmailAndPassword(
+      String email, String password) async {
+    try {
+      final result = await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      return result.user;
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'email-already-in-use') {
+        throw AuthException('This mobile number already in use');
+      } else if (e.code == 'weak-password') {
+        throw AuthException('Provided password is weak');
+      } else {
+        throw AuthException('An error occurred. Please try again later');
+      }
+    }
+  }
+
   Future<User?> signInWithEmailAndPassword(
       String email, String password) async {
     try {

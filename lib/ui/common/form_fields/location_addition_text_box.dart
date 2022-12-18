@@ -38,7 +38,7 @@ class FormLocationAdditionField extends StatelessWidget {
           name: fieldName,
           decoration: InputDecoration(
             suffixIcon: Padding(
-              padding: const EdgeInsets.all(2.0),
+              padding: const EdgeInsets.all(3.0),
               child: Container(
                 decoration: const BoxDecoration(
                     color: AgriClaimColors.tertiaryColor,

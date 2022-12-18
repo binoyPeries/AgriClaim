@@ -1,4 +1,5 @@
 import 'package:agriclaim/ui/common/utils/agriclaim_exception.dart';
+import 'package:agriclaim/ui/constants/enums.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../ui/common/utils/helper_functions.dart';
@@ -10,14 +11,17 @@ class AuthRepository {
 
   Stream<User?> get authStateChange => _auth.idTokenChanges();
 
-  Future<User?> createUserWithEmailAndPassword(
-      String email, String password) async {
+  Future<User?> createUserWithPhoneAndPassword(
+      String phone, String password, UserRoles userType) async {
+    String email = convertPhoneToEmail(phone);
     try {
       final result = await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
-      return result.user;
+      // to set the user type, here user type will be set as the display name for convenience
+      await result.user?.updateDisplayName(userType.name);
+      return _auth.currentUser;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
         throw AuthException('This mobile number already in use');

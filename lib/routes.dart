@@ -1,4 +1,3 @@
-import 'package:agriclaim/ui/common/pages/home_screen.dart';
 import 'package:agriclaim/ui/common/pages/login_check.dart';
 import 'package:agriclaim/ui/common/pages/login_page.dart';
 import 'package:agriclaim/ui/common/pages/sign_up.dart';
@@ -36,7 +35,7 @@ abstract class AgriClaimRoutes {
     return [
       GoRoute(path: loginCheck, builder: (_, __) => const LoginCheck()),
       GoRoute(path: welcome, builder: (_, __) => const WelcomePage()),
-      GoRoute(path: home, builder: (_, __) => const HomeScreen()),
+      // GoRoute(path: home, builder: (_, __) => const HomeScreen()),
       GoRoute(
         path: login,
         builder: (_, state) => LoginPage(userType: _getUserRole(state)),

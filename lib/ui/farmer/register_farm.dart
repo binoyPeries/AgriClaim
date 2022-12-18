@@ -10,6 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:sizer/sizer.dart';
 import 'package:geolocator/geolocator.dart';
+import '../../generated/l10n.dart';
 import '../common/form_fields/form_text_area_field.dart';
 import '../common/form_fields/location_addition_text_box.dart';
 
@@ -45,7 +46,7 @@ class RegisterFarmPage extends StatelessWidget {
                       SizedBox(height: 2.h),
                       FormTextAreaField(
                         fieldName: "farmAddress",
-                        label: "Farm Address",
+                        label: S.of(context).farm_address,
                         maxLines: 3,
                         validators: [FormBuilderValidators.min(1)],
                       ),
@@ -54,7 +55,7 @@ class RegisterFarmPage extends StatelessWidget {
                       SizedBox(height: 3.h),
                       PrimaryButton(
                           onPressed: () => registerFarm(formKey),
-                          text: "Register Farm"),
+                          text: S.of(context).register_farm),
                       SizedBox(height: 3.h),
                     ],
                   ),
@@ -136,7 +137,7 @@ class FarmLocationsWidget extends ConsumerWidget {
             buttonColor: Colors.white,
             textColor: AgriClaimColors.primaryColor,
             borderColor: AgriClaimColors.primaryColor,
-            text: "Add Another Location"),
+            text: S.of(context).add_another_location),
         SizedBox(height: 3.h),
       ],
     );

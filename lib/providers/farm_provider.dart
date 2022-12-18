@@ -2,8 +2,12 @@ import 'package:agriclaim/repository/farm_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final farmRepositoryProvider = Provider<FarmRepository>(
-    (ref) => FarmRepository(FirebaseFirestore.instance));
+import 'auth_provider.dart';
+
+final farmRepositoryProvider = Provider<FarmRepository>((ref) {
+  final currentUser = ref.read(authRepositoryProvider).getLoggedInUser();
+  return FarmRepository(FirebaseFirestore.instance, currentUser?.uid);
+});
 
 final farmLocationCountStateProvider =
     StateNotifierProvider<FarmLocationsNotifier, List>((ref) {
@@ -36,6 +40,15 @@ class FarmLocationsNotifier extends StateNotifier<List> {
     // Again, our state is immutable. So we're making a new list instead of
     // changing the existing list.
     state = state.removeAt(index);
+  }
+
+  void clearList() {
+    state = [
+      {'lat': 0, 'long': 0},
+      {'lat': 0, 'long': 0},
+      {'lat': 0, 'long': 0},
+      {'lat': 0, 'long': 0}
+    ];
   }
 
   Map getLocation(int index) {

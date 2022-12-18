@@ -8,17 +8,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sizer/sizer.dart';
 import 'package:geolocator/geolocator.dart';
 import '../../generated/l10n.dart';
+import '../common/components/submission_button.dart';
 import '../common/form_fields/form_text_area_field.dart';
 import '../common/form_fields/location_addition_text_box.dart';
 
-class RegisterFarmPage extends StatelessWidget {
+class RegisterFarmPage extends ConsumerWidget {
   const RegisterFarmPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final formKey = GlobalKey<FormBuilderState>();
     return SafeArea(
       child: DefaultScaffold(
@@ -50,12 +52,18 @@ class RegisterFarmPage extends StatelessWidget {
                         maxLines: 3,
                         validators: [FormBuilderValidators.min(1)],
                       ),
-                      SizedBox(height: 2.h),
                       FarmLocationsWidget(),
                       SizedBox(height: 3.h),
-                      PrimaryButton(
-                          onPressed: () => registerFarm(formKey),
-                          text: S.of(context).register_farm),
+                      SubmissionButton(
+                        text: S.of(context).register,
+                        onSubmit: () => registerFarm(formKey, context, ref),
+                        afterSubmit: (context) {
+                          context.pop();
+                          ref
+                              .read(farmLocationCountStateProvider.notifier)
+                              .clearList();
+                        },
+                      ),
                       SizedBox(height: 3.h),
                     ],
                   ),
@@ -68,12 +76,23 @@ class RegisterFarmPage extends StatelessWidget {
     );
   }
 
-  bool registerFarm(GlobalKey<FormBuilderState> formKey) {
+  Future<bool> registerFarm(GlobalKey<FormBuilderState> formKey,
+      BuildContext context, WidgetRef ref) async {
     final isValid = formKey.currentState?.saveAndValidate() ?? false;
+    final farmRepository = ref.read(farmRepositoryProvider);
+    final locationsList = ref.watch(farmLocationCountStateProvider);
+
     if (!isValid) {
       return false;
     }
-    //:TODO register farm logic
+
+    Map farmData = formKey.currentState?.value ?? {};
+    locationsList
+        .removeWhere((element) => element["lat"] == 0 && element["long"] == 0);
+    Map<String, dynamic> data = {...farmData, "locations": locationsList};
+    print(data);
+    await farmRepository.addFarm(data);
+
     return true;
   }
 }
@@ -96,8 +115,7 @@ class FarmLocationsWidget extends ConsumerWidget {
                 label: "",
                 notRemovable: false,
                 onPressed: () async {
-                  bool isLocationServiceEnabled =
-                      await Geolocator.isLocationServiceEnabled();
+                  await Geolocator.isLocationServiceEnabled();
                   await Geolocator.checkPermission();
                   await Geolocator.requestPermission();
 
@@ -132,7 +150,7 @@ class FarmLocationsWidget extends ConsumerWidget {
             onPressed: () {
               ref
                   .read(farmLocationCountStateProvider.notifier)
-                  .addLocation({'x': 0, 'y': 0});
+                  .addLocation({'lat': 0, 'long': 0});
             },
             buttonColor: Colors.white,
             textColor: AgriClaimColors.primaryColor,

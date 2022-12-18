@@ -1,17 +1,21 @@
+import 'package:agriclaim/providers/user_provider.dart';
+import 'package:agriclaim/routes.dart';
 import 'package:agriclaim/ui/common/components/default_appbar.dart';
 import 'package:agriclaim/ui/common/components/default_scaffold.dart';
-import 'package:agriclaim/ui/common/components/primary_button.dart';
+import 'package:agriclaim/ui/common/components/submission_button.dart';
 import 'package:agriclaim/ui/common/form_fields/form_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sizer/sizer.dart';
 
-class OfficerSignUpPage extends StatelessWidget {
+class OfficerSignUpPage extends ConsumerWidget {
   const OfficerSignUpPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final formKey = GlobalKey<FormBuilderState>();
 
     return SafeArea(
@@ -60,9 +64,13 @@ class OfficerSignUpPage extends StatelessWidget {
                         keyboardType: TextInputType.emailAddress,
                       ),
                       SizedBox(height: 8.h),
-                      PrimaryButton(
-                          onPressed: () => submitLogin(formKey),
-                          text: "Sign Up")
+                      SubmissionButton(
+                        onSubmit: () => submitRegister(formKey, context, ref),
+                        text: "Sign Up",
+                        afterSubmit: (context) {
+                          context.push(AgriClaimRoutes.officerHome);
+                        },
+                      )
                     ],
                   ),
                 )
@@ -74,12 +82,16 @@ class OfficerSignUpPage extends StatelessWidget {
     );
   }
 
-  bool submitLogin(GlobalKey<FormBuilderState> formKey) {
+  Future<bool> submitRegister(GlobalKey<FormBuilderState> formKey,
+      BuildContext context, WidgetRef ref) async {
     final isValid = formKey.currentState?.saveAndValidate() ?? false;
+    final userRepository = ref.read(userRepositoryProvider);
     if (!isValid) {
       return false;
     }
-    //:TODO signup logic
+    final data = formKey.currentState?.value ?? {};
+
+    await userRepository.addOfficer(data);
     return true;
   }
 }

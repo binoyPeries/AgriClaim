@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
+import '../ui/common/utils/helper_functions.dart';
+
 class AuthRepository {
   final FirebaseAuth _auth;
 
@@ -26,8 +28,9 @@ class AuthRepository {
     }
   }
 
-  Future<User?> signInWithEmailAndPassword(
-      String email, String password) async {
+  Future<User?> signInWithPhoneAndPassword(
+      String phone, String password) async {
+    String email = convertPhoneToEmail(phone);
     try {
       final result = await _auth.signInWithEmailAndPassword(
         email: email,

@@ -6,6 +6,8 @@ import '../common/components/default_appbar.dart';
 import '../common/components/default_scaffold.dart';
 import '../common/components/primary_button.dart';
 
+import '../../generated/l10n.dart';
+
 class FarmerHomePage extends StatefulWidget {
   const FarmerHomePage({Key? key}) : super(key: key);
 

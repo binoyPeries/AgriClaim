@@ -27,7 +27,6 @@ class AgriClaim extends StatelessWidget {
     errorBuilder: (_, __) => const RouterErrorPage(),
   );
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return Sizer(builder: (context, orientation, deviceType) {

@@ -12,6 +12,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../generated/l10n.dart';
+
 class FarmerSignupPage extends ConsumerWidget {
   const FarmerSignupPage({Key? key}) : super(key: key);
 
@@ -69,7 +71,7 @@ class FarmerSignupPage extends ConsumerWidget {
                 ),
                 SizedBox(height: 4.h),
                 SubmissionButton(
-                  text: "Register",
+                  text: S.of(context).register,
                   onSubmit: () => submitRegister(formKey, context, ref),
                   afterSubmit: (context) {
                     context.push(AgriClaimRoutes.farmerHome);

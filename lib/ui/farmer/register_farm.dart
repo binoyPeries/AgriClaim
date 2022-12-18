@@ -55,9 +55,6 @@ class RegisterFarmPage extends ConsumerWidget {
                       ),
                       FarmLocationsWidget(),
                       SizedBox(height: 3.h),
-                      // PrimaryButton(
-                      //     onPressed: () => registerFarm(formKey, context, ref),
-                      //     text: "Register Farm"),
                       SubmissionButton(
                         text: S.of(context).register,
                         onSubmit: () => registerFarm(formKey, context, ref),

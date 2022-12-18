@@ -1,6 +1,7 @@
 import 'package:agriclaim/ui/common/components/default_appbar.dart';
 import 'package:agriclaim/ui/common/components/default_scaffold.dart';
 import 'package:agriclaim/ui/constants/colors.dart';
+import 'package:agriclaim/ui/farmer/farm_navigation_page.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sizer/sizer.dart';
@@ -66,10 +67,7 @@ class _FarmerHomePageState extends State<FarmerHomePage> {
       Icons.call,
       size: 150,
     ),
-    Icon(
-      Icons.camera,
-      size: 150,
-    ),
+    FarmNavigationPage(),
     Icon(
       Icons.chat,
       size: 150,

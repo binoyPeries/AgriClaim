@@ -11,7 +11,7 @@ class FarmRepository {
 
   Future<DocumentReference<Map<String, dynamic>>> addFarm(
       Map<String, dynamic> farmData) async {
-    Map<String, dynamic> data = {"uid": loggedUserId, ...farmData};
+    Map<String, dynamic> data = {"ownerId": loggedUserId, ...farmData};
     try {
       final result = await _store.collection(DatabaseNames.farm).add(data);
       return result;

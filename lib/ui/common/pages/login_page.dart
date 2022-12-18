@@ -1,10 +1,8 @@
-import 'package:agriclaim/controllers/login_controller.dart';
 import 'package:agriclaim/generated/l10n.dart';
-import 'package:agriclaim/providers/login_error_provider.dart';
+import 'package:agriclaim/providers/auth_provider.dart';
 import 'package:agriclaim/routes.dart';
 import 'package:agriclaim/ui/common/components/default_appbar.dart';
 import 'package:agriclaim/ui/common/components/default_scaffold.dart';
-import 'package:agriclaim/ui/common/components/primary_button.dart';
 import 'package:agriclaim/ui/common/form_fields/form_text_field.dart';
 import 'package:agriclaim/ui/constants/assets.dart';
 import 'package:agriclaim/ui/constants/colors.dart';
@@ -17,6 +15,8 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sizer/sizer.dart';
 
+import '../components/submission_button.dart';
+
 class LoginPage extends ConsumerWidget {
   final UserRoles userType;
   const LoginPage({Key? key, required this.userType}) : super(key: key);
@@ -24,16 +24,6 @@ class LoginPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final formKey = GlobalKey<FormBuilderState>();
-    ref.listen<LoginStates>(loginControllerProvider, ((previous, state) {
-      if (state == LoginStates.failed) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(ref.read(loginErrorStateProvider) ?? "ERROR"),
-        ));
-      }
-      if (state == LoginStates.successful) {
-        context.push(AgriClaimRoutes.home);
-      }
-    }));
 
     return SafeArea(
       child: DefaultScaffold(
@@ -80,9 +70,13 @@ class LoginPage extends ConsumerWidget {
                         obscureText: true,
                       ),
                       SizedBox(height: 5.h),
-                      PrimaryButton(
-                          onPressed: () => submitLogin(formKey, ref),
-                          text: S.of(context).login),
+                      SubmissionButton(
+                        text: S.of(context).login,
+                        onSubmit: () => submitLogin(formKey, ref),
+                        afterSubmit: (context) => userType == UserRoles.farmer
+                            ? context.push(AgriClaimRoutes.farmerHome)
+                            : context.push(AgriClaimRoutes.officerHome),
+                      ),
                       SizedBox(height: 5.h),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -119,14 +113,16 @@ class LoginPage extends ConsumerWidget {
     );
   }
 
-  bool submitLogin(GlobalKey<FormBuilderState> formKey, WidgetRef ref) {
+  Future<bool> submitLogin(
+      GlobalKey<FormBuilderState> formKey, WidgetRef ref) async {
     final isValid = formKey.currentState?.saveAndValidate() ?? false;
+    final authRepository = ref.read(authRepositoryProvider);
     if (!isValid) {
       return false;
     }
     String phoneNumber = formKey.currentState?.value["mobileNo"];
     String password = formKey.currentState?.value["password"];
-    ref.read(loginControllerProvider.notifier).login(phoneNumber, password);
+    await authRepository.signInWithPhoneAndPassword(phoneNumber, password);
     return true;
   }
 }

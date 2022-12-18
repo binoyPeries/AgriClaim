@@ -1,25 +1,26 @@
 import 'package:agriclaim/generated/l10n.dart';
+import 'package:agriclaim/providers/auth_provider.dart';
 import 'package:agriclaim/routes.dart';
 import 'package:agriclaim/ui/common/components/default_appbar.dart';
 import 'package:agriclaim/ui/common/components/default_scaffold.dart';
-import 'package:agriclaim/ui/common/components/primary_button.dart';
+import 'package:agriclaim/ui/common/components/submission_button.dart';
 import 'package:agriclaim/ui/common/form_fields/form_text_field.dart';
 import 'package:agriclaim/ui/constants/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sizer/sizer.dart';
 
-class CommonSignUpPage extends StatelessWidget {
+class CommonSignUpPage extends ConsumerWidget {
   final UserRoles userType;
 
   const CommonSignUpPage({Key? key, required this.userType}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final formKey = GlobalKey<FormBuilderState>();
-    TextEditingController otpCode = TextEditingController();
     return SafeArea(
       child: DefaultScaffold(
         appBar: const DefaultAppBar(title: "Sign Up", backButtonVisible: true),
@@ -60,31 +61,15 @@ class CommonSignUpPage extends StatelessWidget {
                         obscureText: true,
                       ),
                       SizedBox(height: 8.h),
-                      PrimaryButton(
-                          onPressed: () =>
-                              submitSignUp(formKey, context, userType),
-                          text: "Sign Up"),
-                      TextFormField(
-                        keyboardType: TextInputType.number,
-                        controller: otpCode,
-                        obscureText: true,
-                        decoration: const InputDecoration(
-                          labelText: "Enter Otp",
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: 15.0, horizontal: 10.0),
-                          suffixIcon: Padding(
-                            padding: EdgeInsets.only(top: 15, left: 15),
-                            child: Text("Something"),
-                          ),
-                        ),
-                      ),
-                      PrimaryButton(
-                        onPressed: () async {
-                          // await phoneSignIn(
-                          //     phoneNumber:
-                          //         formKey.currentState?.fields['mobileNo']);
+                      SubmissionButton(
+                        text: "Sign Up",
+                        onSubmit: () =>
+                            submitSignUp(formKey, ref, context, userType),
+                        afterSubmit: (context) {
+                          userType == UserRoles.farmer
+                              ? context.push(AgriClaimRoutes.farmerSignUp)
+                              : context.push(AgriClaimRoutes.officerSignUp);
                         },
-                        text: '',
                       ),
                     ],
                   ),
@@ -97,17 +82,19 @@ class CommonSignUpPage extends StatelessWidget {
     );
   }
 
-  bool submitSignUp(GlobalKey<FormBuilderState> formKey, BuildContext context,
-      UserRoles userType) {
+  Future<bool> submitSignUp(GlobalKey<FormBuilderState> formKey, WidgetRef ref,
+      BuildContext context, UserRoles userType) async {
     final isValid = formKey.currentState?.saveAndValidate() ?? false;
+    final authRepository = ref.read(authRepositoryProvider);
+
     if (!isValid) {
       return false;
     }
-    //:TODO signup logic
-    print(formKey.currentState?.value["mobileNo"]);
-    userType == UserRoles.farmer
-        ? context.push(AgriClaimRoutes.farmerSignUp)
-        : context.push(AgriClaimRoutes.officerSignUp);
+
+    String phoneNumber = formKey.currentState?.value["mobileNo"];
+    String password = formKey.currentState?.value["password"];
+    await authRepository.createUserWithPhoneAndPassword(
+        phoneNumber.trim(), password.trim(), userType);
 
     return true;
   }

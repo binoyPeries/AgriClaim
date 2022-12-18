@@ -2,17 +2,16 @@ import 'package:agriclaim/ui/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
-class PrimaryButton extends StatelessWidget {
+class DefaultButton extends StatefulWidget {
   final Color buttonColor;
   final Color textColor;
   final String text;
   final double? fontSize;
   final double? height;
-  final Function onPressed;
+  final Future<void> Function() onPressed;
   final double? elevation;
-  final bool submitted;
 
-  const PrimaryButton({
+  const DefaultButton({
     Key? key,
     required this.onPressed,
     required this.text,
@@ -21,33 +20,59 @@ class PrimaryButton extends StatelessWidget {
     this.fontSize,
     this.height,
     this.elevation,
-    this.submitted = false,
   }) : super(key: key);
+
+  @override
+  State<DefaultButton> createState() => _DefaultButtonState();
+}
+
+class _DefaultButtonState extends State<DefaultButton> {
+  late bool isLoading;
+
+  @override
+  void initState() {
+    isLoading = false;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: height ?? 6.5.h,
+      height: widget.height ?? 6.5.h,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: buttonColor,
+          backgroundColor: widget.buttonColor,
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(8))),
-          elevation: elevation ?? 1,
+          elevation: widget.elevation ?? 1,
         ),
-        onPressed: submitted ? () {} : () => onPressed(),
-        child: submitted
+        onPressed: !isLoading ? handleOnPressed : null,
+        child: isLoading
             ? const CircularProgressIndicator(
                 color: Colors.white,
               )
             : Text(
-                text,
+                widget.text,
                 style: TextStyle(
-                  color: textColor,
-                  fontSize: fontSize ?? 2.5.h,
+                  color: widget.textColor,
+                  fontSize: widget.fontSize ?? 2.5.h,
                 ),
               ),
       ),
     );
+  }
+
+  Future<void> handleOnPressed() async {
+    final onPressed = widget.onPressed;
+    setState(() => isLoading = true);
+    try {
+      await onPressed();
+    } catch (e) {
+      rethrow;
+    } finally {
+      if (mounted) {
+        setState(() => isLoading = false);
+      }
+    }
   }
 }

@@ -4,6 +4,7 @@ import 'package:sizer/sizer.dart';
 
 class PrimaryButton extends StatelessWidget {
   final Color buttonColor;
+  final Color borderColor;
   final Color textColor;
   final String text;
   final double? fontSize;
@@ -17,6 +18,7 @@ class PrimaryButton extends StatelessWidget {
     required this.onPressed,
     required this.text,
     this.buttonColor = AgriClaimColors.tertiaryColor,
+    this.borderColor = AgriClaimColors.tertiaryColor,
     this.textColor = Colors.white,
     this.fontSize,
     this.height,
@@ -31,8 +33,14 @@ class PrimaryButton extends StatelessWidget {
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: buttonColor,
+          side: BorderSide(
+            width: 1.0,
+            color: borderColor,
+          ),
           shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(8))),
+              borderRadius: BorderRadius.all(
+            Radius.circular(8),
+          )),
           elevation: elevation ?? 1,
         ),
         onPressed: submitted ? () {} : () => onPressed(),

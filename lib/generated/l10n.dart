@@ -80,6 +80,16 @@ class S {
     );
   }
 
+  /// `Register`
+  String get register {
+    return Intl.message(
+      'Register',
+      name: 'register',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Please select your profile type.`
   String get select_profile {
     return Intl.message(
@@ -135,6 +145,36 @@ class S {
     return Intl.message(
       'Confirm Password',
       name: 'confirm_password',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Register Farm`
+  String get register_farm {
+    return Intl.message(
+      'Register Farm',
+      name: 'register_farm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Farm Address`
+  String get farm_address {
+    return Intl.message(
+      'Farm Address',
+      name: 'farm_address',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add Another Location`
+  String get add_another_location {
+    return Intl.message(
+      'Add Another Location',
+      name: 'add_another_location',
       desc: '',
       args: [],
     );

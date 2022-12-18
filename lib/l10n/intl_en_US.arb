@@ -3,10 +3,14 @@
   "username": "Username",
   "password": "Password",
   "welcome": "Welcome!",
+  "register": "Register",
   "select_profile": "Please select your profile type.",
   "farmer": "Farmer",
   "officer": "Officer",
   "mobile_no": "Mobile Number",
   "login": "Login",
-  "confirm_password": "Confirm Password"
+  "confirm_password": "Confirm Password",
+  "register_farm": "Register Farm",
+  "farm_address": "Farm Address",
+  "add_another_location": "Add Another Location"
 }

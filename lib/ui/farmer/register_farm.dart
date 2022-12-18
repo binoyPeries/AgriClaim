@@ -9,7 +9,8 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:sizer/sizer.dart';
-
+import 'package:geolocator/geolocator.dart';
+import '../../generated/l10n.dart';
 import '../common/form_fields/form_text_area_field.dart';
 import '../common/form_fields/location_addition_text_box.dart';
 
@@ -45,39 +46,16 @@ class RegisterFarmPage extends StatelessWidget {
                       SizedBox(height: 2.h),
                       FormTextAreaField(
                         fieldName: "farmAddress",
-                        label: "Farm Address",
+                        label: S.of(context).farm_address,
                         maxLines: 3,
                         validators: [FormBuilderValidators.min(1)],
                       ),
-                      FormLocationAdditionField(
-                        fieldName: '',
-                        hintText: 'Location 1',
-                        label: '',
-                        onPressed: () {},
-                      ),
-                      FormLocationAdditionField(
-                        fieldName: '',
-                        hintText: 'Location 2',
-                        label: '',
-                        onPressed: () {},
-                      ),
-                      FormLocationAdditionField(
-                        fieldName: '',
-                        hintText: 'Location 3',
-                        label: '',
-                        onPressed: () {},
-                      ),
-                      FormLocationAdditionField(
-                        fieldName: '',
-                        hintText: 'Location 4',
-                        label: '',
-                        onPressed: () {},
-                      ),
+                      SizedBox(height: 2.h),
                       FarmLocationsWidget(),
                       SizedBox(height: 3.h),
                       PrimaryButton(
                           onPressed: () => registerFarm(formKey),
-                          text: "Register Farm"),
+                          text: S.of(context).register_farm),
                       SizedBox(height: 3.h),
                     ],
                   ),
@@ -112,17 +90,46 @@ class FarmLocationsWidget extends ConsumerWidget {
           shrinkWrap: true,
           itemBuilder: (BuildContext context, int index) {
             return FormLocationAdditionField(
+                index: index,
                 fieldName: '',
                 hintText: "Location ${index + 5}",
                 label: "",
                 notRemovable: false,
-                onPressed: () {});
+                onPressed: () async {
+                  bool isLocationServiceEnabled =
+                      await Geolocator.isLocationServiceEnabled();
+                  await Geolocator.checkPermission();
+                  await Geolocator.requestPermission();
+
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        Future.delayed(const Duration(seconds: 2), () {
+                          Navigator.of(context).pop(true);
+                        });
+                        return const AlertDialog(
+                          title: Text("Pinpointing location. Please wait."),
+                        );
+                      });
+                  Position position = await Geolocator.getCurrentPosition(
+                      desiredAccuracy: LocationAccuracy.high);
+                  locationsList[index] = {
+                    'lat': position.latitude,
+                    'long': position.longitude
+                  };
+
+                  ref
+                      .read(farmLocationCountStateProvider.notifier)
+                      .addLocationAtIndex(index, {
+                    'lat': position.latitude,
+                    'long': position.longitude
+                  });
+                });
           },
         ),
         SizedBox(height: 3.h),
         PrimaryButton(
             onPressed: () {
-              print(locationsList.length);
               ref
                   .read(farmLocationCountStateProvider.notifier)
                   .addLocation({'x': 0, 'y': 0});
@@ -130,7 +137,7 @@ class FarmLocationsWidget extends ConsumerWidget {
             buttonColor: Colors.white,
             textColor: AgriClaimColors.primaryColor,
             borderColor: AgriClaimColors.primaryColor,
-            text: "Add Another Location"),
+            text: S.of(context).add_another_location),
         SizedBox(height: 3.h),
       ],
     );

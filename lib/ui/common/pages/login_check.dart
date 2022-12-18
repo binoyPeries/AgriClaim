@@ -18,7 +18,6 @@ class LoginCheck extends ConsumerWidget {
 
     return authState.when(
         data: (user) {
-          //TODO: replace with apt user home screen
           if (user != null) {
             return user.displayName == UserRoles.farmer.name
                 ? const FarmerHomePage()

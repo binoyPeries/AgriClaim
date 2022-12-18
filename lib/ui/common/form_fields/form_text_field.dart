@@ -9,6 +9,7 @@ class FormTextField extends StatelessWidget {
   final String label;
   final String? hintText;
   final bool required;
+  final bool readOnly;
   final List<FormFieldValidator<String>> validators;
   final bool obscureText;
   final TextInputType? keyboardType;
@@ -17,6 +18,7 @@ class FormTextField extends StatelessWidget {
     required this.fieldName,
     required this.label,
     this.hintText,
+    this.readOnly = false,
     this.validators = const [],
     this.required = true,
     this.obscureText = false,
@@ -39,6 +41,7 @@ class FormTextField extends StatelessWidget {
         ),
         SizedBox(height: 1.2.h),
         FormBuilderTextField(
+          readOnly: readOnly,
           name: fieldName,
           keyboardType: keyboardType ?? TextInputType.text,
           obscureText: obscureText,

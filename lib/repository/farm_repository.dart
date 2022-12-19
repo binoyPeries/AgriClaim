@@ -1,6 +1,7 @@
 import 'package:agriclaim/ui/constants/database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../models/farm.dart';
 import '../ui/common/utils/agriclaim_exception.dart';
 
 class FarmRepository {
@@ -18,6 +19,20 @@ class FarmRepository {
     } catch (e) {
       throw FarmException(e.toString());
     }
+  }
+
+  Stream<List<Farm>> getLoggedInUserFarms() {
+    final farmList = _store
+        .collection(DatabaseNames.farm)
+        .where('ownerId', isEqualTo: loggedUserId)
+        .snapshots()
+        .map((event) {
+      final result = event.docs.map((element) {
+        return Farm.fromJson(element.data());
+      }).toList();
+      return result;
+    });
+    return farmList;
   }
 }
 

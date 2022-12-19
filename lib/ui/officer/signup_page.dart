@@ -18,64 +18,62 @@ class OfficerSignUpPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final formKey = GlobalKey<FormBuilderState>();
 
-    return SafeArea(
-      child: DefaultScaffold(
-        appBar: const DefaultAppBar(
-            title: "Officer Details", backButtonVisible: true),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                FormBuilder(
-                  key: formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      SizedBox(height: 2.h),
-                      FormTextField(
-                        fieldName: "officerRegNo",
-                        label: "Officer Registration Number",
-                        keyboardType: TextInputType.text,
-                        validators: [FormBuilderValidators.min(1)],
-                      ),
-                      SizedBox(height: 2.h),
-                      FormTextField(
-                        fieldName: "firstName",
-                        label: "First Name",
-                        validators: [FormBuilderValidators.min(1)],
-                      ),
-                      SizedBox(height: 2.h),
-                      FormTextField(
-                        fieldName: "lastName",
-                        label: "Last Name",
-                        validators: [FormBuilderValidators.min(1)],
-                      ),
-                      SizedBox(height: 2.h),
-                      FormTextField(
-                        fieldName: "email",
-                        label: "Email Address",
-                        validators: [
-                          FormBuilderValidators.email(
-                              errorText: "Please enter a valid email address.")
-                        ],
-                        keyboardType: TextInputType.emailAddress,
-                      ),
-                      SizedBox(height: 8.h),
-                      SubmissionButton(
-                        onSubmit: () => submitRegister(formKey, context, ref),
-                        text: "Sign Up",
-                        afterSubmit: (context) {
-                          context.push(AgriClaimRoutes.officerHome);
-                        },
-                      )
-                    ],
-                  ),
-                )
-              ],
-            ),
+    return DefaultScaffold(
+      appBar: const DefaultAppBar(
+          title: "Officer Details", backButtonVisible: true),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              FormBuilder(
+                key: formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    SizedBox(height: 2.h),
+                    FormTextField(
+                      fieldName: "officerRegNo",
+                      label: "Officer Registration Number",
+                      keyboardType: TextInputType.text,
+                      validators: [FormBuilderValidators.min(1)],
+                    ),
+                    SizedBox(height: 2.h),
+                    FormTextField(
+                      fieldName: "firstName",
+                      label: "First Name",
+                      validators: [FormBuilderValidators.min(1)],
+                    ),
+                    SizedBox(height: 2.h),
+                    FormTextField(
+                      fieldName: "lastName",
+                      label: "Last Name",
+                      validators: [FormBuilderValidators.min(1)],
+                    ),
+                    SizedBox(height: 2.h),
+                    FormTextField(
+                      fieldName: "email",
+                      label: "Email Address",
+                      validators: [
+                        FormBuilderValidators.email(
+                            errorText: "Please enter a valid email address.")
+                      ],
+                      keyboardType: TextInputType.emailAddress,
+                    ),
+                    SizedBox(height: 8.h),
+                    SubmissionButton(
+                      onSubmit: () => submitRegister(formKey, context, ref),
+                      text: "Sign Up",
+                      afterSubmit: (context) {
+                        context.push(AgriClaimRoutes.officerHome);
+                      },
+                    )
+                  ],
+                ),
+              )
+            ],
           ),
         ),
       ),

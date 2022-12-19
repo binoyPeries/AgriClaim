@@ -8,8 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:sizer/sizer.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:sizer/sizer.dart';
 import '../../generated/l10n.dart';
 import '../common/form_fields/form_text_area_field.dart';
 import '../common/form_fields/location_addition_text_box.dart';
@@ -20,48 +20,46 @@ class RegisterFarmPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormBuilderState>();
-    return SafeArea(
-      child: DefaultScaffold(
-        appBar: const DefaultAppBar(
-            title: "Register Farm", backButtonVisible: true),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                FormBuilder(
-                  key: formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      SizedBox(height: 2.h),
-                      FormTextField(
-                        fieldName: "farmName",
-                        label: "Farm Name (ex: Farm 1)",
-                        keyboardType: TextInputType.text,
-                        validators: [FormBuilderValidators.min(1)],
-                      ),
-                      SizedBox(height: 2.h),
-                      FormTextAreaField(
-                        fieldName: "farmAddress",
-                        label: S.of(context).farm_address,
-                        maxLines: 3,
-                        validators: [FormBuilderValidators.min(1)],
-                      ),
-                      SizedBox(height: 2.h),
-                      FarmLocationsWidget(),
-                      SizedBox(height: 3.h),
-                      PrimaryButton(
-                          onPressed: () => registerFarm(formKey),
-                          text: S.of(context).register_farm),
-                      SizedBox(height: 3.h),
-                    ],
-                  ),
-                )
-              ],
-            ),
+    return DefaultScaffold(
+      appBar:
+          const DefaultAppBar(title: "Register Farm", backButtonVisible: true),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              FormBuilder(
+                key: formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    SizedBox(height: 2.h),
+                    FormTextField(
+                      fieldName: "farmName",
+                      label: "Farm Name (ex: Farm 1)",
+                      keyboardType: TextInputType.text,
+                      validators: [FormBuilderValidators.min(1)],
+                    ),
+                    SizedBox(height: 2.h),
+                    FormTextAreaField(
+                      fieldName: "farmAddress",
+                      label: S.of(context).farm_address,
+                      maxLines: 3,
+                      validators: [FormBuilderValidators.min(1)],
+                    ),
+                    SizedBox(height: 2.h),
+                    FarmLocationsWidget(),
+                    SizedBox(height: 3.h),
+                    PrimaryButton(
+                        onPressed: () => registerFarm(formKey),
+                        text: S.of(context).register_farm),
+                    SizedBox(height: 3.h),
+                  ],
+                ),
+              )
+            ],
           ),
         ),
       ),

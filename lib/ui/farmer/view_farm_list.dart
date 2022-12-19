@@ -27,8 +27,10 @@ class ViewFarmListPage extends ConsumerWidget {
                   description: element.locations,
                   subtitle: "Farm Address: ${element.farmAddress.toString()}"));
             }
-            return Column(
-              children: farms,
+            return SingleChildScrollView(
+              child: Column(
+                children: farms,
+              ),
             );
           },
           loading: () => const Center(child: CircularProgressIndicator()),

@@ -1,3 +1,4 @@
+import 'package:agriclaim/models/farm.dart';
 import 'package:agriclaim/repository/farm_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -5,13 +6,20 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'auth_provider.dart';
 
 final farmRepositoryProvider = Provider<FarmRepository>((ref) {
-  final currentUser = ref.read(authRepositoryProvider).getLoggedInUser();
+  final currentUser = ref.watch(authRepositoryProvider).getLoggedInUser();
   return FarmRepository(FirebaseFirestore.instance, currentUser?.uid);
 });
 
 final farmLocationCountStateProvider =
     StateNotifierProvider<FarmLocationsNotifier, List>((ref) {
   return FarmLocationsNotifier();
+});
+
+// returns the stream of changes in the farm documents where the owner ID is the logged in user's ID
+final farmListProvider = StreamProvider.autoDispose<List<Farm>>((ref) {
+  final farmRepository = ref.watch(farmRepositoryProvider);
+  final farmsList = farmRepository.getLoggedInUserFarms();
+  return farmsList;
 });
 
 class FarmLocationsNotifier extends StateNotifier<List> {

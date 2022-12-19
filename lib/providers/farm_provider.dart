@@ -15,6 +15,10 @@ final farmLocationCountStateProvider =
   return FarmLocationsNotifier();
 });
 
+final farmEditableStateProvider = StateProvider<bool>((ref) {
+  return false;
+});
+
 // returns the stream of changes in the farm documents where the owner ID is the logged in user's ID
 final farmListProvider = StreamProvider.autoDispose<List<Farm>>((ref) {
   final farmRepository = ref.watch(farmRepositoryProvider);

@@ -9,6 +9,7 @@ class FormTextAreaField extends StatelessWidget {
   final String label;
   final String? hintText;
   final bool required;
+  final bool readOnly;
   final List<FormFieldValidator<String>> validators;
   final bool obscureText;
   final int? maxLines;
@@ -21,6 +22,7 @@ class FormTextAreaField extends StatelessWidget {
     this.hintText,
     this.validators = const [],
     this.required = true,
+    this.readOnly = false,
     this.obscureText = false,
     this.keyboardType,
     this.maxLines,
@@ -45,6 +47,7 @@ class FormTextAreaField extends StatelessWidget {
           name: fieldName,
           keyboardType: keyboardType ?? TextInputType.text,
           obscureText: obscureText,
+          readOnly: readOnly,
           maxLines: maxLines ?? 5,
           decoration: InputDecoration(
             contentPadding:

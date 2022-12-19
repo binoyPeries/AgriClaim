@@ -17,10 +17,9 @@ class FarmListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Widget> children = [];
     children.add(Text(subtitle));
-    children.add(const Text("Points Recorded"));
-    for (var element in description) {
-      children.add(Text("${element["lat"]}, ${element["long"]}"));
-    }
+    children.add(
+      Text("Locations Recorded: ${description.length}"),
+    );
 
     return Padding(
       padding: const EdgeInsets.only(top: 5.0),

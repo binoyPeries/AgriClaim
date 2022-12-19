@@ -31,7 +31,7 @@ abstract class AgriClaimRoutes {
   static const String claimList = "/claims/:type";
   static const String createClaim = "/claim-create";
   static const String farmNavigation = "/farms";
-  static const String viewFarms = "/view-farms";
+  static const String viewFarmsList = "/view-farms";
   static const String viewFarm = "/view-farm";
 
   static List<GoRoute> get routes {
@@ -74,7 +74,8 @@ abstract class AgriClaimRoutes {
       GoRoute(path: farmerHome, builder: (_, __) => const FarmerHomePage()),
       GoRoute(
           path: farmNavigation, builder: (_, __) => const FarmNavigationPage()),
-      GoRoute(path: viewFarms, builder: (_, __) => const ViewFarmListPage()),
+      GoRoute(
+          path: viewFarmsList, builder: (_, __) => const ViewFarmListPage()),
       GoRoute(path: viewFarm, builder: (_, __) => const ViewFarmListPage()),
       GoRoute(
         path: claimList,

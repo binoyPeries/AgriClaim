@@ -12,12 +12,15 @@ import 'package:go_router/go_router.dart';
 import 'package:sizer/sizer.dart';
 import 'package:geolocator/geolocator.dart';
 import '../../generated/l10n.dart';
+import '../../models/farm.dart';
 import '../common/components/submission_button.dart';
 import '../common/form_fields/form_text_area_field.dart';
 import '../common/form_fields/location_addition_text_box.dart';
 
 class ViewFarmPage extends ConsumerWidget {
-  const ViewFarmPage({super.key});
+  //TODO: pass specific farm to page
+  final Farm farm;
+  const ViewFarmPage(this.farm, {super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -33,6 +36,14 @@ class ViewFarmPage extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                PrimaryButton(
+                    onPressed: () {
+                      ref.read(farmEditableStateProvider.notifier).state = true;
+                    },
+                    buttonColor: Colors.white,
+                    textColor: AgriClaimColors.primaryColor,
+                    borderColor: AgriClaimColors.primaryColor,
+                    text: "Edit"),
                 FormBuilder(
                   key: formKey,
                   child: Column(
@@ -41,14 +52,16 @@ class ViewFarmPage extends ConsumerWidget {
                       SizedBox(height: 2.h),
                       FormTextField(
                         fieldName: "farmName",
-                        label: "Farm Name (ex: Farm 1)",
+                        label: farm.farmName,
+                        readOnly: true,
                         keyboardType: TextInputType.text,
                         validators: [FormBuilderValidators.min(1)],
                       ),
                       SizedBox(height: 2.h),
                       FormTextAreaField(
                         fieldName: "farmAddress",
-                        label: S.of(context).farm_address,
+                        label: farm.farmAddress,
+                        readOnly: true,
                         maxLines: 3,
                         validators: [FormBuilderValidators.min(1)],
                       ),
@@ -101,6 +114,7 @@ class FarmLocationsWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final locationsList = ref.watch(farmLocationCountStateProvider);
+    final editable = ref.watch(farmEditableStateProvider);
 
     return Column(
       children: [
@@ -114,35 +128,37 @@ class FarmLocationsWidget extends ConsumerWidget {
                 hintText: "Location ${index + 5}",
                 label: "",
                 notRemovable: false,
-                onPressed: () async {
-                  await Geolocator.isLocationServiceEnabled();
-                  await Geolocator.checkPermission();
-                  await Geolocator.requestPermission();
+                onPressed: editable
+                    ? () async {
+                        await Geolocator.isLocationServiceEnabled();
+                        await Geolocator.checkPermission();
+                        await Geolocator.requestPermission();
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              Future.delayed(const Duration(seconds: 2), () {
+                                Navigator.of(context).pop(true);
+                              });
+                              return const AlertDialog(
+                                title:
+                                    Text("Pinpointing location. Please wait."),
+                              );
+                            });
+                        Position position = await Geolocator.getCurrentPosition(
+                            desiredAccuracy: LocationAccuracy.high);
+                        locationsList[index] = {
+                          'lat': position.latitude,
+                          'long': position.longitude
+                        };
 
-                  showDialog(
-                      context: context,
-                      builder: (context) {
-                        Future.delayed(const Duration(seconds: 2), () {
-                          Navigator.of(context).pop(true);
+                        ref
+                            .read(farmLocationCountStateProvider.notifier)
+                            .addLocationAtIndex(index, {
+                          'lat': position.latitude,
+                          'long': position.longitude
                         });
-                        return const AlertDialog(
-                          title: Text("Pinpointing location. Please wait."),
-                        );
-                      });
-                  Position position = await Geolocator.getCurrentPosition(
-                      desiredAccuracy: LocationAccuracy.high);
-                  locationsList[index] = {
-                    'lat': position.latitude,
-                    'long': position.longitude
-                  };
-
-                  ref
-                      .read(farmLocationCountStateProvider.notifier)
-                      .addLocationAtIndex(index, {
-                    'lat': position.latitude,
-                    'long': position.longitude
-                  });
-                });
+                      }
+                    : null);
           },
         ),
         SizedBox(height: 3.h),

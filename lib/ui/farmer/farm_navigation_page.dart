@@ -15,7 +15,7 @@ class FarmNavigationPage extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         PrimaryButton(
-          onPressed: () => context.push(AgriClaimRoutes.viewFarms),
+          onPressed: () => context.push(AgriClaimRoutes.viewFarmsList),
           text: 'View Farms',
         ),
         PrimaryButton(

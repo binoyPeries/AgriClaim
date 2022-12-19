@@ -16,8 +16,8 @@ import '../common/components/submission_button.dart';
 import '../common/form_fields/form_text_area_field.dart';
 import '../common/form_fields/location_addition_text_box.dart';
 
-class RegisterFarmPage extends ConsumerWidget {
-  const RegisterFarmPage({super.key});
+class ViewFarmPage extends ConsumerWidget {
+  const ViewFarmPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

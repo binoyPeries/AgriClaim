@@ -91,7 +91,6 @@ class FarmerSignupPage extends ConsumerWidget {
       return false;
     }
     final data = formKey.currentState?.value ?? {};
-
     await userRepository.addFarmer(data);
     return true;
   }

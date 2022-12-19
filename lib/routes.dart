@@ -1,4 +1,6 @@
 import 'package:agriclaim/ui/common/pages/login_check.dart';
+import 'package:agriclaim/ui/farmer/farm_navigation_page.dart';
+import 'package:agriclaim/ui/farmer/register_farm.dart';
 import 'package:agriclaim/ui/common/pages/login_page.dart';
 import 'package:agriclaim/ui/common/pages/sign_up.dart';
 import 'package:agriclaim/ui/common/pages/welcome_page.dart';
@@ -8,6 +10,7 @@ import 'package:agriclaim/ui/farmer/create_claim_page.dart';
 import 'package:agriclaim/ui/farmer/home_screen.dart';
 import 'package:agriclaim/ui/farmer/register_farm.dart';
 import 'package:agriclaim/ui/farmer/signup_page.dart';
+import 'package:agriclaim/ui/farmer/view_farm_list.dart';
 import 'package:agriclaim/ui/officer/home_screen.dart';
 import 'package:agriclaim/ui/officer/signup_page.dart';
 import 'package:flutter/foundation.dart';
@@ -28,6 +31,9 @@ abstract class AgriClaimRoutes {
   //     "/claims"; //:TODO add a way to load specific page in the home nav bar
   static const String claimList = "/claims/:type";
   static const String createClaim = "/claim-create";
+  static const String farmNavigation = "/farms";
+  static const String viewFarms = "/view-farms";
+  static const String viewFarm = "/view-farm";
 
   static List<GoRoute> get routes {
     return [
@@ -68,6 +74,10 @@ abstract class AgriClaimRoutes {
       GoRoute(path: registerFarm, builder: (_, __) => const RegisterFarmPage()),
       GoRoute(path: farmerHome, builder: (_, __) => const FarmerHomePage()),
       GoRoute(
+          path: farmNavigation, builder: (_, __) => const FarmNavigationPage()),
+      GoRoute(path: viewFarms, builder: (_, __) => const ViewFarmListPage()),
+      GoRoute(path: viewFarm, builder: (_, __) => const ViewFarmListPage()),
+      GoRoute(
         path: claimList,
         builder: (_, state) => ClaimsListPage(claimType: _getClaimType(state)),
       ),
@@ -90,7 +100,6 @@ abstract class AgriClaimRoutes {
   static String userSignUpPath(UserRoles role) {
     return commonSignUp.replaceFirst(":role", role.name.toString());
   }
-
   static String claimPath(ClaimStates type) {
     return claimList.replaceFirst(":type", type.name.toString());
   }

@@ -5,6 +5,8 @@ import 'package:agriclaim/ui/common/pages/login_page.dart';
 import 'package:agriclaim/ui/common/pages/sign_up.dart';
 import 'package:agriclaim/ui/common/pages/welcome_page.dart';
 import 'package:agriclaim/ui/constants/enums.dart';
+import 'package:agriclaim/ui/farmer/claims_list_page.dart';
+import 'package:agriclaim/ui/farmer/create_claim_page.dart';
 import 'package:agriclaim/ui/farmer/home_screen.dart';
 import 'package:agriclaim/ui/farmer/signup_page.dart';
 import 'package:agriclaim/ui/farmer/view_farm_list.dart';
@@ -24,6 +26,10 @@ abstract class AgriClaimRoutes {
   static const String farmerHome = "/home-farmer";
   static const String officerHome = "/home-farmer";
   static const String registerFarm = "/register-farm";
+  // static const String claimHome =
+  //     "/claims"; //:TODO add a way to load specific page in the home nav bar
+  static const String claimList = "/claims/:type";
+  static const String createClaim = "/claim-create";
   static const String farmNavigation = "/farms";
   static const String viewFarms = "/view-farms";
   static const String viewFarm = "/view-farm";
@@ -39,6 +45,11 @@ abstract class AgriClaimRoutes {
   static UserRoles _getUserRole(GoRouterState state) {
     String role = state.params["role"] as String;
     return UserRoles.values.firstWhere((e) => describeEnum(e) == role);
+  }
+
+  static ClaimStates _getClaimType(GoRouterState state) {
+    String type = state.params["type"] as String;
+    return ClaimStates.values.firstWhere((e) => describeEnum(e) == type);
   }
 
   static List<GoRoute> get commonRoutes {
@@ -65,6 +76,11 @@ abstract class AgriClaimRoutes {
           path: farmNavigation, builder: (_, __) => const FarmNavigationPage()),
       GoRoute(path: viewFarms, builder: (_, __) => const ViewFarmListPage()),
       GoRoute(path: viewFarm, builder: (_, __) => const ViewFarmListPage()),
+      GoRoute(
+        path: claimList,
+        builder: (_, state) => ClaimsListPage(claimType: _getClaimType(state)),
+      ),
+      GoRoute(path: createClaim, builder: (_, __) => const CreateClaimPage()),
     ];
   }
 
@@ -82,5 +98,9 @@ abstract class AgriClaimRoutes {
 
   static String userSignUpPath(UserRoles role) {
     return commonSignUp.replaceFirst(":role", role.name.toString());
+  }
+
+  static String claimPath(ClaimStates type) {
+    return claimList.replaceFirst(":type", type.name.toString());
   }
 }

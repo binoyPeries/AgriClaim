@@ -25,88 +25,86 @@ class LoginPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final formKey = GlobalKey<FormBuilderState>();
 
-    return SafeArea(
-      child: DefaultScaffold(
-        appBar:
-            DefaultAppBar(title: S.of(context).login, backButtonVisible: true),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                SizedBox(height: 5.h),
-                SvgPicture.asset(AgriClaimAssets.agriClaimLogo128),
-                Center(
-                  child: Text(
-                    "AgriClaim",
-                    style: TextStyle(
-                        fontSize: 5.h,
-                        fontWeight: FontWeight.w800,
-                        color: AgriClaimColors.primaryColor),
-                  ),
+    return DefaultScaffold(
+      appBar:
+          DefaultAppBar(title: S.of(context).login, backButtonVisible: true),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              SizedBox(height: 5.h),
+              SvgPicture.asset(AgriClaimAssets.agriClaimLogo128),
+              Center(
+                child: Text(
+                  "AgriClaim",
+                  style: TextStyle(
+                      fontSize: 5.h,
+                      fontWeight: FontWeight.w800,
+                      color: AgriClaimColors.primaryColor),
                 ),
-                SizedBox(height: 9.h),
-                FormBuilder(
-                  key: formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      FormTextField(
-                        fieldName: "mobileNo",
-                        label: S.of(context).mobile_no,
-                        keyboardType: TextInputType.number,
-                        validators: [
-                          FormBuilderValidators.equalLength(10,
-                              errorText:
-                                  "The mobile number must only contain 10 digits")
-                        ],
-                      ),
-                      SizedBox(height: 2.h),
-                      FormTextField(
-                        fieldName: "password",
-                        label: S.of(context).password,
-                        obscureText: true,
-                      ),
-                      SizedBox(height: 5.h),
-                      SubmissionButton(
-                        text: S.of(context).login,
-                        onSubmit: () => submitLogin(formKey, ref),
-                        afterSubmit: (context) => userType == UserRoles.farmer
-                            ? context.push(AgriClaimRoutes.farmerHome)
-                            : context.push(AgriClaimRoutes.officerHome),
-                      ),
-                      SizedBox(height: 5.h),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Don't have an account?",
+              ),
+              SizedBox(height: 9.h),
+              FormBuilder(
+                key: formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    FormTextField(
+                      fieldName: "mobileNo",
+                      label: S.of(context).mobile_no,
+                      keyboardType: TextInputType.number,
+                      validators: [
+                        FormBuilderValidators.equalLength(10,
+                            errorText:
+                                "The mobile number must only contain 10 digits")
+                      ],
+                    ),
+                    SizedBox(height: 2.h),
+                    FormTextField(
+                      fieldName: "password",
+                      label: S.of(context).password,
+                      obscureText: true,
+                    ),
+                    SizedBox(height: 5.h),
+                    SubmissionButton(
+                      text: S.of(context).login,
+                      onSubmit: () => submitLogin(formKey, ref),
+                      afterSubmit: (context) => userType == UserRoles.farmer
+                          ? context.push(AgriClaimRoutes.farmerHome)
+                          : context.push(AgriClaimRoutes.officerHome),
+                    ),
+                    SizedBox(height: 5.h),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Don't have an account?",
+                          style: TextStyle(
+                              fontSize: 2.h,
+                              color: AgriClaimColors.primaryColor),
+                        ),
+                        const SizedBox(width: 8),
+                        InkWell(
+                          onTap: () => context
+                              .push(AgriClaimRoutes.userSignUpPath(userType)),
+                          child: Text(
+                            "Sign Up",
                             style: TextStyle(
-                                fontSize: 2.h,
-                                color: AgriClaimColors.primaryColor),
+                                fontSize: 2.2.h,
+                                fontWeight: FontWeight.w800,
+                                color: AgriClaimColors.tertiaryColor),
                           ),
-                          const SizedBox(width: 8),
-                          InkWell(
-                            onTap: () => context
-                                .push(AgriClaimRoutes.userSignUpPath(userType)),
-                            child: Text(
-                              "Sign Up",
-                              style: TextStyle(
-                                  fontSize: 2.2.h,
-                                  fontWeight: FontWeight.w800,
-                                  color: AgriClaimColors.tertiaryColor),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              )
+            ],
           ),
         ),
       ),

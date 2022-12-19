@@ -7,7 +7,7 @@ part of 'farmer.dart';
 // **************************************************************************
 
 Farmer _$FarmerFromJson(Map<String, dynamic> json) => Farmer(
-      uid: json['uid'] as String,
+      farmerId: json['farmerId'] as String,
       firstName: json['firstName'] as String,
       lastName: json['lastName'] as String,
       nic: json['nic'] as String,
@@ -15,7 +15,7 @@ Farmer _$FarmerFromJson(Map<String, dynamic> json) => Farmer(
     );
 
 Map<String, dynamic> _$FarmerToJson(Farmer instance) => <String, dynamic>{
-      'uid': instance.uid,
+      'farmerId': instance.farmerId,
       'firstName': instance.firstName,
       'lastName': instance.lastName,
       'nic': instance.nic,

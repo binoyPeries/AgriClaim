@@ -3,9 +3,9 @@ enum UserRoles {
   officer,
 }
 
-enum LoginStates {
-  initializing,
-  loading,
-  successful,
-  failed,
+enum ClaimStates {
+  draft,
+  pending,
+  inReview,
+  completed,
 }

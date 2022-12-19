@@ -5,8 +5,13 @@ class DefaultScaffold extends StatelessWidget {
   final PreferredSizeWidget? appBar;
   final Widget body;
   final Widget? bottomNavBar;
+  final Widget? floatingButton;
   const DefaultScaffold(
-      {Key? key, this.appBar, required this.body, this.bottomNavBar})
+      {Key? key,
+      this.appBar,
+      required this.body,
+      this.bottomNavBar,
+      this.floatingButton})
       : super(key: key);
 
   @override
@@ -27,6 +32,7 @@ class DefaultScaffold extends StatelessWidget {
             child: body,
           ),
           bottomNavigationBar: bottomNavBar,
+          floatingActionButton: floatingButton,
         ),
       ),
     );

@@ -4,15 +4,16 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:sizer/sizer.dart';
 
-class FormDropdownField extends StatelessWidget {
+class FormDropdownField<T> extends StatelessWidget {
   final String fieldName;
   final String label;
   final String? hintText;
   final bool required;
   final List<FormFieldValidator<String>> validators;
-  final bool obscureText;
-  final TextInputType? keyboardType;
-  final List<String> items;
+  final List<T> items;
+  final String Function(T) setValue;
+  final String Function(T) setDisplayText;
+
   const FormDropdownField({
     Key? key,
     required this.fieldName,
@@ -20,9 +21,9 @@ class FormDropdownField extends StatelessWidget {
     this.hintText,
     this.validators = const [],
     this.required = true,
-    this.obscureText = false,
-    this.keyboardType,
     required this.items,
+    required this.setValue,
+    required this.setDisplayText,
   }) : super(key: key);
 
   @override
@@ -40,7 +41,7 @@ class FormDropdownField extends StatelessWidget {
               fontWeight: FontWeight.w500),
         ),
         SizedBox(height: 1.2.h),
-        FormBuilderDropdown(
+        FormBuilderDropdown<String>(
           name: fieldName,
           decoration: InputDecoration(
             hintText: hintText ?? "Enter $label",
@@ -54,12 +55,13 @@ class FormDropdownField extends StatelessWidget {
                   errorText: "The $label is required"),
             ...validators,
           ]),
-          items: items
-              .map((option) => DropdownMenuItem(
-                    value: option,
-                    child: Text(option),
-                  ))
-              .toList(),
+          items: [
+            for (final item in items)
+              DropdownMenuItem<String>(
+                value: setValue(item),
+                child: Text(setDisplayText(item)),
+              )
+          ],
         )
       ],
     );

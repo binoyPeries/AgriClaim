@@ -21,64 +21,62 @@ class FarmerSignupPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final formKey = GlobalKey<FormBuilderState>();
 
-    return SafeArea(
-      child: DefaultScaffold(
-        appBar: const DefaultAppBar(
-            title: "Farmer Details", backButtonVisible: true),
-        body: SingleChildScrollView(
-          child: FormBuilder(
-            key: formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                SizedBox(height: 3.h),
-                FormTextField(
-                  fieldName: "firstName",
-                  label: "First Name",
-                  validators: [
-                    (value) {
-                      if (!lettersOnly(value!)) {
-                        return "First name can only contain letters characters";
-                      }
-                      return null;
+    return DefaultScaffold(
+      appBar:
+          const DefaultAppBar(title: "Farmer Details", backButtonVisible: true),
+      body: SingleChildScrollView(
+        child: FormBuilder(
+          key: formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              SizedBox(height: 3.h),
+              FormTextField(
+                fieldName: "firstName",
+                label: "First Name",
+                validators: [
+                  (value) {
+                    if (!lettersOnly(value!)) {
+                      return "First name can only contain letters characters";
                     }
-                  ],
-                ),
-                SizedBox(height: 2.h),
-                FormTextField(
-                  fieldName: "lastName",
-                  label: "Last Name",
-                  validators: [
-                    (value) {
-                      if (!lettersOnly(value!)) {
-                        return "Last name can only contain letters characters";
-                      }
-                      return null;
+                    return null;
+                  }
+                ],
+              ),
+              SizedBox(height: 2.h),
+              FormTextField(
+                fieldName: "lastName",
+                label: "Last Name",
+                validators: [
+                  (value) {
+                    if (!lettersOnly(value!)) {
+                      return "Last name can only contain letters characters";
                     }
-                  ],
-                ),
-                SizedBox(height: 2.h),
-                const FormTextField(
-                  fieldName: "nic",
-                  label: "NIC",
-                ),
-                SizedBox(height: 2.h),
-                const FormTextAreaField(
-                  fieldName: "homeAddress",
-                  label: "Home Address",
-                  keyboardType: TextInputType.streetAddress,
-                  maxLines: 4,
-                ),
-                SizedBox(height: 4.h),
-                SubmissionButton(
-                  text: S.of(context).register,
-                  onSubmit: () => submitRegister(formKey, context, ref),
-                  afterSubmit: (context) {
-                    context.push(AgriClaimRoutes.farmerHome);
-                  },
-                ),
-              ],
-            ),
+                    return null;
+                  }
+                ],
+              ),
+              SizedBox(height: 2.h),
+              const FormTextField(
+                fieldName: "nic",
+                label: "NIC",
+              ),
+              SizedBox(height: 2.h),
+              const FormTextAreaField(
+                fieldName: "homeAddress",
+                label: "Home Address",
+                keyboardType: TextInputType.streetAddress,
+                maxLines: 4,
+              ),
+              SizedBox(height: 4.h),
+              SubmissionButton(
+                text: S.of(context).register,
+                onSubmit: () => submitRegister(formKey, context, ref),
+                afterSubmit: (context) {
+                  context.push(AgriClaimRoutes.farmerHome);
+                },
+              ),
+            ],
           ),
         ),
       ),

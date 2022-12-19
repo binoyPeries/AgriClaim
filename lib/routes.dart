@@ -8,7 +8,6 @@ import 'package:agriclaim/ui/constants/enums.dart';
 import 'package:agriclaim/ui/farmer/claims_list_page.dart';
 import 'package:agriclaim/ui/farmer/create_claim_page.dart';
 import 'package:agriclaim/ui/farmer/home_screen.dart';
-import 'package:agriclaim/ui/farmer/register_farm.dart';
 import 'package:agriclaim/ui/farmer/signup_page.dart';
 import 'package:agriclaim/ui/farmer/view_farm_list.dart';
 import 'package:agriclaim/ui/officer/home_screen.dart';
@@ -100,6 +99,7 @@ abstract class AgriClaimRoutes {
   static String userSignUpPath(UserRoles role) {
     return commonSignUp.replaceFirst(":role", role.name.toString());
   }
+
   static String claimPath(ClaimStates type) {
     return claimList.replaceFirst(":type", type.name.toString());
   }

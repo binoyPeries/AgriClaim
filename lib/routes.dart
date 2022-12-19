@@ -7,7 +7,7 @@ import 'package:agriclaim/ui/common/pages/welcome_page.dart';
 import 'package:agriclaim/ui/constants/enums.dart';
 import 'package:agriclaim/ui/farmer/home_screen.dart';
 import 'package:agriclaim/ui/farmer/signup_page.dart';
-import 'package:agriclaim/ui/farmer/view_farm.dart';
+import 'package:agriclaim/ui/farmer/view_farm_list.dart';
 import 'package:agriclaim/ui/officer/home_screen.dart';
 import 'package:agriclaim/ui/officer/signup_page.dart';
 import 'package:flutter/foundation.dart';
@@ -26,6 +26,7 @@ abstract class AgriClaimRoutes {
   static const String registerFarm = "/register-farm";
   static const String farmNavigation = "/farms";
   static const String viewFarms = "/view-farms";
+  static const String viewFarm = "/view-farm";
 
   static List<GoRoute> get routes {
     return [
@@ -62,7 +63,8 @@ abstract class AgriClaimRoutes {
       GoRoute(path: farmerHome, builder: (_, __) => const FarmerHomePage()),
       GoRoute(
           path: farmNavigation, builder: (_, __) => const FarmNavigationPage()),
-      GoRoute(path: viewFarms, builder: (_, __) => const ViewFarmPage()),
+      GoRoute(path: viewFarms, builder: (_, __) => const ViewFarmListPage()),
+      GoRoute(path: viewFarm, builder: (_, __) => const ViewFarmListPage()),
     ];
   }
 

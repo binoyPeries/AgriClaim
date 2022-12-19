@@ -4,15 +4,15 @@ part 'farm.g.dart';
 
 @JsonSerializable()
 class Farm {
-  final String uId;
+  // final String uId;
   final String ownerId;
   final String farmAddress;
   final String farmName;
-  final List<Map<String, int>> locations;
+  final List<Map<String, double>> locations;
 
   Farm({
     required this.ownerId,
-    required this.uId,
+    // required this.uId,
     required this.farmAddress,
     required this.farmName,
     required this.locations,

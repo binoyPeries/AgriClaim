@@ -1,10 +1,11 @@
 import 'package:agriclaim/ui/common/pages/login_check.dart';
-import 'package:agriclaim/ui/farmer/register_farm.dart';
 import 'package:agriclaim/ui/common/pages/login_page.dart';
 import 'package:agriclaim/ui/common/pages/sign_up.dart';
 import 'package:agriclaim/ui/common/pages/welcome_page.dart';
 import 'package:agriclaim/ui/constants/enums.dart';
+import 'package:agriclaim/ui/farmer/claims_list_page.dart';
 import 'package:agriclaim/ui/farmer/home_screen.dart';
+import 'package:agriclaim/ui/farmer/register_farm.dart';
 import 'package:agriclaim/ui/farmer/signup_page.dart';
 import 'package:agriclaim/ui/officer/home_screen.dart';
 import 'package:agriclaim/ui/officer/signup_page.dart';
@@ -22,6 +23,9 @@ abstract class AgriClaimRoutes {
   static const String farmerHome = "/home-farmer";
   static const String officerHome = "/home-farmer";
   static const String registerFarm = "/register-farm";
+  // static const String claimHome =
+  //     "/claims"; //:TODO add a way to load specific page in the home nav bar
+  static const String claimList = "/claims/:type";
 
   static List<GoRoute> get routes {
     return [
@@ -34,6 +38,11 @@ abstract class AgriClaimRoutes {
   static UserRoles _getUserRole(GoRouterState state) {
     String role = state.params["role"] as String;
     return UserRoles.values.firstWhere((e) => describeEnum(e) == role);
+  }
+
+  static ClaimStates _getClaimType(GoRouterState state) {
+    String type = state.params["type"] as String;
+    return ClaimStates.values.firstWhere((e) => describeEnum(e) == type);
   }
 
   static List<GoRoute> get commonRoutes {
@@ -56,6 +65,10 @@ abstract class AgriClaimRoutes {
       GoRoute(path: farmerSignUp, builder: (_, __) => const FarmerSignupPage()),
       GoRoute(path: registerFarm, builder: (_, __) => const RegisterFarmPage()),
       GoRoute(path: farmerHome, builder: (_, __) => const FarmerHomePage()),
+      GoRoute(
+        path: claimList,
+        builder: (_, state) => ClaimsListPage(claimType: _getClaimType(state)),
+      ),
     ];
   }
 
@@ -73,5 +86,9 @@ abstract class AgriClaimRoutes {
 
   static String userSignUpPath(UserRoles role) {
     return commonSignUp.replaceFirst(":role", role.name.toString());
+  }
+
+  static String claimPath(ClaimStates type) {
+    return claimList.replaceFirst(":type", type.name.toString());
   }
 }

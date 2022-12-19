@@ -28,7 +28,9 @@ class FarmRepository {
         .snapshots()
         .map((event) {
       final result = event.docs.map((element) {
-        return Farm.fromJson(element.data());
+        final data = {"id": element.id, ...element.data()};
+        Farm farm = Farm.fromJson(data);
+        return farm;
       }).toList();
       return result;
     });

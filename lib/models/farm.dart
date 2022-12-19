@@ -4,7 +4,7 @@ part 'farm.g.dart';
 
 @JsonSerializable()
 class Farm {
-  // final String uId;
+  late final String id;
   final String ownerId;
   final String farmAddress;
   final String farmName;
@@ -12,7 +12,7 @@ class Farm {
 
   Farm({
     required this.ownerId,
-    // required this.uId,
+    required this.id,
     required this.farmAddress,
     required this.farmName,
     required this.locations,

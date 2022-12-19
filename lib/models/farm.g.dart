@@ -8,6 +8,7 @@ part of 'farm.dart';
 
 Farm _$FarmFromJson(Map<String, dynamic> json) => Farm(
       ownerId: json['ownerId'] as String,
+      id: json['id'] as String,
       farmAddress: json['farmAddress'] as String,
       farmName: json['farmName'] as String,
       locations: (json['locations'] as List<dynamic>)
@@ -18,6 +19,7 @@ Farm _$FarmFromJson(Map<String, dynamic> json) => Farm(
     );
 
 Map<String, dynamic> _$FarmToJson(Farm instance) => <String, dynamic>{
+      'id': instance.id,
       'ownerId': instance.ownerId,
       'farmAddress': instance.farmAddress,
       'farmName': instance.farmName,

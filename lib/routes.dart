@@ -4,6 +4,7 @@ import 'package:agriclaim/ui/common/pages/sign_up.dart';
 import 'package:agriclaim/ui/common/pages/welcome_page.dart';
 import 'package:agriclaim/ui/constants/enums.dart';
 import 'package:agriclaim/ui/farmer/claims_list_page.dart';
+import 'package:agriclaim/ui/farmer/create_claim_page.dart';
 import 'package:agriclaim/ui/farmer/home_screen.dart';
 import 'package:agriclaim/ui/farmer/register_farm.dart';
 import 'package:agriclaim/ui/farmer/signup_page.dart';
@@ -26,6 +27,7 @@ abstract class AgriClaimRoutes {
   // static const String claimHome =
   //     "/claims"; //:TODO add a way to load specific page in the home nav bar
   static const String claimList = "/claims/:type";
+  static const String createClaim = "/claim-create";
 
   static List<GoRoute> get routes {
     return [
@@ -69,6 +71,7 @@ abstract class AgriClaimRoutes {
         path: claimList,
         builder: (_, state) => ClaimsListPage(claimType: _getClaimType(state)),
       ),
+      GoRoute(path: createClaim, builder: (_, __) => const CreateClaimPage()),
     ];
   }
 

@@ -10,20 +10,22 @@ final farmRepositoryProvider = Provider<FarmRepository>((ref) {
   return FarmRepository(FirebaseFirestore.instance, currentUser?.uid);
 });
 
-final farmLocationCountStateProvider =
-    StateNotifierProvider<FarmLocationsNotifier, List>((ref) {
-  return FarmLocationsNotifier();
-});
-
+/// Editable toggle for editing farm information
 final farmEditableStateProvider = StateProvider<bool>((ref) {
   return false;
 });
 
-// returns the stream of changes in the farm documents where the owner ID is the logged in user's ID
+/// Provider that returns the stream of changes in the farm documents where the owner ID is the logged in user's ID
 final farmListProvider = StreamProvider.autoDispose<List<Farm>>((ref) {
   final farmRepository = ref.watch(farmRepositoryProvider);
   final farmsList = farmRepository.getLoggedInUserFarms();
   return farmsList;
+});
+
+///  Farm locations update for creating a new farm
+final farmLocationCountStateProvider =
+    StateNotifierProvider<FarmLocationsNotifier, List>((ref) {
+  return FarmLocationsNotifier();
 });
 
 class FarmLocationsNotifier extends StateNotifier<List> {
@@ -68,7 +70,7 @@ class FarmLocationsNotifier extends StateNotifier<List> {
   }
 }
 
-// Farm notifer - for viewing and updating registered farm information
+/// Farm notifier - for viewing and updating registered farm information
 
 final farmNotifierProvider =
     StateNotifierProvider.family<FarmNotifier, Farm, Farm>((ref, farm) {

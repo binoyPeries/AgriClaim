@@ -138,9 +138,11 @@ class CreateClaimPage extends ConsumerWidget {
     if (!isValid) {
       return false;
     }
-    Map<String, dynamic> data = {...?formKey.currentState?.value};
-    data["claimPhotos"] = imageList;
-    data["claimVideo"] = video;
+    Map<String, dynamic> mediaData = {};
+    mediaData["claimPhotos"] = imageList;
+    mediaData["claimVideo"] = video;
+    await claimRepository.createClaim(
+        mediaData: mediaData, data: formKey.currentState?.value ?? {});
 
     return true;
   }

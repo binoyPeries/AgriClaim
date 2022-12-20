@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:agriclaim/ui/common/components/info_snack_bar.dart';
 import 'package:agriclaim/ui/constants/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sizer/sizer.dart';

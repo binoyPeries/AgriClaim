@@ -29,8 +29,8 @@ class _FormImageFieldState extends State<FormImageField> {
   List<XFile> imageFileList = [];
 
   void selectImages() async {
-    final XFile? selectedImages =
-        await imagePicker.pickImage(source: ImageSource.camera);
+    final XFile? selectedImages = await imagePicker.pickImage(
+        source: ImageSource.camera, imageQuality: 50);
     if (selectedImages != null) {
       if (imageFileList.length < widget.maxImages) {
         imageFileList.add(selectedImages);

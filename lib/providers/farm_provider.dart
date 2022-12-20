@@ -67,3 +67,21 @@ class FarmLocationsNotifier extends StateNotifier<List> {
     return state[index];
   }
 }
+
+// Farm notifer - for viewing and updating registered farm information
+
+final farmNotifierProvider =
+    StateNotifierProvider.family<FarmNotifier, Farm, Farm>((ref, farm) {
+  return FarmNotifier(farm);
+});
+
+class FarmNotifier extends StateNotifier<Farm> {
+  final Farm farm;
+  FarmNotifier(this.farm) : super(farm);
+
+  void updateLocation(Map<String, double> location, int index) {
+    List<Map<String, double>> locations = [...state.locations];
+    locations[index] = location;
+    state = farm.copyWith(null, null, null, null, locations);
+  }
+}

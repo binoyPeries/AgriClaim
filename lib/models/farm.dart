@@ -8,7 +8,7 @@ class Farm {
   final String ownerId;
   final String farmAddress;
   final String farmName;
-  final List<Map<String, double>> locations;
+  late final List<Map<String, double>> locations;
 
   Farm({
     required this.ownerId,
@@ -21,4 +21,19 @@ class Farm {
   factory Farm.fromJson(Map<String, dynamic> json) => _$FarmFromJson(json);
 
   Map<String, dynamic> toJson() => _$FarmToJson(this);
+
+  Farm copyWith(
+    String? id,
+    String? ownerId,
+    String? farmAddress,
+    String? farmName,
+    List<Map<String, double>>? locations,
+  ) {
+    return Farm(
+        ownerId: ownerId ?? this.ownerId,
+        id: id ?? this.id,
+        farmAddress: farmAddress ?? this.farmAddress,
+        farmName: farmName ?? this.farmName,
+        locations: locations ?? this.locations);
+  }
 }

@@ -47,7 +47,7 @@ class FormLocationAdditionField extends ConsumerWidget {
               convertMapToLatLong(locationsList.elementAt(index)),
             ),
             Padding(
-              padding: const EdgeInsets.all(3.0),
+              padding: const EdgeInsets.all(5.0),
               child: Container(
                 decoration: const BoxDecoration(
                     color: AgriClaimColors.tertiaryColor,

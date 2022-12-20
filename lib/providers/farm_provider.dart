@@ -2,7 +2,6 @@ import 'package:agriclaim/models/farm.dart';
 import 'package:agriclaim/repository/farm_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'auth_provider.dart';
 
 final farmRepositoryProvider = Provider<FarmRepository>((ref) {

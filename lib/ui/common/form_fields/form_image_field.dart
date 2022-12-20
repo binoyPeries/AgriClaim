@@ -54,22 +54,24 @@ class _FormImageFieldState extends State<FormImageField> {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: GridView.builder(
-              physics: const ScrollPhysics(),
-              scrollDirection: Axis.vertical,
-              shrinkWrap: true,
-              itemCount: imageFileList.length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 1),
-              itemBuilder: (BuildContext context, int index) {
-                return ImageViewer(
-                  imageFileList: imageFileList,
-                  imageIndex: index,
-                  onPressed: () => deleteImage(index),
-                );
-              }),
+        SizedBox(
+          height: imageFileList.isNotEmpty ? 40.h : 10,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: GridView.builder(
+                physics: const ScrollPhysics(),
+                scrollDirection: Axis.horizontal,
+                itemCount: imageFileList.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 1, mainAxisSpacing: 3.w),
+                itemBuilder: (BuildContext context, int index) {
+                  return ImageViewer(
+                    imageFileList: imageFileList,
+                    imageIndex: index,
+                    onPressed: () => deleteImage(index),
+                  );
+                }),
+          ),
         ),
         PrimaryButton(
             onPressed: imageFileList.length == widget.maxImages

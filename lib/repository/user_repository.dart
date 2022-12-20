@@ -15,7 +15,7 @@ class UserRepository {
       final result = await _store.collection(DatabaseNames.farmer).add(data);
       return result;
     } catch (e) {
-      throw throw AuthException(e.toString());
+      throw AuthException(e.toString());
     }
   }
 

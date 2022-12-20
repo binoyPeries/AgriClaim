@@ -1,21 +1,23 @@
 import 'dart:io';
 
 import 'package:agriclaim/ui/common/components/info_snack_bar.dart';
+import 'package:agriclaim/ui/common/components/primary_button.dart';
 import 'package:agriclaim/ui/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sizer/sizer.dart';
 
-import '../components/primary_button.dart';
-
 class FormImageField extends StatefulWidget {
   final String fieldName;
   final int maxImages;
+  final Function(List<XFile>) setImageListInParent;
+
   const FormImageField({
     Key? key,
     required this.fieldName,
     required this.maxImages,
+    required this.setImageListInParent,
   }) : super(key: key);
 
   @override
@@ -32,6 +34,7 @@ class _FormImageFieldState extends State<FormImageField> {
     if (selectedImages != null) {
       if (imageFileList.length < widget.maxImages) {
         imageFileList.add(selectedImages);
+        widget.setImageListInParent(imageFileList);
       }
     }
     setState(() {});

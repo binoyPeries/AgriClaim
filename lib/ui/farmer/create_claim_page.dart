@@ -4,6 +4,7 @@ import 'package:agriclaim/ui/common/components/default_appbar.dart';
 import 'package:agriclaim/ui/common/components/default_scaffold.dart';
 import 'package:agriclaim/ui/common/form_fields/form_dropdown_field.dart';
 import 'package:agriclaim/ui/common/form_fields/form_image_field.dart';
+import 'package:agriclaim/ui/common/form_fields/form_video_field.dart';
 import 'package:agriclaim/ui/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -12,12 +13,21 @@ import 'package:image_picker/image_picker.dart';
 import 'package:sizer/sizer.dart';
 
 class CreateClaimPage extends StatelessWidget {
-  const CreateClaimPage({Key? key}) : super(key: key);
+  CreateClaimPage({super.key});
+  List<XFile> imageList = [];
+  XFile video = XFile("");
+  setImageList(List<XFile> photoList) {
+    imageList = photoList;
+  }
+
+  setVideo(XFile capturedVideo) {
+    video = capturedVideo;
+  }
 
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormBuilderState>();
-    final List<XFile> list = [];
+
     return DefaultScaffold(
         appBar: const DefaultAppBar(
           title: "Create Claim",
@@ -69,7 +79,32 @@ class CreateClaimPage extends StatelessWidget {
                 FormImageField(
                   fieldName: "claimPhotos",
                   maxImages: 10,
+                  setImageListInParent: setImageList,
                 ),
+                SizedBox(height: 4.h),
+                Text(
+                  "Video (max 30 seconds)",
+                  style: TextStyle(
+                      color: AgriClaimColors.secondaryColor,
+                      fontSize: 2.2.h,
+                      fontWeight: FontWeight.w500),
+                ),
+                SizedBox(height: 2.2.h),
+                Text(
+                  "Submit a 30 seconds video clearly showing the damaged crop area. "
+                  "This video submission is optional.",
+                  style: TextStyle(
+                    fontSize: 1.8.h,
+                  ),
+                  textAlign: TextAlign.justify,
+                ),
+                SizedBox(height: 2.5.h),
+                FormVideoField(
+                  fieldName: "claimVideo",
+                  maxDurationInSec: 5,
+                  setVideoOnParent: setVideo,
+                ),
+                SizedBox(height: 2.5.h),
               ],
             ),
           ),

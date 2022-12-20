@@ -1,9 +1,13 @@
 import 'package:agriclaim/models/farm.dart';
+import 'package:agriclaim/providers/claim_provider.dart';
 import 'package:agriclaim/providers/farm_provider.dart';
 import 'package:agriclaim/ui/common/components/default_appbar.dart';
 import 'package:agriclaim/ui/common/components/default_scaffold.dart';
+import 'package:agriclaim/ui/common/components/submission_button.dart';
 import 'package:agriclaim/ui/common/form_fields/form_dropdown_field.dart';
 import 'package:agriclaim/ui/common/form_fields/form_image_field.dart';
+import 'package:agriclaim/ui/common/form_fields/form_text_area_field.dart';
+import 'package:agriclaim/ui/common/form_fields/form_text_field.dart';
 import 'package:agriclaim/ui/common/form_fields/form_video_field.dart';
 import 'package:agriclaim/ui/constants/colors.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +16,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sizer/sizer.dart';
 
-class CreateClaimPage extends StatelessWidget {
+class CreateClaimPage extends ConsumerWidget {
   CreateClaimPage({super.key});
   List<XFile> imageList = [];
   XFile video = XFile("");
@@ -25,7 +29,7 @@ class CreateClaimPage extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final formKey = GlobalKey<FormBuilderState>();
 
     return DefaultScaffold(
@@ -40,6 +44,9 @@ class CreateClaimPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 SizedBox(height: 4.h),
+                const FormTextField(
+                    fieldName: "claimReference", label: "Claim Reference"),
+                SizedBox(height: 2.h),
                 Consumer(
                   builder: (BuildContext context, WidgetRef ref, _) {
                     final farmsList = ref.watch(farmListProvider);
@@ -105,9 +112,36 @@ class CreateClaimPage extends StatelessWidget {
                   setVideoOnParent: setVideo,
                 ),
                 SizedBox(height: 2.5.h),
+                const FormTextAreaField(
+                  fieldName: "farmerNote",
+                  label: "Note",
+                  maxLen: 100,
+                  required: false,
+                ),
+                SizedBox(height: 5.h),
+                SubmissionButton(
+                  text: "Submit",
+                  onSubmit: () => submitClaim(formKey, context, ref),
+                  afterSubmit: (context) {},
+                ),
+                SizedBox(height: 3.5.h),
               ],
             ),
           ),
         ));
+  }
+
+  Future<bool> submitClaim(GlobalKey<FormBuilderState> formKey,
+      BuildContext context, WidgetRef ref) async {
+    final isValid = formKey.currentState?.saveAndValidate() ?? false;
+    final claimRepository = ref.read(claimRepositoryProvider);
+    if (!isValid) {
+      return false;
+    }
+    Map<String, dynamic> data = {...?formKey.currentState?.value};
+    data["claimPhotos"] = imageList;
+    data["claimVideo"] = video;
+
+    return true;
   }
 }

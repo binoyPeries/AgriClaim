@@ -94,15 +94,19 @@ class ViewFarmPage extends ConsumerWidget {
                               borderColor: AgriClaimColors.primaryColor,
                               text: "Edit"),
                       SizedBox(height: 3.h),
-                      SubmissionButton(
-                        text: S.of(context).register,
-                        onSubmit: () => registerFarm(formKey, context, ref),
-                        afterSubmit: (context) {
-                          context.pop();
-                          ref
-                              .read(farmLocationCountStateProvider.notifier)
-                              .clearList();
-                        },
+                      Visibility(
+                        visible: editable,
+                        child: SubmissionButton(
+                          text: S.of(context).register,
+                          onSubmit: () => updateFarm(formKey, context, ref,
+                              ref.read(farmNotifierProvider(farm))),
+                          afterSubmit: (context) {
+                            context.pop();
+
+                            ref.read(farmEditableStateProvider.notifier).state =
+                                false;
+                          },
+                        ),
                       ),
                       SizedBox(height: 3.h),
                     ],
@@ -116,22 +120,14 @@ class ViewFarmPage extends ConsumerWidget {
     );
   }
 
-  Future<bool> registerFarm(GlobalKey<FormBuilderState> formKey,
-      BuildContext context, WidgetRef ref) async {
+  Future<bool> updateFarm(GlobalKey<FormBuilderState> formKey,
+      BuildContext context, WidgetRef ref, Farm farm) async {
     final isValid = formKey.currentState?.saveAndValidate() ?? false;
     final farmRepository = ref.read(farmRepositoryProvider);
-    final locationsList = ref.watch(farmLocationCountStateProvider);
-
     if (!isValid) {
       return false;
     }
-
-    Map farmData = formKey.currentState?.value ?? {};
-    locationsList
-        .removeWhere((element) => element["lat"] == 0 && element["long"] == 0);
-    Map<String, dynamic> data = {...farmData, "locations": locationsList};
-    print(data);
-    await farmRepository.addFarm(data);
+    await farmRepository.updateFarm(farm);
     return true;
   }
 }

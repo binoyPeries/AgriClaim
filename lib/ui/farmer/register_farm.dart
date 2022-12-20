@@ -54,8 +54,8 @@ class RegisterFarmPage extends ConsumerWidget {
                         maxLines: 3,
                         validators: [FormBuilderValidators.min(1)],
                       ),
-                      FarmLocationsWidget(),
-                      SizedBox(height: 3.h),
+                      SizedBox(height: 2.h),
+                      const FarmLocationsWidget(),
                       locationsList
                                   .where((element) =>
                                       element["lat"] != 0 &&
@@ -108,6 +108,8 @@ class RegisterFarmPage extends ConsumerWidget {
 }
 
 class FarmLocationsWidget extends ConsumerWidget {
+  const FarmLocationsWidget({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final locationsList = ref.watch(farmLocationCountStateProvider);
@@ -155,7 +157,7 @@ class FarmLocationsWidget extends ConsumerWidget {
                 });
           },
         ),
-        SizedBox(height: 3.h),
+        SizedBox(height: 2.h),
         PrimaryButton(
             onPressed: () {
               ref

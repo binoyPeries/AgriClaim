@@ -57,6 +57,21 @@ class ViewFarmPage extends ConsumerWidget {
                       Text(farm.farmAddress),
                       SizedBox(height: 2.h),
                       FarmLocationsWidget(farm),
+                      SizedBox(height: 3.h),
+                      Visibility(
+                        visible: editable,
+                        child: PrimaryButton(
+                            onPressed: () {
+                              ref
+                                  .read(farmNotifierProvider(farm).notifier)
+                                  .addLocation();
+                            },
+                            buttonColor: Colors.white,
+                            textColor: AgriClaimColors.primaryColor,
+                            borderColor: AgriClaimColors.primaryColor,
+                            text: S.of(context).add_another_location),
+                      ),
+                      SizedBox(height: 3.h),
                       editable
                           ? PrimaryButton(
                               onPressed: () {
@@ -212,7 +227,6 @@ class FarmLocationsWidget extends ConsumerWidget {
             );
           },
         ),
-        SizedBox(height: 3.h),
       ],
     );
   }

@@ -85,4 +85,10 @@ class FarmNotifier extends StateNotifier<Farm> {
     locations[index] = location;
     state = farm.copyWith(null, null, null, null, locations);
   }
+
+  void addLocation() {
+    List<Map<String, double>> locations = [...state.locations];
+    locations.add({"lat": 0, "long": 0});
+    state = farm.copyWith(null, null, null, null, locations);
+  }
 }

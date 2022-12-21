@@ -18,6 +18,7 @@ Claim _$ClaimFromJson(Map<String, dynamic> json) => Claim(
       json['officerNote'] as String?,
       json['status'] as String,
       json['assignedOfficer'] as String?,
+      DateTime.parse(json['claimDate'] as String),
     );
 
 Map<String, dynamic> _$ClaimToJson(Claim instance) => <String, dynamic>{
@@ -32,4 +33,5 @@ Map<String, dynamic> _$ClaimToJson(Claim instance) => <String, dynamic>{
       'officerNote': instance.officerNote,
       'status': instance.status,
       'assignedOfficer': instance.assignedOfficer,
+      'claimDate': instance.claimDate.toIso8601String(),
     };

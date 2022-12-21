@@ -15,6 +15,7 @@ class Claim {
   final String? officerNote;
   final String status;
   final String? assignedOfficer;
+  final DateTime claimDate;
 
   Claim(
     this.claimId,
@@ -28,6 +29,7 @@ class Claim {
     this.officerNote,
     this.status,
     this.assignedOfficer,
+    this.claimDate,
   );
   factory Claim.fromJson(Map<String, dynamic> json) => _$ClaimFromJson(json);
 

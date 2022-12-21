@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'claim.g.dart';
@@ -15,6 +16,7 @@ class Claim {
   final String? officerNote;
   final String status;
   final String? assignedOfficer;
+  @JsonKey(fromJson: _fromJson, toJson: _toJson)
   final DateTime claimDate;
 
   Claim(
@@ -34,4 +36,8 @@ class Claim {
   factory Claim.fromJson(Map<String, dynamic> json) => _$ClaimFromJson(json);
 
   Map<String, dynamic> toJson() => _$ClaimToJson(this);
+
+  static final _dateFormatter = DateFormat('dd-MM-yyyy');
+  static DateTime _fromJson(String date) => _dateFormatter.parse(date);
+  static String _toJson(DateTime date) => _dateFormatter.format(date);
 }

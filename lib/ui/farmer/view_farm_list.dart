@@ -25,12 +25,13 @@ class ViewFarmListPage extends ConsumerWidget {
             List<FarmListTile> farms = [];
             for (var farm in item) {
               farms.add(FarmListTile(
-                  onPressed: () {
-                    context.push(AgriClaimRoutes.viewFarm, extra: farm);
-                  },
-                  title: "Farm Name: ${farm.farmName.toString()}",
-                  description: farm.locations,
-                  subtitle: "Farm Address: ${farm.farmAddress.toString()}"));
+                onPressed: () {
+                  context.push(AgriClaimRoutes.viewFarm, extra: farm);
+                },
+                title: farm.farmName.toString(),
+                locations: farm.locations,
+                subtitle: (farm.farmAddress.toString()),
+              ));
             }
             return SingleChildScrollView(
               child: Column(

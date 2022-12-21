@@ -48,11 +48,13 @@ class ViewFarmPage extends ConsumerWidget {
                       SizedBox(height: 1.2.h),
                       Text(farm.farmName),
                       SizedBox(height: 2.h),
-                      Text("Farm Address",
-                          style: TextStyle(
-                              color: AgriClaimColors.secondaryColor,
-                              fontSize: 2.2.h,
-                              fontWeight: FontWeight.w500)),
+                      Text(
+                        "Farm Address",
+                        style: TextStyle(
+                            color: AgriClaimColors.secondaryColor,
+                            fontSize: 2.2.h,
+                            fontWeight: FontWeight.w500),
+                      ),
                       SizedBox(height: 1.2.h),
                       Text(farm.farmAddress),
                       SizedBox(height: 2.h),

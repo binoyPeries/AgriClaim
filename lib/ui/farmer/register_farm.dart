@@ -22,8 +22,6 @@ class RegisterFarmPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final formKey = GlobalKey<FormBuilderState>();
-    final locationsList = ref.watch(farmLocationCountStateProvider);
-
     return SafeArea(
       child: DefaultScaffold(
         appBar: const DefaultAppBar(
@@ -56,25 +54,36 @@ class RegisterFarmPage extends ConsumerWidget {
                       ),
                       SizedBox(height: 2.h),
                       const FarmLocationsWidget(),
-                      locationsList
-                                  .where((element) =>
-                                      element["lat"] != 0 &&
-                                      element["long"] != 0)
-                                  .length <
-                              4
-                          ? const DisabledButton()
-                          : SubmissionButton(
-                              text: S.of(context).register,
-                              onSubmit: () =>
-                                  registerFarm(formKey, context, ref),
-                              afterSubmit: (context) {
-                                context.pop();
-                                ref
-                                    .read(
-                                        farmLocationCountStateProvider.notifier)
-                                    .clearList();
-                              },
-                            ),
+                      Consumer(
+                        builder: (
+                          BuildContext context,
+                          WidgetRef ref,
+                          Widget? child,
+                        ) {
+                          final locationsList =
+                              ref.watch(farmLocationCountStateProvider);
+
+                          return locationsList
+                                      .where((element) =>
+                                          element["lat"] != 0 &&
+                                          element["long"] != 0)
+                                      .length <
+                                  4
+                              ? const DisabledButton()
+                              : SubmissionButton(
+                                  text: S.of(context).register,
+                                  onSubmit: () =>
+                                      registerFarm(formKey, context, ref),
+                                  afterSubmit: (context) {
+                                    context.pop();
+                                    ref
+                                        .read(farmLocationCountStateProvider
+                                            .notifier)
+                                        .clearList();
+                                  },
+                                );
+                        },
+                      ),
                       SizedBox(height: 3.h),
                     ],
                   ),

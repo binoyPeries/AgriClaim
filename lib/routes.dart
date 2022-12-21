@@ -1,3 +1,4 @@
+import 'package:agriclaim/models/farm.dart';
 import 'package:agriclaim/ui/common/pages/login_check.dart';
 import 'package:agriclaim/ui/farmer/farm_navigation_page.dart';
 import 'package:agriclaim/ui/farmer/register_farm.dart';
@@ -9,6 +10,7 @@ import 'package:agriclaim/ui/farmer/claims_list_page.dart';
 import 'package:agriclaim/ui/farmer/create_claim_page.dart';
 import 'package:agriclaim/ui/farmer/home_screen.dart';
 import 'package:agriclaim/ui/farmer/signup_page.dart';
+import 'package:agriclaim/ui/farmer/view_farm.dart';
 import 'package:agriclaim/ui/farmer/view_farm_list.dart';
 import 'package:agriclaim/ui/officer/home_screen.dart';
 import 'package:agriclaim/ui/officer/signup_page.dart';
@@ -31,7 +33,7 @@ abstract class AgriClaimRoutes {
   static const String claimList = "/claims/:type";
   static const String createClaim = "/claim-create";
   static const String farmNavigation = "/farms";
-  static const String viewFarms = "/view-farms";
+  static const String viewFarmsList = "/view-farms";
   static const String viewFarm = "/view-farm";
 
   static List<GoRoute> get routes {
@@ -74,8 +76,15 @@ abstract class AgriClaimRoutes {
       GoRoute(path: farmerHome, builder: (_, __) => const FarmerHomePage()),
       GoRoute(
           path: farmNavigation, builder: (_, __) => const FarmNavigationPage()),
-      GoRoute(path: viewFarms, builder: (_, __) => const ViewFarmListPage()),
-      GoRoute(path: viewFarm, builder: (_, __) => const ViewFarmListPage()),
+      GoRoute(
+          path: viewFarmsList, builder: (_, __) => const ViewFarmListPage()),
+      GoRoute(
+        path: viewFarm,
+        builder: (_, state) {
+          Farm farm = state.extra as Farm; // -> casting is important
+          return ViewFarmPage(farm);
+        },
+      ),
       GoRoute(
         path: claimList,
         builder: (_, state) => ClaimsListPage(claimType: _getClaimType(state)),

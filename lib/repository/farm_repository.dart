@@ -36,6 +36,35 @@ class FarmRepository {
     });
     return farmList;
   }
+
+  Farm getFarm(String farmId) {
+    Farm farm = Farm(
+        ownerId: "ownerId",
+        id: "id",
+        farmAddress: "farmAddress",
+        farmName: "farmName",
+        locations: []);
+    final docSnapshot = _store.doc("${DatabaseNames.farm}/$farmId");
+    docSnapshot.get().then((value) {
+      final data = {"id": value.id, ...?value.data()};
+      farm = Farm.fromJson(data);
+    });
+    return farm;
+  }
+
+  Future<bool> updateFarm(Farm farm) async {
+    try {
+      await _store.doc("${DatabaseNames.farm}/${farm.id}").update({
+        'ownerId': farm.ownerId,
+        'farmAddress': farm.farmAddress,
+        'farmName': farm.farmName,
+        'locations': farm.locations
+      });
+      return true;
+    } catch (e) {
+      return Future.error(e); //return error
+    }
+  }
 }
 
 class FarmException implements AgriclaimException {

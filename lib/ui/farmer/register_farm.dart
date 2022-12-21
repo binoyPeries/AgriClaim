@@ -52,16 +52,36 @@ class RegisterFarmPage extends ConsumerWidget {
                         maxLines: 3,
                         validators: [FormBuilderValidators.min(1)],
                       ),
-                      FarmLocationsWidget(),
-                      SizedBox(height: 3.h),
-                      SubmissionButton(
-                        text: S.of(context).register,
-                        onSubmit: () => registerFarm(formKey, context, ref),
-                        afterSubmit: (context) {
-                          context.pop();
-                          ref
-                              .read(farmLocationCountStateProvider.notifier)
-                              .clearList();
+                      SizedBox(height: 2.h),
+                      const FarmLocationsWidget(),
+                      Consumer(
+                        builder: (
+                          BuildContext context,
+                          WidgetRef ref,
+                          Widget? child,
+                        ) {
+                          final locationsList =
+                              ref.watch(farmLocationCountStateProvider);
+
+                          return locationsList
+                                      .where((element) =>
+                                          element["lat"] != 0 &&
+                                          element["long"] != 0)
+                                      .length <
+                                  4
+                              ? const DisabledButton()
+                              : SubmissionButton(
+                                  text: S.of(context).register,
+                                  onSubmit: () =>
+                                      registerFarm(formKey, context, ref),
+                                  afterSubmit: (context) {
+                                    context.pop();
+                                    ref
+                                        .read(farmLocationCountStateProvider
+                                            .notifier)
+                                        .clearList();
+                                  },
+                                );
                         },
                       ),
                       SizedBox(height: 3.h),
@@ -90,7 +110,6 @@ class RegisterFarmPage extends ConsumerWidget {
     locationsList
         .removeWhere((element) => element["lat"] == 0 && element["long"] == 0);
     Map<String, dynamic> data = {...farmData, "locations": locationsList};
-    print(data);
     await farmRepository.addFarm(data);
 
     return true;
@@ -98,6 +117,8 @@ class RegisterFarmPage extends ConsumerWidget {
 }
 
 class FarmLocationsWidget extends ConsumerWidget {
+  const FarmLocationsWidget({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final locationsList = ref.watch(farmLocationCountStateProvider);
@@ -145,7 +166,7 @@ class FarmLocationsWidget extends ConsumerWidget {
                 });
           },
         ),
-        SizedBox(height: 3.h),
+        SizedBox(height: 2.h),
         PrimaryButton(
             onPressed: () {
               ref
@@ -158,6 +179,33 @@ class FarmLocationsWidget extends ConsumerWidget {
             text: S.of(context).add_another_location),
         SizedBox(height: 3.h),
       ],
+    );
+  }
+}
+
+class DisabledButton extends StatelessWidget {
+  const DisabledButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 6.5.h,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.grey,
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(8))),
+          elevation: 1,
+        ),
+        onPressed: null,
+        child: Text(
+          "Register",
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 2.5.h,
+          ),
+        ),
+      ),
     );
   }
 }

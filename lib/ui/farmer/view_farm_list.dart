@@ -1,6 +1,8 @@
 import 'package:agriclaim/providers/farm_provider.dart';
+import 'package:agriclaim/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../common/components/default_appbar.dart';
 import '../common/components/default_scaffold.dart';
@@ -16,19 +18,25 @@ class ViewFarmListPage extends ConsumerWidget {
       child: DefaultScaffold(
         appBar: const DefaultAppBar(
           title: "Farms",
+          backButtonVisible: true,
         ),
         body: streamAsyncValue.when(
           data: (item) {
             List<FarmListTile> farms = [];
-            for (var element in item) {
+            for (var farm in item) {
               farms.add(FarmListTile(
-                  onPressed: () {},
-                  title: "Farm Name: ${element.farmName.toString()}",
-                  description: element.locations,
-                  subtitle: "Farm Address: ${element.farmAddress.toString()}"));
+                onPressed: () {
+                  context.push(AgriClaimRoutes.viewFarm, extra: farm);
+                },
+                title: farm.farmName.toString(),
+                locations: farm.locations,
+                subtitle: (farm.farmAddress.toString()),
+              ));
             }
-            return Column(
-              children: farms,
+            return SingleChildScrollView(
+              child: Column(
+                children: farms,
+              ),
             );
           },
           loading: () => const Center(child: CircularProgressIndicator()),

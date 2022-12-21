@@ -2,7 +2,6 @@ import 'package:agriclaim/models/farm.dart';
 import 'package:agriclaim/repository/farm_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'auth_provider.dart';
 
 final farmRepositoryProvider = Provider<FarmRepository>((ref) {
@@ -10,16 +9,22 @@ final farmRepositoryProvider = Provider<FarmRepository>((ref) {
   return FarmRepository(FirebaseFirestore.instance, currentUser?.uid);
 });
 
-final farmLocationCountStateProvider =
-    StateNotifierProvider<FarmLocationsNotifier, List>((ref) {
-  return FarmLocationsNotifier();
+/// Editable toggle for editing farm information
+final farmEditableStateProvider = StateProvider<bool>((ref) {
+  return false;
 });
 
-// returns the stream of changes in the farm documents where the owner ID is the logged in user's ID
+/// Provider that returns the stream of changes in the farm documents where the owner ID is the logged in user's ID
 final farmListProvider = StreamProvider.autoDispose<List<Farm>>((ref) {
   final farmRepository = ref.watch(farmRepositoryProvider);
   final farmsList = farmRepository.getLoggedInUserFarms();
   return farmsList;
+});
+
+///  Farm locations update for creating a new farm
+final farmLocationCountStateProvider =
+    StateNotifierProvider<FarmLocationsNotifier, List>((ref) {
+  return FarmLocationsNotifier();
 });
 
 class FarmLocationsNotifier extends StateNotifier<List> {
@@ -61,5 +66,29 @@ class FarmLocationsNotifier extends StateNotifier<List> {
 
   Map getLocation(int index) {
     return state[index];
+  }
+}
+
+/// Farm notifier - for viewing and updating registered farm information
+
+final farmNotifierProvider =
+    StateNotifierProvider.family<FarmNotifier, Farm, Farm>((ref, farm) {
+  return FarmNotifier(farm);
+});
+
+class FarmNotifier extends StateNotifier<Farm> {
+  final Farm farm;
+  FarmNotifier(this.farm) : super(farm);
+
+  void updateLocation(Map<String, double> location, int index) {
+    List<Map<String, double>> locations = [...state.locations];
+    locations[index] = location;
+    state = farm.copyWith(null, null, null, null, locations);
+  }
+
+  void addLocation() {
+    List<Map<String, double>> locations = [...state.locations];
+    locations.add({"lat": 0, "long": 0});
+    state = farm.copyWith(null, null, null, null, locations);
   }
 }

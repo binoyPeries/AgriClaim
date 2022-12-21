@@ -12,7 +12,7 @@ class FormLocationAdditionField extends ConsumerWidget {
   final int index;
   final String? hintText;
   final bool notRemovable;
-  final Function onPressed;
+  final Function? onPressed;
   final List<FormFieldValidator<String>> validators;
   const FormLocationAdditionField({
     Key? key,
@@ -47,17 +47,17 @@ class FormLocationAdditionField extends ConsumerWidget {
               convertMapToLatLong(locationsList.elementAt(index)),
             ),
             Padding(
-              padding: const EdgeInsets.all(3.0),
+              padding: const EdgeInsets.all(5.0),
               child: Container(
                 decoration: const BoxDecoration(
                     color: AgriClaimColors.tertiaryColor,
                     borderRadius: BorderRadius.all(Radius.circular(3))),
                 child: GestureDetector(
-                  onTap: () => onPressed(),
-                  child: Container(
+                  onTap: () => onPressed != null ? onPressed!() : null,
+                  child: const SizedBox(
                     height: 40.0,
                     width: 40.0,
-                    child: const Icon(
+                    child: Icon(
                       Icons.add_location_alt_outlined,
                       color: Colors.white,
                     ),

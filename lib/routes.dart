@@ -80,7 +80,7 @@ abstract class AgriClaimRoutes {
         path: claimList,
         builder: (_, state) => ClaimsListPage(claimType: _getClaimType(state)),
       ),
-      GoRoute(path: createClaim, builder: (_, __) => const CreateClaimPage()),
+      GoRoute(path: createClaim, builder: (_, __) => CreateClaimPage()),
     ];
   }
 

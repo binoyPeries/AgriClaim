@@ -19,7 +19,7 @@ import 'package:sizer/sizer.dart';
 class CreateClaimPage extends ConsumerWidget {
   CreateClaimPage({super.key});
   List<XFile> imageList = [];
-  XFile video = XFile("");
+  XFile? video;
   setImageList(List<XFile> photoList) {
     imageList = photoList;
   }

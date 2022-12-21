@@ -7,7 +7,7 @@ import 'package:agriclaim/ui/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sizer/sizer.dart';
 import 'package:geolocator/geolocator.dart';
 import '../../generated/l10n.dart';
@@ -44,21 +44,29 @@ class ViewFarmPage extends ConsumerWidget {
                         "Farm Name",
                         style: TextStyle(
                             color: AgriClaimColors.primaryColor,
-                            fontSize: 2.2.h,
+                            fontSize: 2.5.h,
                             fontWeight: FontWeight.w700),
                       ),
-                      SizedBox(height: 1.2.h),
-                      Text(farm.farmName),
+                      Text(
+                        farm.farmName,
+                        style: TextStyle(
+                          fontSize: 2.3.h,
+                        ),
+                      ),
                       SizedBox(height: 2.h),
                       Text(
                         "Farm Address",
                         style: TextStyle(
                             color: AgriClaimColors.primaryColor,
-                            fontSize: 2.2.h,
+                            fontSize: 2.5.h,
                             fontWeight: FontWeight.w700),
                       ),
-                      SizedBox(height: 1.2.h),
-                      Text(farm.farmAddress),
+                      Text(
+                        farm.farmAddress,
+                        style: TextStyle(
+                          fontSize: 2.3.h,
+                        ),
+                      ),
                       SizedBox(height: 2.h),
                       FarmLocationsWidget(farm),
                       SizedBox(height: 3.h),
@@ -75,38 +83,40 @@ class ViewFarmPage extends ConsumerWidget {
                             borderColor: AgriClaimColors.primaryColor,
                             text: S.of(context).add_another_location),
                       ),
-                      SizedBox(height: 3.h),
-                      editable
-                          ? PrimaryButton(
-                              onPressed: () {
-                                ref
-                                    .read(farmEditableStateProvider.notifier)
-                                    .state = false;
-                              },
-                              buttonColor: Colors.white,
-                              textColor: AgriClaimColors.primaryColor,
-                              borderColor: AgriClaimColors.primaryColor,
-                              text: "Not editing")
-                          : PrimaryButton(
-                              onPressed: () {
-                                ref
-                                    .read(farmEditableStateProvider.notifier)
-                                    .state = true;
-                              },
-                              buttonColor: Colors.white,
-                              textColor: AgriClaimColors.primaryColor,
-                              borderColor: AgriClaimColors.primaryColor,
-                              text: "Edit"),
+                      SizedBox(height: 1.h),
+                      // editable
+                      //     ? PrimaryButton(
+                      //         onPressed: () {
+                      //           ref
+                      //               .read(farmEditableStateProvider.notifier)
+                      //               .state = false;
+                      //         },
+                      //         buttonColor: Colors.white,
+                      //         textColor: AgriClaimColors.primaryColor,
+                      //         borderColor: AgriClaimColors.primaryColor,
+                      //         text: "Not editing")
+                      //     :
+                      Visibility(
+                        visible: !editable,
+                        child: PrimaryButton(
+                            onPressed: () {
+                              ref
+                                  .read(farmEditableStateProvider.notifier)
+                                  .state = true;
+                            },
+                            buttonColor: Colors.white,
+                            textColor: AgriClaimColors.primaryColor,
+                            borderColor: AgriClaimColors.primaryColor,
+                            text: "Edit"),
+                      ),
                       SizedBox(height: 3.h),
                       Visibility(
                         visible: editable,
                         child: SubmissionButton(
-                          text: S.of(context).register,
+                          text: "Submit Updates",
                           onSubmit: () => updateFarm(formKey, context, ref,
                               ref.read(farmNotifierProvider(farm))),
                           afterSubmit: (context) {
-                            context.pop();
-
                             ref.read(farmEditableStateProvider.notifier).state =
                                 false;
                           },
@@ -153,7 +163,7 @@ class FarmLocationsWidget extends ConsumerWidget {
           "Locations",
           style: TextStyle(
               color: AgriClaimColors.primaryColor,
-              fontSize: 2.2.h,
+              fontSize: 2.5.h,
               fontWeight: FontWeight.w700),
         ),
         SizedBox(height: 1.2.h),
@@ -167,16 +177,21 @@ class FarmLocationsWidget extends ConsumerWidget {
               children: [
                 Text("Location ${index + 1}",
                     style: TextStyle(
-                        fontSize: 2.2.h, fontWeight: FontWeight.w600)),
+                      fontSize: 2.3.h,
+                      fontWeight: FontWeight.w600,
+                    )),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(convertMapToLatLong(farmLocations[index])),
+                    Text(convertMapToLatLong(farmLocations[index]),
+                        style: TextStyle(
+                          fontSize: 2.1.h,
+                        )),
+                    const Spacer(),
                     Visibility(
                       visible: editable,
                       child: SizedBox(
-                        height: 35.0,
-                        width: 35.0,
+                        height: 40.0,
+                        width: 40.0,
                         child: Container(
                           decoration: const BoxDecoration(
                               color: AgriClaimColors.tertiaryColor,
@@ -216,6 +231,40 @@ class FarmLocationsWidget extends ConsumerWidget {
                               width: 30.0,
                               child: Icon(
                                 Icons.add_location_alt_outlined,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Visibility(
+                      visible: index > 3,
+                      child: SizedBox(
+                        width: 1.h,
+                      ),
+                    ),
+                    Visibility(
+                      visible: editable && index > 3,
+                      child: SizedBox(
+                        height: 40.0,
+                        width: 40.0,
+                        child: Container(
+                          decoration: const BoxDecoration(
+                              color: Colors.red,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(3))),
+                          child: GestureDetector(
+                            onTap: () async {
+                              ref
+                                  .read(farmNotifierProvider(farm).notifier)
+                                  .removeLocation(index);
+                            },
+                            child: const SizedBox(
+                              height: 30.0,
+                              width: 30.0,
+                              child: Icon(
+                                FontAwesomeIcons.circleXmark,
                                 color: Colors.white,
                               ),
                             ),

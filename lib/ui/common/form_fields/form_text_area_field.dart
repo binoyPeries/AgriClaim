@@ -13,6 +13,8 @@ class FormTextAreaField extends StatelessWidget {
   final List<FormFieldValidator<String>> validators;
   final bool obscureText;
   final int? maxLines;
+  final int? maxLen;
+
   final TextInputType? keyboardType;
 
   const FormTextAreaField({
@@ -26,6 +28,7 @@ class FormTextAreaField extends StatelessWidget {
     this.obscureText = false,
     this.keyboardType,
     this.maxLines,
+    this.maxLen,
   }) : super(key: key);
 
   @override
@@ -49,6 +52,7 @@ class FormTextAreaField extends StatelessWidget {
           obscureText: obscureText,
           readOnly: readOnly,
           maxLines: maxLines ?? 5,
+          maxLength: maxLen,
           decoration: InputDecoration(
             contentPadding:
                 const EdgeInsets.symmetric(vertical: 8, horizontal: 12),

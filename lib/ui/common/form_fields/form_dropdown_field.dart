@@ -44,7 +44,7 @@ class FormDropdownField<T> extends StatelessWidget {
         FormBuilderDropdown<String>(
           name: fieldName,
           decoration: InputDecoration(
-            hintText: hintText ?? "Enter $label",
+            hintText: hintText ?? label,
             hintStyle: TextStyle(
               fontSize: 2.h,
             ),

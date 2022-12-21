@@ -13,6 +13,7 @@ import 'package:agriclaim/ui/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sizer/sizer.dart';
 
@@ -122,7 +123,9 @@ class CreateClaimPage extends ConsumerWidget {
                 SubmissionButton(
                   text: "Submit",
                   onSubmit: () => submitClaim(formKey, context, ref),
-                  afterSubmit: (context) {},
+                  afterSubmit: (context) {
+                    context.pop();
+                  },
                 ),
                 SizedBox(height: 3.5.h),
               ],

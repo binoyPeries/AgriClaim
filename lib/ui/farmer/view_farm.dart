@@ -40,20 +40,22 @@ class ViewFarmPage extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       SizedBox(height: 2.h),
-                      Text("Farm Name",
-                          style: TextStyle(
-                              color: AgriClaimColors.secondaryColor,
-                              fontSize: 2.2.h,
-                              fontWeight: FontWeight.w500)),
+                      Text(
+                        "Farm Name",
+                        style: TextStyle(
+                            color: AgriClaimColors.primaryColor,
+                            fontSize: 2.2.h,
+                            fontWeight: FontWeight.w700),
+                      ),
                       SizedBox(height: 1.2.h),
                       Text(farm.farmName),
                       SizedBox(height: 2.h),
                       Text(
                         "Farm Address",
                         style: TextStyle(
-                            color: AgriClaimColors.secondaryColor,
+                            color: AgriClaimColors.primaryColor,
                             fontSize: 2.2.h,
-                            fontWeight: FontWeight.w500),
+                            fontWeight: FontWeight.w700),
                       ),
                       SizedBox(height: 1.2.h),
                       Text(farm.farmAddress),
@@ -147,13 +149,16 @@ class FarmLocationsWidget extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("Locations",
-            style: TextStyle(
-                color: AgriClaimColors.secondaryColor,
-                fontSize: 2.2.h,
-                fontWeight: FontWeight.w500)),
+        Text(
+          "Locations",
+          style: TextStyle(
+              color: AgriClaimColors.primaryColor,
+              fontSize: 2.2.h,
+              fontWeight: FontWeight.w700),
+        ),
         SizedBox(height: 1.2.h),
         ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),
           itemCount: farmLocations.length,
           shrinkWrap: true,
           itemBuilder: (BuildContext context, int index) {
@@ -162,7 +167,7 @@ class FarmLocationsWidget extends ConsumerWidget {
               children: [
                 Text("Location ${index + 1}",
                     style: TextStyle(
-                        fontSize: 2.2.h, fontWeight: FontWeight.w500)),
+                        fontSize: 2.2.h, fontWeight: FontWeight.w600)),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

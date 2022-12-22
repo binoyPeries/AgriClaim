@@ -1,5 +1,7 @@
+import 'package:agriclaim/models/claim.dart';
 import 'package:agriclaim/models/farm.dart';
 import 'package:agriclaim/ui/common/pages/login_check.dart';
+import 'package:agriclaim/ui/farmer/claim_view_page.dart';
 import 'package:agriclaim/ui/farmer/farm_navigation_page.dart';
 import 'package:agriclaim/ui/farmer/profile_page.dart';
 import 'package:agriclaim/ui/farmer/register_farm.dart';
@@ -31,12 +33,13 @@ abstract class AgriClaimRoutes {
   static const String farmerHome = "/home-farmer";
   static const String officerHome = "/home-farmer";
   static const String registerFarm = "/register-farm";
-  // static const String claimHome =
-  //     "/claims"; //:TODO add a way to load specific page in the home nav bar
+  //:TODO add a way to load specific page in the home nav bar
   static const String claimList = "/claims/:type";
   static const String createClaim = "/claim-create";
   static const String farmNavigation = "/farms";
   static const String viewFarmsList = "/view-farms";
+  static const String viewSingleFarm = "/farm";
+  static const String viewSingleClaim = "/claim";
   static const String viewFarm = "/view-farm";
   static const String search = "/search";
   static const String assignedClaims = "/assigned-claims";
@@ -85,7 +88,7 @@ abstract class AgriClaimRoutes {
       GoRoute(
           path: viewFarmsList, builder: (_, __) => const ViewFarmListPage()),
       GoRoute(
-        path: viewFarm,
+        path: viewSingleFarm,
         builder: (_, state) {
           Farm farm = state.extra as Farm; // -> casting is important
           return ViewFarmPage(farm);
@@ -96,6 +99,13 @@ abstract class AgriClaimRoutes {
         builder: (_, state) => ClaimsListPage(claimType: _getClaimType(state)),
       ),
       GoRoute(path: createClaim, builder: (_, __) => CreateClaimPage()),
+      GoRoute(
+        path: viewSingleClaim,
+        builder: (_, state) {
+          Claim claim = state.extra as Claim; // -> casting is important
+          return ClaimViewPage(claim: claim);
+        },
+      ),
     ];
   }
 

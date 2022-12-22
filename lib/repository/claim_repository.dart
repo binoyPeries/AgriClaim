@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:agriclaim/models/claim.dart';
 import 'package:agriclaim/ui/common/utils/agriclaim_exception.dart';
+import 'package:agriclaim/ui/common/utils/helper_functions.dart';
 import 'package:agriclaim/ui/constants/database.dart';
 import 'package:agriclaim/ui/constants/enums.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -66,16 +68,19 @@ class ClaimRepository {
 
     final XFile? video = mediaData['claimVideo'];
     final imageUrlList = await _uploadImage(photoList);
+
+    finalDataMap["claimPhotos"] = imageUrlList;
+
     if (video != null) {
       final uploadedVideo = await _uploadVideo(video);
-      finalDataMap["claimPhotos"] = imageUrlList;
       finalDataMap["claimVideo"] = uploadedVideo;
     }
     finalDataMap["farmerId"] = loggedUserId;
     finalDataMap["status"] = ClaimStates.pending.name;
-    finalDataMap["compensation"] = null;
+    finalDataMap["compensation"] = 0.0;
     finalDataMap["assignedOfficer"] = null;
     finalDataMap["officerNote"] = null;
+    finalDataMap["claimDate"] = getCurrentDate();
 
     try {
       await _store.collection(DatabaseNames.claim).add(finalDataMap);
@@ -83,5 +88,22 @@ class ClaimRepository {
     } catch (e) {
       throw AgriclaimException(e.toString());
     }
+  }
+
+  Stream<List<Claim>> getClaimsList(ClaimStates claimType) {
+    final claimList = _store
+        .collection(DatabaseNames.claim)
+        .where('farmerId', isEqualTo: loggedUserId)
+        .where('status', isEqualTo: claimType.name)
+        .snapshots()
+        .map((event) {
+      final result = event.docs.map((element) {
+        final data = {"claimId": element.id, ...element.data()};
+        Claim farm = Claim.fromJson(data);
+        return farm;
+      }).toList();
+      return result;
+    });
+    return claimList;
   }
 }

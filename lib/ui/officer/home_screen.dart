@@ -43,12 +43,12 @@ class _OfficerHomePageState extends State<OfficerHomePage> {
         unselectedItemColor: Colors.grey,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(FontAwesomeIcons.wpforms),
+            icon: Icon(FontAwesomeIcons.book),
             label: 'Claims',
           ),
           BottomNavigationBarItem(
-            icon: Icon(FontAwesomeIcons.wheatAwn),
-            label: 'Farms',
+            icon: Icon(FontAwesomeIcons.magnifyingGlass),
+            label: 'Search',
           ),
           BottomNavigationBarItem(
             icon: Icon(FontAwesomeIcons.user),

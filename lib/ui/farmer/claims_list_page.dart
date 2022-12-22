@@ -1,5 +1,6 @@
 import 'package:agriclaim/models/claim.dart';
 import 'package:agriclaim/providers/claim_provider.dart';
+import 'package:agriclaim/routes.dart';
 import 'package:agriclaim/ui/common/components/default_appbar.dart';
 import 'package:agriclaim/ui/common/components/default_scaffold.dart';
 import 'package:agriclaim/ui/common/utils/helper_functions.dart';
@@ -8,6 +9,7 @@ import 'package:agriclaim/ui/constants/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sizer/sizer.dart';
 import 'package:intl/intl.dart';
 
@@ -58,64 +60,72 @@ class ClaimInfoCard extends StatelessWidget {
           borderRadius: BorderRadius.all(Radius.circular(20))),
       child: Padding(
         padding: EdgeInsets.all(2.h),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Expanded(
-              child: SizedBox(
-                height: 15.h,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    RichText(
-                      text: TextSpan(
-                        text: "Claim Reference: ",
-                        style: valueTextStyle(context),
-                        children: <TextSpan>[
-                          TextSpan(
-                              text: claim.claimReference,
-                              style: dataTextStyle(context)),
-                        ],
-                      ),
+        child: InkWell(
+          onTap: () {
+            context.push(AgriClaimRoutes.viewSingleClaim, extra: claim);
+          },
+          splashColor: AgriClaimColors.secondaryColor.withOpacity(0.3),
+          child: Ink(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Expanded(
+                  child: SizedBox(
+                    height: 15.h,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        RichText(
+                          text: TextSpan(
+                            text: "Claim Reference: ",
+                            style: valueTextStyle(context),
+                            children: <TextSpan>[
+                              TextSpan(
+                                  text: claim.claimReference,
+                                  style: dataTextStyle(context)),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 1.h),
+                        RichText(
+                          text: TextSpan(
+                            text: "Claim ID: ",
+                            style: valueTextStyle(context),
+                            children: <TextSpan>[
+                              TextSpan(
+                                  text: claim.claimId,
+                                  style: dataTextStyle(context)),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 1.h),
+                        RichText(
+                          text: TextSpan(
+                            text: "Submitted Date: ",
+                            style: valueTextStyle(context),
+                            children: <TextSpan>[
+                              TextSpan(
+                                  text: DateFormat('E, d MMM, yyyy')
+                                      .format(claim.claimDate),
+                                  style: dataTextStyle(context)),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
-                    SizedBox(height: 1.h),
-                    RichText(
-                      text: TextSpan(
-                        text: "Claim ID: ",
-                        style: valueTextStyle(context),
-                        children: <TextSpan>[
-                          TextSpan(
-                              text: claim.claimId,
-                              style: dataTextStyle(context)),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 1.h),
-                    RichText(
-                      text: TextSpan(
-                        text: "Submitted Date: ",
-                        style: valueTextStyle(context),
-                        children: <TextSpan>[
-                          TextSpan(
-                              text: DateFormat('E, d MMM, yyyy')
-                                  .format(claim.claimDate),
-                              style: dataTextStyle(context)),
-                        ],
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
+                Icon(
+                  FontAwesomeIcons.chevronRight,
+                  color: AgriClaimColors.primaryColor,
+                  size: 4.h,
+                )
+              ],
             ),
-            Icon(
-              FontAwesomeIcons.chevronRight,
-              color: AgriClaimColors.primaryColor,
-              size: 4.h,
-            )
-          ],
+          ),
         ),
       ),
     );
@@ -131,3 +141,5 @@ class ClaimInfoCard extends StatelessWidget {
         color: AgriClaimColors.primaryColor));
   }
 }
+
+//:TODO remove draft from states and add a separate page for drafts

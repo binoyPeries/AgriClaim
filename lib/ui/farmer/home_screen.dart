@@ -4,7 +4,7 @@ import 'package:agriclaim/ui/common/components/default_scaffold.dart';
 import 'package:agriclaim/ui/constants/colors.dart';
 import 'package:agriclaim/ui/farmer/claim_home_page.dart';
 import 'package:agriclaim/ui/farmer/profile_page.dart';
-import 'package:agriclaim/ui/farmer/farm_navigation_page.dart';
+import 'package:agriclaim/ui/farmer/view_farm_list.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
@@ -66,14 +66,20 @@ class _FarmerHomePageState extends State<FarmerHomePage> {
               child: const Icon(FontAwesomeIcons.plus),
               onPressed: () => context.push(AgriClaimRoutes.createClaim),
             )
-          : null,
+          : _selectedIndex == 1
+              ? FloatingActionButton(
+                  key: const Key("farm_add"),
+                  child: const Icon(FontAwesomeIcons.plus),
+                  onPressed: () => context.push(AgriClaimRoutes.registerFarm),
+                )
+              : null,
     );
   }
 
   static const List<String> _appbarTitle = ["Claims", "Farms", "Profile"];
   static const List<Widget> _pages = <Widget>[
     ClaimsHomePage(),
-    FarmNavigationPage(),
+    ViewFarmListPage(),
     ProfilePage(),
   ];
 }

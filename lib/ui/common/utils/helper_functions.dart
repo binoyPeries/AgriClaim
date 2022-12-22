@@ -21,3 +21,15 @@ String getCurrentDate() {
   DateTime now = DateTime.now();
   return DateFormat('dd-MM-yyyy').format(now);
 }
+
+String getClaimStatus(String type) {
+  String claimType;
+  if (type == ClaimStates.inReview.name) {
+    claimType = "In Review";
+  } else {
+    final temp = type;
+    claimType = temp[0].toUpperCase() + temp.substring(1);
+  }
+
+  return claimType;
+}

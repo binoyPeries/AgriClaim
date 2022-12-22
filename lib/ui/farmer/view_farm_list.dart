@@ -19,7 +19,7 @@ class ViewFarmListPage extends ConsumerWidget {
             farms.add(FarmListTile(
               onPressed: () {
                 ref.read(farmEditableStateProvider.notifier).state = false;
-                context.push(AgriClaimRoutes.viewFarm, extra: farm);
+                context.push(AgriClaimRoutes.viewSingleFarm, extra: farm);
               },
               title: farm.farmName.toString(),
               locations: farm.locations,

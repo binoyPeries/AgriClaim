@@ -37,17 +37,12 @@ class FarmRepository {
     return farmList;
   }
 
-  Farm getFarm(String farmId) {
-    Farm farm = Farm(
-        ownerId: "ownerId",
-        id: "id",
-        farmAddress: "farmAddress",
-        farmName: "farmName",
-        locations: []);
+  Future<Farm> getFarm(String farmId) {
     final docSnapshot = _store.doc("${DatabaseNames.farm}/$farmId");
-    docSnapshot.get().then((value) {
+    final farm = docSnapshot.get().then((value) {
       final data = {"id": value.id, ...?value.data()};
-      farm = Farm.fromJson(data);
+      final farm = Farm.fromJson(data);
+      return farm;
     });
     return farm;
   }

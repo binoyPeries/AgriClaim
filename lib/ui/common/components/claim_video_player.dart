@@ -41,10 +41,10 @@ class _ClaimVideoPlayerState extends State<ClaimVideoPlayer> {
         showControls: true,
         allowMuting: true,
         materialProgressColors: ChewieProgressColors(
-          playedColor: AgriClaimColors.tertiaryColor,
-          handleColor: AgriClaimColors.tertiaryColor,
-          backgroundColor: AgriClaimColors.hintColor,
-          bufferedColor: AgriClaimColors.secondaryColor,
+          playedColor: Colors.red,
+          handleColor: Colors.red,
+          backgroundColor: Colors.white,
+          bufferedColor: AgriClaimColors.hintColor,
         ),
         overlay: Container(
           color: Colors.black12.withOpacity(0.1),

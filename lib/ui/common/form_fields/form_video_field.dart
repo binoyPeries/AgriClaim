@@ -43,7 +43,6 @@ class _FormVideoFieldState extends State<FormVideoField> {
         ..initialize().then((_) {
           setState(() {});
           _controller.setLooping(true);
-          _controller.play();
         });
     }
   }

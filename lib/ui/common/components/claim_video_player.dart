@@ -1,6 +1,6 @@
 import 'package:agriclaim/ui/constants/colors.dart';
+import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sizer/sizer.dart';
 import 'package:video_player/video_player.dart';
 
@@ -14,82 +14,62 @@ class ClaimVideoPlayer extends StatefulWidget {
 
 class _ClaimVideoPlayerState extends State<ClaimVideoPlayer> {
   late VideoPlayerController _videoPlayerController;
+  ChewieController? _chewieController;
+  int? bufferDelay;
+
   @override
   void initState() {
     super.initState();
-    _videoPlayerController = VideoPlayerController.network(widget.videoUrl)
-      ..initialize().then((_) {
-        setState(() {});
-        // _videoPlayerController.play();
-      });
+    initializePlayer();
+  }
+
+  Future<void> initializePlayer() async {
+    _videoPlayerController = VideoPlayerController.network(widget.videoUrl);
+
+    await _videoPlayerController.initialize();
+    _createChewieController();
+    setState(() {});
+  }
+
+  void _createChewieController() {
+    _chewieController = ChewieController(
+        videoPlayerController: _videoPlayerController,
+        autoPlay: false,
+        progressIndicatorDelay:
+            bufferDelay != null ? Duration(milliseconds: bufferDelay!) : null,
+        autoInitialize: true,
+        showControls: true,
+        allowMuting: true,
+        materialProgressColors: ChewieProgressColors(
+          playedColor: AgriClaimColors.tertiaryColor,
+          handleColor: AgriClaimColors.tertiaryColor,
+          backgroundColor: AgriClaimColors.hintColor,
+          bufferedColor: AgriClaimColors.secondaryColor,
+        ),
+        overlay: Container(
+          color: Colors.black12.withOpacity(0.1),
+        ));
   }
 
   @override
   Widget build(BuildContext context) {
-    return _videoPlayerController.value.isInitialized
-        ? Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            // crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Stack(
-                children: [
-                  AspectRatio(
-                    aspectRatio: _videoPlayerController.value.aspectRatio,
-                    child: VideoPlayer(_videoPlayerController),
-                  ),
-                  Positioned(
-                    bottom: 0,
-                    width: MediaQuery.of(context).size.width,
-                    child: VideoProgressIndicator(
-                      _videoPlayerController,
-                      allowScrubbing: true,
-                      colors: const VideoProgressColors(
-                          backgroundColor: AgriClaimColors.hintColor,
-                          bufferedColor: AgriClaimColors.secondaryColor,
-                          playedColor: AgriClaimColors.tertiaryColor),
-                    ),
-                  )
-                ],
-              ),
-              SizedBox(height: 1.h),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  InkWell(
-                    child: Ink(
-                      child: Icon(
-                        FontAwesomeIcons.circlePlay,
-                        size: 5.h,
-                        color: AgriClaimColors.tertiaryColor,
-                      ),
-                    ),
-                    onTap: () {
-                      _videoPlayerController.play();
-                    },
-                  ),
-                  SizedBox(width: 2.h),
-                  InkWell(
-                    child: Ink(
-                      child: Icon(
-                        FontAwesomeIcons.circlePause,
-                        size: 5.h,
-                        color: AgriClaimColors.tertiaryColor,
-                      ),
-                    ),
-                    onTap: () {
-                      _videoPlayerController.pause();
-                    },
-                  ),
-                ],
-              )
-            ],
+    return _chewieController != null &&
+            _chewieController!.videoPlayerController.value.isInitialized
+        ? SizedBox(
+            height: 29.5.h,
+            child: Chewie(
+              controller: _chewieController!,
+            ),
           )
-        : const Center(child: CircularProgressIndicator());
+        : const Center(
+            child: CircularProgressIndicator(),
+          );
   }
 
   @override
   void dispose() {
     _videoPlayerController.dispose();
+    _chewieController?.dispose();
     super.dispose();
   }
 }

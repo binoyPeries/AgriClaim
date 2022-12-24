@@ -1,5 +1,7 @@
 import 'package:agriclaim/models/claim.dart';
 import 'package:agriclaim/providers/claim_provider.dart';
+import 'package:agriclaim/ui/common/components/claim_image_viewer.dart';
+import 'package:agriclaim/ui/common/components/claim_video_player.dart';
 import 'package:agriclaim/ui/common/components/default_appbar.dart';
 import 'package:agriclaim/ui/common/components/default_scaffold.dart';
 import 'package:agriclaim/ui/common/utils/helper_functions.dart';
@@ -64,6 +66,16 @@ class ClaimViewPage extends ConsumerWidget {
             NoteSection(
                 value: "Officer Note: ",
                 data: claim.officerNote ?? "No notes provided"),
+            SizedBox(height: 3.h),
+            const SectionDivider(sectionName: "Submitted Photos"),
+            SizedBox(height: 2.h),
+            ClaimImagesViewer(images: claim.claimPhotos),
+            SizedBox(height: 3.h),
+            const SectionDivider(sectionName: "Submitted Video"),
+            SizedBox(height: 3.h),
+            if (claim.claimVideo != null)
+              ClaimVideoPlayer(videoUrl: claim.claimVideo as String),
+            SizedBox(height: 2.h),
           ],
         ),
       ),

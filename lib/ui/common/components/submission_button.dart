@@ -1,5 +1,6 @@
 import 'package:agriclaim/ui/common/components/default_button.dart';
 import 'package:agriclaim/ui/common/components/info_snack_bar.dart';
+import 'package:agriclaim/ui/constants/colors.dart';
 import 'package:agriclaim/utils/agriclaim_exception.dart';
 import 'package:flutter/material.dart';
 
@@ -7,12 +8,16 @@ class SubmissionButton extends StatefulWidget {
   final String text;
   final Future<bool> Function() onSubmit;
   final ValueChanged<BuildContext> afterSubmit;
+  final Color buttonColor;
+  final Color textColor;
 
   const SubmissionButton(
       {Key? key,
       required this.text,
       required this.onSubmit,
-      required this.afterSubmit})
+      required this.afterSubmit,
+      this.buttonColor = AgriClaimColors.tertiaryColor,
+      this.textColor = Colors.white})
       : super(key: key);
 
   @override
@@ -24,6 +29,8 @@ class _SubmissionButtonState extends State<SubmissionButton> {
   Widget build(BuildContext context) {
     return DefaultButton(
       text: widget.text,
+      buttonColor: widget.buttonColor,
+      textColor: widget.textColor,
       onPressed: () async {
         try {
           final isSuccessful = await widget.onSubmit();

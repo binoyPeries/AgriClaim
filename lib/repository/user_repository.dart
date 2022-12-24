@@ -1,6 +1,7 @@
 import 'package:agriclaim/models/farmer.dart';
 import 'package:agriclaim/repository/auth_repository.dart';
 import 'package:agriclaim/ui/constants/database.dart';
+import 'package:agriclaim/utils/agriclaim_exception.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserRepository {
@@ -27,13 +28,27 @@ class UserRepository {
         .snapshots()
         .map((event) {
       final result = event.docs.map((element) {
-        final data = {"phoneNumber": phoneNumber, ...element.data()};
+        final data = {
+          "docId": element.id,
+          "phoneNumber": phoneNumber,
+          ...element.data()
+        };
         Farmer farmer = Farmer.fromJson(data);
         return farmer;
       }).toList();
       return result.isNotEmpty ? result[0] : null;
     });
     return farmer;
+  }
+
+  Future<bool> updateLoggedInFarmerProfile(
+      String docId, Map<String, dynamic> data) async {
+    try {
+      await _store.collection(DatabaseNames.farmer).doc(docId).update(data);
+      return true;
+    } on FirebaseException catch (e) {
+      throw AgriclaimException(e.message ?? "Failed to update profile");
+    }
   }
 
   Future<DocumentReference<Map<String, dynamic>>> addOfficer(

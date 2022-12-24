@@ -7,6 +7,7 @@ import 'package:agriclaim/ui/common/form_fields/form_text_area_field.dart';
 import 'package:agriclaim/ui/common/form_fields/form_text_field.dart';
 import 'package:agriclaim/ui/constants/colors.dart';
 import 'package:agriclaim/ui/farmer/claim_view_page.dart';
+import 'package:agriclaim/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -102,6 +103,7 @@ class ProfileEditableForm extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final profileIsEditing = ref.watch(profileInEditModeProvider);
     return FormBuilder(
       key: formKey,
       child: Column(
@@ -112,7 +114,7 @@ class ProfileEditableForm extends ConsumerWidget {
             initialValue: data.firstName,
             fieldName: "firstName",
             label: "First Name",
-            readOnly: true,
+            readOnly: !profileIsEditing,
             labelFontSize: labelTextSize,
             textFontSize: valueTextSize,
           ),
@@ -121,7 +123,7 @@ class ProfileEditableForm extends ConsumerWidget {
             initialValue: data.lastName,
             fieldName: "lastName",
             label: "Last Name",
-            readOnly: true,
+            readOnly: !profileIsEditing,
             labelFontSize: labelTextSize,
             textFontSize: valueTextSize,
           ),
@@ -130,7 +132,7 @@ class ProfileEditableForm extends ConsumerWidget {
             initialValue: data.nic,
             fieldName: "nic",
             label: "NIC",
-            readOnly: true,
+            readOnly: !profileIsEditing,
             labelFontSize: labelTextSize,
             textFontSize: valueTextSize,
           ),
@@ -139,7 +141,7 @@ class ProfileEditableForm extends ConsumerWidget {
             label: "Home Address",
             initialValue: data.homeAddress,
             fieldName: 'homeAddress',
-            readOnly: true,
+            readOnly: !profileIsEditing,
             labelFontSize: labelTextSize,
             textFontSize: valueTextSize,
           ),
@@ -147,45 +149,50 @@ class ProfileEditableForm extends ConsumerWidget {
           const SectionDivider(sectionName: "Bank Details"),
           SizedBox(height: 3.h),
           FormTextField(
-            initialValue: data.accNumber,
+            initialValue: data.accountNumber,
             fieldName: "accountNumber",
             label: "Account Number",
-            readOnly: true,
+            readOnly: !profileIsEditing,
             labelFontSize: labelTextSize,
             textFontSize: valueTextSize,
             keyboardType: TextInputType.number,
+            required: false,
           ),
           SizedBox(height: 2.h),
           FormTextField(
-            initialValue: data.accHolderName,
+            initialValue: data.accountHolderName,
             fieldName: "accountHolderName",
             label: "Account Holder's Name",
-            readOnly: true,
+            readOnly: !profileIsEditing,
             labelFontSize: labelTextSize,
             textFontSize: valueTextSize,
+            required: false,
           ),
           SizedBox(height: 2.h),
           FormTextField(
             initialValue: data.bank,
             fieldName: "bank",
             label: "Bank",
-            readOnly: true,
+            readOnly: !profileIsEditing,
             labelFontSize: labelTextSize,
             textFontSize: valueTextSize,
+            required: false,
           ),
           SizedBox(height: 2.h),
           FormTextField(
             initialValue: data.bankBranch,
             fieldName: "bankBranch",
             label: "Branch",
-            readOnly: true,
+            readOnly: !profileIsEditing,
             labelFontSize: labelTextSize,
             textFontSize: valueTextSize,
+            required: false,
           ),
           SizedBox(height: 7.h),
           SubmissionButton(
-            text: "Edit Profile",
-            onSubmit: () => updateProfile(),
+            text: profileIsEditing ? "Save Changes" : "Edit Profile",
+            onSubmit: () =>
+                profileIsEditing ? updateProfile(ref, data) : editProfile(ref),
             afterSubmit: (context) {},
           ),
         ],
@@ -193,18 +200,26 @@ class ProfileEditableForm extends ConsumerWidget {
     );
   }
 
-  Future<bool> updateProfile() async {
+  Future<bool> editProfile(WidgetRef ref) {
+    ref.read(profileInEditModeProvider.notifier).state = true;
+    return Future(() => true);
+  }
+
+  Future<bool> updateProfile(WidgetRef ref, Farmer farmer) async {
     try {
-      // await authRepository.signOut();
+      final isValid = formKey.currentState?.saveAndValidate() ?? false;
+      final userRepository = ref.read(userRepositoryProvider);
+      if (!isValid) {
+        return false;
+      }
+      final finalData = getDifferenceOfTwoMaps(
+          newMap: formKey.currentState?.value ?? {}, oldMap: farmer.toJson());
+      await userRepository.updateLoggedInFarmerProfile(farmer.docId, finalData);
+
+      ref.read(profileInEditModeProvider.notifier).state = false;
       return true;
     } catch (e) {
       return false;
     }
   }
 }
-
-// PrimaryButton(
-// text: "Logout",
-// onPressed: () async {
-// await authRepository.signOut();
-// }),

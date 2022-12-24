@@ -10,10 +10,14 @@ class Farmer {
   final String lastName;
   final String nic;
   final String homeAddress;
-  final String? accNumber;
+  final String? accountNumber;
   final String? bank;
   final String? bankBranch;
-  final String? accHolderName;
+  final String? accountHolderName;
+  // this is to make sure that docID will not be in  the toJson method
+  static toNull(_) => null;
+  @JsonKey(toJson: toNull, includeIfNull: false)
+  final String docId;
 
   Farmer({
     required this.farmerId,
@@ -22,10 +26,11 @@ class Farmer {
     required this.nic,
     required this.homeAddress,
     required this.phoneNumber,
-    this.accNumber,
+    this.accountNumber,
     this.bank,
     this.bankBranch,
-    this.accHolderName,
+    this.accountHolderName,
+    required this.docId,
   });
 
   factory Farmer.fromJson(Map<String, dynamic> json) => _$FarmerFromJson(json);

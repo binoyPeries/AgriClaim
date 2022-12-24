@@ -37,3 +37,16 @@ String getClaimStatus(String type) {
 
   return claimType;
 }
+
+Map<String, dynamic> getDifferenceOfTwoMaps(
+    {required Map<String, dynamic> oldMap,
+    required Map<String, dynamic> newMap}) {
+  Map<String, dynamic> finalMap = {};
+  newMap.forEach((key, value) {
+    if (oldMap[key] != value) {
+      finalMap[key] = value;
+    }
+  });
+
+  return finalMap;
+}

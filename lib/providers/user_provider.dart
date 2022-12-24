@@ -17,3 +17,7 @@ final farmerDetailsProvider = StreamProvider.autoDispose<Farmer?>((ref) {
   final phoneNumber = authRepository.getLoggedInUserPhoneNumber();
   return userRepository.getLoggedInFarmerDetails(phoneNumber);
 });
+
+final profileInEditModeProvider = StateProvider<bool>((ref) {
+  return false;
+});

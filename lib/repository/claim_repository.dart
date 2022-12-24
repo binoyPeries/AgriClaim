@@ -1,10 +1,10 @@
 import 'dart:io';
 
 import 'package:agriclaim/models/claim.dart';
-import 'package:agriclaim/ui/common/utils/agriclaim_exception.dart';
-import 'package:agriclaim/ui/common/utils/helper_functions.dart';
 import 'package:agriclaim/ui/constants/database.dart';
 import 'package:agriclaim/ui/constants/enums.dart';
+import 'package:agriclaim/utils/agriclaim_exception.dart';
+import 'package:agriclaim/utils/helper_functions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';

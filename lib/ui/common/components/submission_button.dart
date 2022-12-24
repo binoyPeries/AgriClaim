@@ -1,6 +1,6 @@
 import 'package:agriclaim/ui/common/components/default_button.dart';
 import 'package:agriclaim/ui/common/components/info_snack_bar.dart';
-import 'package:agriclaim/ui/common/utils/agriclaim_exception.dart';
+import 'package:agriclaim/utils/agriclaim_exception.dart';
 import 'package:flutter/material.dart';
 
 class SubmissionButton extends StatefulWidget {

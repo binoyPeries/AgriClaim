@@ -56,9 +56,10 @@ class AuthRepository {
     return _auth.currentUser;
   }
 
-  // String getLoggedInUserPhoneNumber() {
-  //   String? email = _auth.currentUser?.email;
-  // }
+  String getLoggedInUserPhoneNumber() {
+    String? email = _auth.currentUser?.email;
+    return convertEmailToPhone(email);
+  }
 
   Future<void> signOut() async {
     await _auth.signOut();

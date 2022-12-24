@@ -1,3 +1,4 @@
+import 'package:agriclaim/models/farmer.dart';
 import 'package:agriclaim/repository/auth_repository.dart';
 import 'package:agriclaim/ui/constants/database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -17,6 +18,22 @@ class UserRepository {
     } catch (e) {
       throw AuthException(e.toString());
     }
+  }
+
+  Stream<Farmer?> getLoggedInFarmerDetails(String phoneNumber) {
+    final farmer = _store
+        .collection(DatabaseNames.farmer)
+        .where('farmerId', isEqualTo: loggedUserId)
+        .snapshots()
+        .map((event) {
+      final result = event.docs.map((element) {
+        final data = {"phoneNumber": phoneNumber, ...element.data()};
+        Farmer farmer = Farmer.fromJson(data);
+        return farmer;
+      }).toList();
+      return result.isNotEmpty ? result[0] : null;
+    });
+    return farmer;
   }
 
   Future<DocumentReference<Map<String, dynamic>>> addOfficer(

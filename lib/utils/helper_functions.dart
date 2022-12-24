@@ -5,6 +5,10 @@ String convertPhoneToEmail(String phoneNumber) {
   return "$phoneNumber@gmail.com";
 }
 
+String convertEmailToPhone(String? email) {
+  return email == null ? "" : email.split("@")[0];
+}
+
 String getClaimPageName(ClaimStates type) {
   String claimType;
   if (type == ClaimStates.inReview) {

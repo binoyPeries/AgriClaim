@@ -3,15 +3,17 @@ import 'package:agriclaim/providers/claim_provider.dart';
 import 'package:agriclaim/routes.dart';
 import 'package:agriclaim/ui/common/components/default_appbar.dart';
 import 'package:agriclaim/ui/common/components/default_scaffold.dart';
+import 'package:agriclaim/ui/constants/assets.dart';
 import 'package:agriclaim/ui/constants/colors.dart';
 import 'package:agriclaim/ui/constants/enums.dart';
 import 'package:agriclaim/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sizer/sizer.dart';
 import 'package:intl/intl.dart';
+import 'package:sizer/sizer.dart';
 
 class ClaimsListPage extends ConsumerWidget {
   final ClaimStates claimType;
@@ -26,15 +28,41 @@ class ClaimsListPage extends ConsumerWidget {
           title: getClaimPageName(claimType), backButtonVisible: true),
       body: claimList.when(
         data: (items) {
-          return SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                SizedBox(height: 5.h),
-                for (final claim in items) ClaimInfoCard(claim: claim)
-              ],
-            ),
-          );
+          return items.isNotEmpty
+              ? SingleChildScrollView(
+                  child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    SizedBox(height: 5.h),
+                    for (final claim in items) ClaimInfoCard(claim: claim)
+                  ],
+                ))
+              : Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    SvgPicture.asset(AgriClaimAssets.noClaimsFound,
+                        height: 40.h),
+                    Center(
+                      child: Text(
+                        "Sorry !!",
+                        style: TextStyle(
+                            color: AgriClaimColors.tertiaryColor,
+                            fontSize: 3.h,
+                            fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                    Center(
+                      child: Text(
+                        "No ${getClaimPageName(claimType)} at the moment",
+                        style: TextStyle(
+                            color: AgriClaimColors.secondaryColor,
+                            fontSize: 2.2.h,
+                            fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                  ],
+                );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, st) => Center(child: Text(e.toString())),

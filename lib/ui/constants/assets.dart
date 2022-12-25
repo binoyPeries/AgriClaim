@@ -7,4 +7,5 @@ abstract class AgriClaimAssets {
   static const String claimDraft = "assets/images/draft.svg";
   static const String claimReview = "assets/images/review.svg";
   static const String claimCompleted = "assets/images/completed.svg";
+  static const String noClaimsFound = "assets/images/empty.svg";
 }

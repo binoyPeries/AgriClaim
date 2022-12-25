@@ -43,7 +43,6 @@ class _FormVideoFieldState extends State<FormVideoField> {
         ..initialize().then((_) {
           setState(() {});
           _controller.setLooping(true);
-          _controller.play();
         });
     }
   }
@@ -55,42 +54,35 @@ class _FormVideoFieldState extends State<FormVideoField> {
       children: [
         if (capturedVideo != null)
           _controller.value.isInitialized
-              ? SizedBox(
-                  height: 30.h,
-                  child: Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      GestureDetector(
-                        child: SizedBox(
-                          height: 30.h,
-                          child: AspectRatio(
-                            aspectRatio: _controller.value.aspectRatio,
-                            child: VideoPlayer(_controller),
-                          ),
-                        ),
+              ? Stack(
+                  children: [
+                    GestureDetector(
+                      child: AspectRatio(
+                        aspectRatio: _controller.value.aspectRatio,
+                        child: VideoPlayer(_controller),
                       ),
-                      Positioned(
-                        bottom: 2.h,
-                        left: 0,
-                        right: 0,
-                        child: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _controller.value.isPlaying
-                                  ? _controller.pause()
-                                  : _controller.play();
-                            });
-                          },
-                          child: Icon(
-                              _controller.value.isPlaying
-                                  ? FontAwesomeIcons.circlePause
-                                  : FontAwesomeIcons.circlePlay,
-                              color: Colors.white,
-                              size: 5.h),
-                        ),
+                    ),
+                    Positioned(
+                      bottom: 2.h,
+                      left: 0,
+                      right: 0,
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _controller.value.isPlaying
+                                ? _controller.pause()
+                                : _controller.play();
+                          });
+                        },
+                        child: Icon(
+                            _controller.value.isPlaying
+                                ? FontAwesomeIcons.circlePause
+                                : FontAwesomeIcons.circlePlay,
+                            color: Colors.white,
+                            size: 5.h),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 )
               : SizedBox(height: 1.h),
         SizedBox(height: 3.h),

@@ -10,6 +10,7 @@ class DefaultButton extends StatefulWidget {
   final double? height;
   final Future<void> Function() onPressed;
   final double? elevation;
+  final Color borderColor;
 
   const DefaultButton({
     Key? key,
@@ -20,6 +21,7 @@ class DefaultButton extends StatefulWidget {
     this.fontSize,
     this.height,
     this.elevation,
+    this.borderColor = AgriClaimColors.tertiaryColor,
   }) : super(key: key);
 
   @override
@@ -42,6 +44,10 @@ class _DefaultButtonState extends State<DefaultButton> {
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: widget.buttonColor,
+          side: BorderSide(
+            width: 1.0,
+            color: widget.borderColor,
+          ),
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(8))),
           elevation: widget.elevation ?? 1,

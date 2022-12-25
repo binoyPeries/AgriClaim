@@ -21,6 +21,12 @@ class AgriClaimTheme {
           ),
         ),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(5)),
+        disabledBorder: const OutlineInputBorder(
+          borderSide: BorderSide(
+            color: Colors.yellow,
+            width: 0.5,
+          ),
+        ),
         filled: true,
         fillColor: Colors.white,
         hintStyle: const TextStyle(

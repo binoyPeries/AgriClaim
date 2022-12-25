@@ -5,6 +5,10 @@ String convertPhoneToEmail(String phoneNumber) {
   return "$phoneNumber@gmail.com";
 }
 
+String convertEmailToPhone(String? email) {
+  return email == null ? "" : email.split("@")[0];
+}
+
 String getClaimPageName(ClaimStates type) {
   String claimType;
   if (type == ClaimStates.inReview) {
@@ -32,4 +36,17 @@ String getClaimStatus(String type) {
   }
 
   return claimType;
+}
+
+Map<String, dynamic> getDifferenceOfTwoMaps(
+    {required Map<String, dynamic> oldMap,
+    required Map<String, dynamic> newMap}) {
+  Map<String, dynamic> finalMap = {};
+  newMap.forEach((key, value) {
+    if (oldMap[key] != value) {
+      finalMap[key] = value;
+    }
+  });
+
+  return finalMap;
 }

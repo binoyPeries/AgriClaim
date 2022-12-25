@@ -1,5 +1,5 @@
-import 'package:agriclaim/ui/common/utils/display_lat_long.dart';
 import 'package:agriclaim/ui/constants/colors.dart';
+import 'package:agriclaim/utils/display_lat_long.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sizer/sizer.dart';

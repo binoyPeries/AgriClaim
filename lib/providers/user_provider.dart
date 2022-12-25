@@ -1,4 +1,5 @@
 import 'package:agriclaim/models/farmer.dart';
+import 'package:agriclaim/models/officer.dart';
 import 'package:agriclaim/repository/user_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,6 +17,14 @@ final farmerDetailsProvider = StreamProvider.autoDispose<Farmer?>((ref) {
 
   final phoneNumber = authRepository.getLoggedInUserPhoneNumber();
   return userRepository.getLoggedInFarmerDetails(phoneNumber);
+});
+
+final officerDetailsProvider = StreamProvider.autoDispose<Officer?>((ref) {
+  final authRepository = ref.watch(authRepositoryProvider);
+  final userRepository = ref.watch(userRepositoryProvider);
+
+  final phoneNumber = authRepository.getLoggedInUserPhoneNumber();
+  return userRepository.getLoggedInOfficerDetails(phoneNumber);
 });
 
 final profileInEditModeProvider = StateProvider<bool>((ref) {

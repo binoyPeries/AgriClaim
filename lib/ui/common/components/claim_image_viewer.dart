@@ -1,7 +1,9 @@
+import 'package:agriclaim/routes.dart';
 import 'package:agriclaim/ui/constants/colors.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sizer/sizer.dart';
 
 class ClaimImagesViewer extends StatefulWidget {
@@ -27,26 +29,31 @@ class _ClaimImagesViewerState extends State<ClaimImagesViewer> {
           itemBuilder: (BuildContext context, int index) {
             return Stack(
               children: [
-                CachedNetworkImage(
-                  imageUrl: widget.images[index],
-                  imageBuilder: (context, imageProvider) => Container(
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: imageProvider,
-                        fit: BoxFit.contain,
+                GestureDetector(
+                  onTap: () => context.push(
+                      AgriClaimRoutes.viewSingleClaimImage,
+                      extra: widget.images[index]),
+                  child: CachedNetworkImage(
+                    imageUrl: widget.images[index],
+                    imageBuilder: (context, imageProvider) => Container(
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: imageProvider,
+                          fit: BoxFit.contain,
+                        ),
+                        color: AgriClaimColors.hintColor.withOpacity(0.2),
                       ),
-                      color: AgriClaimColors.hintColor.withOpacity(0.2),
                     ),
+                    progressIndicatorBuilder:
+                        (context, url, downloadProgress) => Center(
+                            child: CircularProgressIndicator(
+                                value: downloadProgress.progress)),
+                    errorWidget: (context, url, error) => Center(
+                        child: Icon(
+                      Icons.error,
+                      size: 3.h,
+                    )),
                   ),
-                  progressIndicatorBuilder: (context, url, downloadProgress) =>
-                      Center(
-                          child: CircularProgressIndicator(
-                              value: downloadProgress.progress)),
-                  errorWidget: (context, url, error) => Center(
-                      child: Icon(
-                    Icons.error,
-                    size: 3.h,
-                  )),
                 ),
                 Align(
                   alignment: Alignment.bottomCenter,

@@ -5,17 +5,22 @@ part 'officer.g.dart';
 @JsonSerializable()
 class Officer {
   final String officerId;
-  final String officerRegNo;
   final String firstName;
   final String lastName;
   final String email;
+  final String phoneNumber;
+  // this is to make sure that docID will not be in  the toJson method
+  static toNull(_) => null;
+  @JsonKey(toJson: toNull, includeIfNull: false)
+  final String docId;
 
   Officer(
     this.officerId,
-    this.officerRegNo,
     this.firstName,
     this.lastName,
     this.email,
+    this.phoneNumber,
+    this.docId,
   );
 
   factory Officer.fromJson(Map<String, dynamic> json) =>

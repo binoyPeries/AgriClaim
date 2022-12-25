@@ -78,8 +78,6 @@ class UserRepository {
           ...element.data()
         };
         Officer officer = Officer.fromJson(data);
-        print(officer);
-        print("=====================");
         return officer;
       }).toList();
       return result.isNotEmpty ? result[0] : null;

@@ -153,7 +153,6 @@ class ProfileEditableForm extends ConsumerWidget {
       }
       final finalData = getDifferenceOfTwoMaps(
           newMap: formKey.currentState?.value ?? {}, oldMap: officer.toJson());
-      print(finalData);
       await userRepository.updateLoggedInFarmerProfile(
           officer.docId, finalData);
 

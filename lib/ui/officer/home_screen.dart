@@ -1,8 +1,8 @@
 import 'package:agriclaim/ui/common/components/default_appbar.dart';
 import 'package:agriclaim/ui/common/components/default_scaffold.dart';
 import 'package:agriclaim/ui/constants/colors.dart';
-import 'package:agriclaim/ui/farmer/profile_page.dart';
 import 'package:agriclaim/ui/officer/assigned_claims.dart';
+import 'package:agriclaim/ui/officer/profile_page.dart';
 import 'package:agriclaim/ui/officer/search_page.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';

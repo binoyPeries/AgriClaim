@@ -13,6 +13,10 @@ class FormTextField extends StatelessWidget {
   final List<FormFieldValidator<String>> validators;
   final bool obscureText;
   final TextInputType? keyboardType;
+  final double? labelFontSize;
+  final double? textFontSize;
+  final String? initialValue;
+
   const FormTextField({
     Key? key,
     required this.fieldName,
@@ -23,6 +27,9 @@ class FormTextField extends StatelessWidget {
     this.required = true,
     this.obscureText = false,
     this.keyboardType,
+    this.labelFontSize,
+    this.textFontSize,
+    this.initialValue,
   }) : super(key: key);
 
   @override
@@ -36,19 +43,20 @@ class FormTextField extends StatelessWidget {
           label,
           style: TextStyle(
               color: AgriClaimColors.secondaryColor,
-              fontSize: 2.2.h,
+              fontSize: labelFontSize ?? 2.2.h,
               fontWeight: FontWeight.w500),
         ),
         SizedBox(height: 1.2.h),
         FormBuilderTextField(
           readOnly: readOnly,
           name: fieldName,
+          initialValue: initialValue,
           keyboardType: keyboardType ?? TextInputType.text,
           obscureText: obscureText,
           decoration: InputDecoration(
-            hintText: hintText ?? "Enter $label",
+            hintText: hintText ?? label,
             hintStyle: TextStyle(
-              fontSize: 2.h,
+              fontSize: textFontSize ?? 2.h,
             ),
           ),
           validator: FormBuilderValidators.compose([
@@ -57,6 +65,7 @@ class FormTextField extends StatelessWidget {
                   errorText: "The $label is required"),
             ...validators,
           ]),
+          style: TextStyle(fontSize: textFontSize ?? 2.h),
         )
       ],
     );

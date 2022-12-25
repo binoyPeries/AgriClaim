@@ -14,7 +14,9 @@ class FormTextAreaField extends StatelessWidget {
   final bool obscureText;
   final int? maxLines;
   final int? maxLen;
-
+  final String? initialValue;
+  final double? labelFontSize;
+  final double? textFontSize;
   final TextInputType? keyboardType;
 
   const FormTextAreaField({
@@ -29,6 +31,9 @@ class FormTextAreaField extends StatelessWidget {
     this.keyboardType,
     this.maxLines,
     this.maxLen,
+    this.initialValue,
+    this.labelFontSize,
+    this.textFontSize,
   }) : super(key: key);
 
   @override
@@ -42,7 +47,7 @@ class FormTextAreaField extends StatelessWidget {
           label,
           style: TextStyle(
               color: AgriClaimColors.secondaryColor,
-              fontSize: 2.2.h,
+              fontSize: labelFontSize ?? 2.2.h,
               fontWeight: FontWeight.w500),
         ),
         SizedBox(height: 1.2.h),
@@ -50,6 +55,7 @@ class FormTextAreaField extends StatelessWidget {
           name: fieldName,
           keyboardType: keyboardType ?? TextInputType.text,
           obscureText: obscureText,
+          initialValue: initialValue,
           readOnly: readOnly,
           maxLines: maxLines ?? 5,
           maxLength: maxLen,
@@ -67,6 +73,7 @@ class FormTextAreaField extends StatelessWidget {
                   errorText: "The $label is required"),
             ...validators,
           ]),
+          style: TextStyle(fontSize: textFontSize ?? 2.h),
         )
       ],
     );

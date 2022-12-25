@@ -1,7 +1,7 @@
 import 'package:agriclaim/routes.dart';
 import 'package:agriclaim/theme.dart';
 import 'package:agriclaim/ui/common/pages/router_error_page.dart';
-import 'package:agriclaim/ui/common/utils/logger.dart';
+import 'package:agriclaim/utils/logger.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

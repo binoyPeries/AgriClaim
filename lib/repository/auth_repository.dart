@@ -1,8 +1,7 @@
-import 'package:agriclaim/ui/common/utils/agriclaim_exception.dart';
 import 'package:agriclaim/ui/constants/enums.dart';
+import 'package:agriclaim/utils/agriclaim_exception.dart';
+import 'package:agriclaim/utils/helper_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
-import '../ui/common/utils/helper_functions.dart';
 
 class AuthRepository {
   final FirebaseAuth _auth;
@@ -55,6 +54,11 @@ class AuthRepository {
 
   User? getLoggedInUser() {
     return _auth.currentUser;
+  }
+
+  String getLoggedInUserPhoneNumber() {
+    String? email = _auth.currentUser?.email;
+    return convertEmailToPhone(email);
   }
 
   Future<void> signOut() async {

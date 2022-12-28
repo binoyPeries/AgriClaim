@@ -6,11 +6,10 @@ import 'package:agriclaim/ui/common/components/claim_video_player.dart';
 import 'package:agriclaim/ui/common/components/default_appbar.dart';
 import 'package:agriclaim/ui/common/components/default_scaffold.dart';
 import 'package:agriclaim/ui/constants/colors.dart';
-import 'package:agriclaim/utils/helper_functions.dart';
+import 'package:agriclaim/ui/farmer/claim_view_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
@@ -27,7 +26,6 @@ class ClaimReviewPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final accepted = ref.watch(claimAcceptedStateProvider);
     final formKey = GlobalKey<FormBuilderState>();
 
     return DefaultScaffold(
@@ -100,55 +98,69 @@ class ClaimReviewPage extends ConsumerWidget {
                       required: false,
                     ),
                     SizedBox(height: 3.h),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        PrimaryButton(
-                            onPressed: () {
-                              ref
-                                  .read(claimAcceptedStateProvider.notifier)
-                                  .state = true;
-                            },
-                            buttonColor: accepted
-                                ? AgriClaimColors.primaryColor
-                                : Colors.white,
-                            textColor: accepted
-                                ? Colors.white
-                                : AgriClaimColors.primaryColor,
-                            borderColor: AgriClaimColors.primaryColor,
-                            text: "Approve Claim"),
-                        PrimaryButton(
-                          onPressed: () {
-                            ref
-                                .read(claimAcceptedStateProvider.notifier)
-                                .state = false;
-                          },
-                          buttonColor: accepted ? Colors.white : Colors.red,
-                          textColor: accepted ? Colors.red : Colors.white,
-                          borderColor: Colors.red,
-                          text: "Reject Claim",
-                        ),
-                      ],
-                    ),
-                    Visibility(
-                      visible: accepted,
-                      child: FormTextField(
-                        fieldName: "compensation",
-                        label: "Compensation Amount",
-                        keyboardType: TextInputType.number,
-                        validators: [FormBuilderValidators.min(1)],
-                      ),
-                    ),
-                    SizedBox(height: 2.h),
-                    SubmissionButton(
-                      text: "Submit Claim",
-                      onSubmit: () => updateClaim(
-                          formKey, context, ref, claim.claimId, accepted),
-                      afterSubmit: (context) {
-                        context.pop();
+                    Consumer(
+                      builder: (context, ref, child) {
+                        final accepted = ref.watch(claimAcceptedStateProvider);
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                PrimaryButton(
+                                    onPressed: () {
+                                      ref
+                                          .read(claimAcceptedStateProvider
+                                              .notifier)
+                                          .state = true;
+                                    },
+                                    buttonColor: accepted
+                                        ? AgriClaimColors.primaryColor
+                                        : Colors.white,
+                                    textColor: accepted
+                                        ? Colors.white
+                                        : AgriClaimColors.primaryColor,
+                                    borderColor: AgriClaimColors.primaryColor,
+                                    text: "Approve Claim"),
+                                PrimaryButton(
+                                  onPressed: () {
+                                    ref
+                                        .read(
+                                            claimAcceptedStateProvider.notifier)
+                                        .state = false;
+                                  },
+                                  buttonColor:
+                                      accepted ? Colors.white : Colors.red,
+                                  textColor:
+                                      accepted ? Colors.red : Colors.white,
+                                  borderColor: Colors.red,
+                                  text: "Reject Claim",
+                                ),
+                              ],
+                            ),
+                            Visibility(
+                              visible: accepted,
+                              child: FormTextField(
+                                fieldName: "compensation",
+                                label: "Compensation Amount",
+                                keyboardType: TextInputType.number,
+                                validators: [FormBuilderValidators.min(1)],
+                              ),
+                            ),
+                            SizedBox(height: 2.h),
+                            SubmissionButton(
+                              text: "Submit Claim",
+                              onSubmit: () => updateClaim(formKey, context, ref,
+                                  claim.claimId, accepted),
+                              afterSubmit: (context) {
+                                context.pop();
+                              },
+                              buttonColor: Colors.white,
+                              textColor: AgriClaimColors.tertiaryColor,
+                            ),
+                          ],
+                        );
                       },
-                      buttonColor: Colors.white,
-                      textColor: AgriClaimColors.tertiaryColor,
                     ),
                   ],
                 )),
@@ -177,216 +189,5 @@ class ClaimReviewPage extends ConsumerWidget {
         accepted: accepted);
 
     return true;
-  }
-}
-
-class VideoDetailsCard extends StatelessWidget {
-  final ClaimMedia video;
-  const VideoDetailsCard({Key? key, required this.video}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        ClaimInfoPair(
-            value: "Submitted Time: ",
-            data: getDateTimeIn12HrFormat(video.capturedDateTime)),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            SizedBox(width: 1.h),
-            Text(
-              "Accepted: ",
-              style: TextStyle(
-                  fontSize: 2.4.h,
-                  fontWeight: FontWeight.w700,
-                  color: AgriClaimColors.primaryColor),
-            ),
-            SizedBox(width: 1.h),
-            video.accepted
-                ? Icon(
-                    FontAwesomeIcons.circleCheck,
-                    color: AgriClaimColors.secondaryColor,
-                    size: 4.h,
-                  )
-                : Icon(
-                    FontAwesomeIcons.circleXmark,
-                    color: Colors.red,
-                    size: 4.h,
-                  ),
-          ],
-        ),
-      ],
-    );
-  }
-}
-
-class PhotoAcceptedInfo extends StatelessWidget {
-  const PhotoAcceptedInfo({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Icon(
-          FontAwesomeIcons.circleCheck,
-          color: AgriClaimColors.secondaryColor,
-          size: 3.h,
-        ),
-        Flexible(
-          child: Text(
-            " - The provided photo is within the farm boundaries",
-            style: TextStyle(
-              fontSize: 2.h,
-            ),
-            textAlign: TextAlign.justify,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class PhotoRejectedInfo extends StatelessWidget {
-  const PhotoRejectedInfo({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Icon(
-          FontAwesomeIcons.circleXmark,
-          color: Colors.red,
-          size: 3.h,
-        ),
-        Flexible(
-          child: Text(
-            " - The provided photo is NOT within the farm boundaries",
-            style: TextStyle(
-              fontSize: 2.h,
-            ),
-            textAlign: TextAlign.justify,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class SectionDivider extends StatelessWidget {
-  final String sectionName;
-  const SectionDivider({Key? key, required this.sectionName}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        const Expanded(
-          child: Divider(
-            color: AgriClaimColors.primaryColor,
-            height: 0,
-            thickness: 1,
-          ),
-        ),
-        SizedBox(width: 1.h),
-        Text(
-          sectionName,
-          style: TextStyle(
-              fontSize: 2.6.h,
-              fontWeight: FontWeight.w700,
-              color: AgriClaimColors.primaryColor),
-        ),
-        SizedBox(width: 1.h),
-        const Expanded(
-          child: Divider(
-            color: AgriClaimColors.primaryColor,
-            height: 0,
-            thickness: 1,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class ClaimInfoPair extends StatelessWidget {
-  final String value;
-  final String data;
-  const ClaimInfoPair({Key? key, e, required this.value, required this.data})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(top: 1.h),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          SizedBox(width: 1.h),
-          Text(
-            "$value :",
-            style: TextStyle(
-                fontSize: 2.4.h,
-                fontWeight: FontWeight.w700,
-                color: AgriClaimColors.primaryColor),
-          ),
-          SizedBox(width: 1.h),
-          Flexible(
-            child: Text(
-              data,
-              style: TextStyle(
-                fontSize: 2.2.h,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class NoteSection extends StatelessWidget {
-  final String value;
-  final String data;
-  const NoteSection({Key? key, required this.value, required this.data})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Padding(
-          padding: EdgeInsets.only(left: 1.h),
-          child: Text(
-            value,
-            style: TextStyle(
-                fontSize: 2.4.h,
-                fontWeight: FontWeight.w700,
-                color: AgriClaimColors.primaryColor),
-          ),
-        ),
-        SizedBox(width: 1.h),
-        Padding(
-          padding: EdgeInsets.only(left: 1.h),
-          child: Text(
-            data,
-            style: TextStyle(
-              fontSize: 2.2.h,
-            ),
-            textAlign: TextAlign.justify,
-          ),
-        ),
-      ],
-    );
   }
 }

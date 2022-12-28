@@ -106,10 +106,12 @@ class ClaimRepository {
       required bool accepted}) async {
     try {
       await _store.doc("${DatabaseNames.claim}/$claimId").update({
-        'compensation': double.parse(data["compensation"]),
+        'compensation': data["compensation"] != null
+            ? double.parse(data["compensation"])
+            : 0.0,
         'officerNote': data["officerNote"],
         'approved': accepted,
-        'status': "Completed",
+        'status': ClaimStates.completed.name,
       });
       return true;
     } catch (e) {

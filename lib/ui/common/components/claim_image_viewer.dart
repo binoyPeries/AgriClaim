@@ -1,6 +1,7 @@
 import 'package:agriclaim/models/claim_media.dart';
 import 'package:agriclaim/routes.dart';
 import 'package:agriclaim/ui/constants/colors.dart';
+import 'package:agriclaim/utils/helper_functions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,7 @@ class _ClaimImagesViewerState extends State<ClaimImagesViewer> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: widget.images.isNotEmpty ? 100.w : 10,
+      height: widget.images.isNotEmpty ? 90.w : 4.h,
       child: GridView.builder(
           physics: const ScrollPhysics(),
           scrollDirection: Axis.horizontal,
@@ -54,6 +55,19 @@ class _ClaimImagesViewerState extends State<ClaimImagesViewer> {
                       Icons.error,
                       size: 3.h,
                     )),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    getDateTimeIn12HrFormat(
+                        widget.images[index].capturedDateTime),
+                    style: TextStyle(
+                      color: AgriClaimColors.primaryColor,
+                      fontSize: 2.h,
+                      backgroundColor: Colors.white,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
                 Align(

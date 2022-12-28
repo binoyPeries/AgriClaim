@@ -71,3 +71,7 @@ List<XFile> getImageFileList(List<ClaimMedia> media) {
   }
   return result;
 }
+
+String getDateTimeIn12HrFormat(DateTime time) {
+  return DateFormat('dd-MM-yyyy hh:mm a').format(time);
+}

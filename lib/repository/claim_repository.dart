@@ -106,4 +106,21 @@ class ClaimRepository {
     });
     return claimList;
   }
+
+  Stream<List<Claim>> getClaimsListForOfficer() {
+    final claimList = _store
+        .collection(DatabaseNames.claim)
+        .where('assignedOfficer', isEqualTo: loggedUserId)
+        .where('status', isEqualTo: "pending")
+        .snapshots()
+        .map((event) {
+      final result = event.docs.map((element) {
+        final data = {"claimId": element.id, ...element.data()};
+        Claim claim = Claim.fromJson(data);
+        return claim;
+      }).toList();
+      return result;
+    });
+    return claimList;
+  }
 }

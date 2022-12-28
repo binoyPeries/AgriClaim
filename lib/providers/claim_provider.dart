@@ -27,3 +27,10 @@ final claimFarmProvider =
   final value = ref.watch(farmRepositoryProvider).getFarm(farmId);
   return value;
 });
+
+final claimListForOfficerProvider =
+    StreamProvider.autoDispose<List<Claim>>((ref) {
+  final claimRepository = ref.watch(claimRepositoryProvider);
+  final claimList = claimRepository.getClaimsListForOfficer();
+  return claimList;
+});

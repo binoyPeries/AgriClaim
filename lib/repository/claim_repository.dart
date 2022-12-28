@@ -107,11 +107,31 @@ class ClaimRepository {
     return claimList;
   }
 
-  Stream<List<Claim>> getClaimsListForOfficer() {
+  Stream<List<Claim>> searchClaimsList(String claimId) {
+    print("claimId");
+    print(claimId);
     final claimList = _store
         .collection(DatabaseNames.claim)
         .where('assignedOfficer', isEqualTo: loggedUserId)
-        .where('status', isEqualTo: "pending")
+        .snapshots()
+        .map((event) {
+      final result = event.docs.map((element) {
+        final data = {"claimId": element.id, ...element.data()};
+        Claim claim = Claim.fromJson(data);
+        return claim;
+      }).toList();
+      return result
+          .where((element) => element.claimId.startsWith(claimId))
+          .toList();
+    });
+    return claimList;
+  }
+
+  Stream<List<Claim>> getClaimsListForOfficer(ClaimStates claimType) {
+    final claimList = _store
+        .collection(DatabaseNames.claim)
+        .where('assignedOfficer', isEqualTo: loggedUserId)
+        .where('status', isEqualTo: claimType.name)
         .snapshots()
         .map((event) {
       final result = event.docs.map((element) {

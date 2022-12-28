@@ -1,6 +1,6 @@
+import 'package:agriclaim/ui/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../../providers/claim_provider.dart';
 
 class SearchPage extends ConsumerWidget {
@@ -9,7 +9,7 @@ class SearchPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     TextEditingController editingController = TextEditingController();
-    final claimList = ref.watch(claimListForOfficerProvider);
+    var claimList = ref.watch(searchClaimList("-"));
 
     return Column(children: [
       Padding(
@@ -20,7 +20,7 @@ class SearchPage extends ConsumerWidget {
         child: TextField(
           controller: editingController,
           onChanged: (value) async {
-            print(value);
+            claimList = ref.read(searchClaimList(value));
           },
           decoration: const InputDecoration(
             labelText: "Search",
@@ -34,14 +34,26 @@ class SearchPage extends ConsumerWidget {
       ),
       claimList.when(
           data: (items) {
+            List widgets = [];
+            for (var element in items) {
+              if (element.claimId.startsWith(editingController.text)) {
+                widgets.add(
+                  Text("Claim ID: ${element.claimId}"),
+                );
+              }
+            }
             return Expanded(
               child: ListView.builder(
                 shrinkWrap: true,
-                itemCount: items.length,
+                itemCount: widgets.length,
                 itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(items[index].claimReference),
-                  );
+                  return Container(
+                      padding: const EdgeInsets.all(15),
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                        color: AgriClaimColors.primaryColor,
+                      )),
+                      child: widgets[index]);
                 },
               ),
             );

@@ -28,9 +28,17 @@ final claimFarmProvider =
   return value;
 });
 
-final claimListForOfficerProvider =
-    StreamProvider.autoDispose<List<Claim>>((ref) {
+final claimListForOfficerProvider = StreamProvider.autoDispose
+    .family<List<Claim>, ClaimStates>((ref, claimType) {
   final claimRepository = ref.watch(claimRepositoryProvider);
-  final claimList = claimRepository.getClaimsListForOfficer();
+  final claimList = claimRepository.getClaimsListForOfficer(claimType);
+  return claimList;
+});
+
+final searchClaimList =
+    StreamProvider.autoDispose.family<List<Claim>, String>((ref, claimId) {
+  final claimRepository = ref.watch(claimRepositoryProvider);
+  final claimList = claimRepository.searchClaimsList(claimId);
+  print(claimList);
   return claimList;
 });

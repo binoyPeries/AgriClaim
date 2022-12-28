@@ -8,13 +8,15 @@ import '../../models/claim.dart';
 import '../../providers/claim_provider.dart';
 import '../../routes.dart';
 import '../constants/colors.dart';
+import '../constants/enums.dart';
 
 class AssignedClaimsPage extends ConsumerWidget {
   const AssignedClaimsPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final claimList = ref.watch(claimListForOfficerProvider);
+    final claimList =
+        ref.watch(claimListForOfficerProvider(ClaimStates.inReview));
 
     return claimList.when(
         data: (item) {

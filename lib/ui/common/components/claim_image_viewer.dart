@@ -5,6 +5,7 @@ import 'package:agriclaim/utils/helper_functions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sizer/sizer.dart';
 
@@ -70,6 +71,22 @@ class _ClaimImagesViewerState extends State<ClaimImagesViewer> {
                     ),
                   ),
                 ),
+                Align(
+                    alignment: Alignment.topRight,
+                    child: Padding(
+                      padding: EdgeInsets.only(right: 1.h, top: 1.h),
+                      child: widget.images[index].accepted
+                          ? Icon(
+                              FontAwesomeIcons.circleCheck,
+                              color: AgriClaimColors.secondaryColor,
+                              size: 6.h,
+                            )
+                          : Icon(
+                              FontAwesomeIcons.circleXmark,
+                              color: Colors.red,
+                              size: 6.h,
+                            ),
+                    )),
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: DotsIndicator(

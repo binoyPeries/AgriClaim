@@ -9,6 +9,7 @@ import 'package:agriclaim/ui/constants/colors.dart';
 import 'package:agriclaim/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:sizer/sizer.dart';
 
@@ -75,11 +76,126 @@ class ClaimViewPage extends ConsumerWidget {
             const SectionDivider(sectionName: "Submitted Video"),
             SizedBox(height: 3.h),
             if (claim.claimVideo != null)
-              ClaimVideoPlayer(video: claim.claimVideo as ClaimMedia),
+              VideoDetailsCard(video: claim.claimVideo as ClaimMedia),
             SizedBox(height: 2.h),
+            if (claim.claimVideo != null)
+              ClaimVideoPlayer(video: claim.claimVideo as ClaimMedia),
+            SizedBox(height: 3.h),
+            Text(
+              "NOTE:",
+              style: TextStyle(
+                fontSize: 2.4.h,
+                fontWeight: FontWeight.w700,
+                color: AgriClaimColors.primaryColor,
+              ),
+            ),
+            SizedBox(height: 1.h),
+            const PhotoAcceptedInfo(),
+            SizedBox(height: 1.h),
+            const PhotoRejectedInfo(),
+            SizedBox(height: 3.h),
           ],
         ),
       ),
+    );
+  }
+}
+
+class VideoDetailsCard extends StatelessWidget {
+  final ClaimMedia video;
+  const VideoDetailsCard({Key? key, required this.video}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        ClaimInfoPair(
+            value: "Submitted Time: ",
+            data: getDateTimeIn12HrFormat(video.capturedDateTime)),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            SizedBox(width: 1.h),
+            Text(
+              "Accepted: ",
+              style: TextStyle(
+                  fontSize: 2.4.h,
+                  fontWeight: FontWeight.w700,
+                  color: AgriClaimColors.primaryColor),
+            ),
+            SizedBox(width: 1.h),
+            video.accepted
+                ? Icon(
+                    FontAwesomeIcons.circleCheck,
+                    color: AgriClaimColors.secondaryColor,
+                    size: 4.h,
+                  )
+                : Icon(
+                    FontAwesomeIcons.circleXmark,
+                    color: Colors.red,
+                    size: 4.h,
+                  ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class PhotoAcceptedInfo extends StatelessWidget {
+  const PhotoAcceptedInfo({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Icon(
+          FontAwesomeIcons.circleCheck,
+          color: AgriClaimColors.secondaryColor,
+          size: 3.h,
+        ),
+        Flexible(
+          child: Text(
+            " - The provided photo is within the farm boundaries",
+            style: TextStyle(
+              fontSize: 2.h,
+            ),
+            textAlign: TextAlign.justify,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class PhotoRejectedInfo extends StatelessWidget {
+  const PhotoRejectedInfo({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Icon(
+          FontAwesomeIcons.circleXmark,
+          color: Colors.red,
+          size: 3.h,
+        ),
+        Flexible(
+          child: Text(
+            " - The provided photo is NOT within the farm boundaries",
+            style: TextStyle(
+              fontSize: 2.h,
+            ),
+            textAlign: TextAlign.justify,
+          ),
+        ),
+      ],
     );
   }
 }

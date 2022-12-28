@@ -55,7 +55,7 @@ class UserRepository {
 
   Future<DocumentReference<Map<String, dynamic>>> addOfficer(
       Map<String, dynamic> userData) async {
-    Map<String, dynamic> data = {"uid": loggedUserId, ...userData};
+    Map<String, dynamic> data = {"officerId": loggedUserId, ...userData};
     try {
       final result = await _store.collection(DatabaseNames.officer).add(data);
       return result;
@@ -67,14 +67,13 @@ class UserRepository {
   Stream<Officer?> getLoggedInOfficerDetails(String phoneNumber) {
     final officer = _store
         .collection(DatabaseNames.officer)
-        .where('uid', isEqualTo: loggedUserId)
+        .where('officerId', isEqualTo: loggedUserId)
         .snapshots()
         .map((event) {
       final result = event.docs.map((element) {
         final data = {
           "docId": element.id,
           "phoneNumber": phoneNumber,
-          "officerId": loggedUserId,
           ...element.data()
         };
         Officer officer = Officer.fromJson(data);

@@ -9,6 +9,7 @@ class Officer {
   final String lastName;
   final String email;
   final String phoneNumber;
+  final String officerRegNo;
   // this is to make sure that docID will not be in  the toJson method
   static toNull(_) => null;
   @JsonKey(toJson: toNull, includeIfNull: false)
@@ -21,6 +22,7 @@ class Officer {
     this.email,
     this.phoneNumber,
     this.docId,
+    this.officerRegNo,
   );
 
   factory Officer.fromJson(Map<String, dynamic> json) =>

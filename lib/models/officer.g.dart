@@ -13,6 +13,7 @@ Officer _$OfficerFromJson(Map<String, dynamic> json) => Officer(
       json['email'] as String,
       json['phoneNumber'] as String,
       json['docId'] as String,
+      json['officerRegNo'] as String,
     );
 
 Map<String, dynamic> _$OfficerToJson(Officer instance) {
@@ -22,8 +23,9 @@ Map<String, dynamic> _$OfficerToJson(Officer instance) {
     'lastName': instance.lastName,
     'email': instance.email,
     'phoneNumber': instance.phoneNumber,
-    'docId': instance.docId,
+    'officerRegNo': instance.officerRegNo,
   };
+
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
       val[key] = value;

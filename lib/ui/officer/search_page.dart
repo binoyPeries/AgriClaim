@@ -6,6 +6,39 @@ class SearchPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return const Text("Search");
+    TextEditingController editingController = TextEditingController();
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(
+            vertical: 20.0,
+            horizontal: 5.0,
+          ),
+          child: TextField(
+            controller: editingController,
+            onChanged: (value) {},
+            decoration: const InputDecoration(
+              labelText: "Search",
+              hintText: "Search",
+              prefixIcon: Icon(Icons.search),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(50.0)),
+              ),
+            ),
+          ),
+        ),
+        Expanded(
+          child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: 3,
+            itemBuilder: (context, index) {
+              return ListTile(
+                title: Text(index.toString()),
+              );
+            },
+          ),
+        ),
+      ],
+    );
   }
 }

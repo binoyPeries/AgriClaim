@@ -1,7 +1,9 @@
 import 'dart:io';
 
+import 'package:agriclaim/models/claim_media.dart';
 import 'package:agriclaim/ui/common/components/primary_button.dart';
 import 'package:agriclaim/ui/constants/colors.dart';
+import 'package:agriclaim/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
@@ -11,7 +13,7 @@ import 'package:video_player/video_player.dart';
 class FormVideoField extends StatefulWidget {
   final String fieldName;
   final int maxDurationInSec;
-  final Function(XFile) setVideoOnParent;
+  final Function(ClaimMedia) setVideoOnParent;
 
   const FormVideoField(
       {Key? key,
@@ -30,18 +32,34 @@ class _FormVideoFieldState extends State<FormVideoField> {
 
   File? capturedVideo;
   bool videoCaptured = false;
+  bool isLoading = false;
 
   void selectVideo() async {
+    setState(() {
+      isLoading = true;
+    });
     final video = await imagePicker.pickVideo(
         source: ImageSource.camera,
         maxDuration: Duration(seconds: widget.maxDurationInSec));
     if (video != null) {
       capturedVideo = File(video.path);
       videoCaptured = true;
-      widget.setVideoOnParent(video);
+      final location = await getCurrentLocation();
+      final time = DateTime.now();
+      //:TODO add the boundary checking logic here
+      ClaimMedia media = ClaimMedia(
+          mediaFile: video,
+          latitude: location[0],
+          longitude: location[1],
+          capturedDateTime: time,
+          accepted: true,
+          mediaUrl: "");
+      widget.setVideoOnParent(media);
       _controller = VideoPlayerController.file(capturedVideo!)
         ..initialize().then((_) {
-          setState(() {});
+          setState(() {
+            isLoading = false;
+          });
           _controller.setLooping(true);
         });
     }
@@ -84,8 +102,15 @@ class _FormVideoFieldState extends State<FormVideoField> {
                     ),
                   ],
                 )
-              : SizedBox(height: 1.h),
-        SizedBox(height: 3.h),
+              : SizedBox(height: 10.h),
+        isLoading
+            ? const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              )
+            : SizedBox(height: 10.h),
         PrimaryButton(
             onPressed: () {
               selectVideo();

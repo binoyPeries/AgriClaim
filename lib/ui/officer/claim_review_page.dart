@@ -8,13 +8,16 @@ import 'package:agriclaim/ui/common/components/default_scaffold.dart';
 import 'package:agriclaim/ui/constants/colors.dart';
 import 'package:agriclaim/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:sizer/sizer.dart';
 
 import '../common/components/primary_button.dart';
+import '../common/components/submission_button.dart';
 import '../common/form_fields/form_text_area_field.dart';
 import '../common/form_fields/form_text_field.dart';
 
@@ -25,6 +28,7 @@ class ClaimReviewPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final accepted = ref.watch(claimAcceptedStateProvider);
+    final formKey = GlobalKey<FormBuilderState>();
 
     return DefaultScaffold(
       appBar: const DefaultAppBar(
@@ -84,65 +88,95 @@ class ClaimReviewPage extends ConsumerWidget {
             SizedBox(height: 1.h),
             const PhotoRejectedInfo(),
             SizedBox(height: 3.h),
-            FormTextAreaField(
-              fieldName: "officerNote",
-              label: "Notes",
-              maxLines: 3,
-              validators: [FormBuilderValidators.min(1)],
-            ),
-            SizedBox(height: 3.h),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                PrimaryButton(
-                    onPressed: () {
-                      ref.read(claimAcceptedStateProvider.notifier).state =
-                          true;
-                    },
-                    buttonColor:
-                        accepted ? AgriClaimColors.primaryColor : Colors.white,
-                    textColor:
-                        accepted ? Colors.white : AgriClaimColors.primaryColor,
-                    borderColor: AgriClaimColors.primaryColor,
-                    text: "Approve Claim"),
-                PrimaryButton(
-                  onPressed: () {
-                    ref.read(claimAcceptedStateProvider.notifier).state = false;
-                  },
-                  buttonColor: accepted ? Colors.white : Colors.red,
-                  textColor: accepted ? Colors.red : Colors.white,
-                  borderColor: Colors.red,
-                  text: "Reject Claim",
-                ),
-              ],
-            ),
-            Visibility(
-              visible: accepted,
-              child: FormTextField(
-                fieldName: "compensation",
-                label: "Compensation Amount",
-                keyboardType: TextInputType.text,
-                validators: [FormBuilderValidators.min(1)],
-              ),
-            ),
-            SizedBox(height: 2.h),
-            Visibility(
-              visible: accepted,
-              child: PrimaryButton(
-                onPressed: () {
-                  ref.read(claimAcceptedStateProvider.notifier).state = true;
-                },
-                buttonColor: Colors.white,
-                textColor: AgriClaimColors.primaryColor,
-                borderColor: AgriClaimColors.primaryColor,
-                text: "Submit",
-              ),
-            ),
+            FormBuilder(
+                key: formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const FormTextAreaField(
+                      fieldName: "officerNote",
+                      label: "Notes",
+                      maxLines: 3,
+                      required: false,
+                    ),
+                    SizedBox(height: 3.h),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        PrimaryButton(
+                            onPressed: () {
+                              ref
+                                  .read(claimAcceptedStateProvider.notifier)
+                                  .state = true;
+                            },
+                            buttonColor: accepted
+                                ? AgriClaimColors.primaryColor
+                                : Colors.white,
+                            textColor: accepted
+                                ? Colors.white
+                                : AgriClaimColors.primaryColor,
+                            borderColor: AgriClaimColors.primaryColor,
+                            text: "Approve Claim"),
+                        PrimaryButton(
+                          onPressed: () {
+                            ref
+                                .read(claimAcceptedStateProvider.notifier)
+                                .state = false;
+                          },
+                          buttonColor: accepted ? Colors.white : Colors.red,
+                          textColor: accepted ? Colors.red : Colors.white,
+                          borderColor: Colors.red,
+                          text: "Reject Claim",
+                        ),
+                      ],
+                    ),
+                    Visibility(
+                      visible: accepted,
+                      child: FormTextField(
+                        fieldName: "compensation",
+                        label: "Compensation Amount",
+                        keyboardType: TextInputType.number,
+                        validators: [FormBuilderValidators.min(1)],
+                      ),
+                    ),
+                    SizedBox(height: 2.h),
+                    SubmissionButton(
+                      text: "Submit Claim",
+                      onSubmit: () => updateClaim(
+                          formKey, context, ref, claim.claimId, accepted),
+                      afterSubmit: (context) {
+                        context.pop();
+                      },
+                      buttonColor: Colors.white,
+                      textColor: AgriClaimColors.tertiaryColor,
+                    ),
+                  ],
+                )),
             SizedBox(height: 3.h),
           ],
         ),
       ),
     );
+  }
+
+  Future<bool> updateClaim(
+      GlobalKey<FormBuilderState> formKey,
+      BuildContext context,
+      WidgetRef ref,
+      String claimId,
+      bool accepted) async {
+    final isValid = formKey.currentState?.saveAndValidate() ?? false;
+    final claimRepository = ref.read(claimRepositoryProvider);
+    if (!isValid) {
+      return false;
+    }
+    print(formKey.currentState?.value);
+    await claimRepository.updateClaim(
+        claimId: claimId,
+        data: formKey.currentState?.value ?? {},
+        accepted: accepted);
+
+    return true;
   }
 }
 

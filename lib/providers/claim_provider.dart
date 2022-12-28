@@ -43,5 +43,5 @@ final searchClaimList =
 });
 
 final claimAcceptedStateProvider = StateProvider<bool>((ref) {
-  return false;
+  return true;
 });

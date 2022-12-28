@@ -100,6 +100,23 @@ class ClaimRepository {
     }
   }
 
+  Future<bool> updateClaim(
+      {required Map<String, dynamic> data,
+      required String claimId,
+      required bool accepted}) async {
+    try {
+      await _store.doc("${DatabaseNames.claim}/$claimId").update({
+        'compensation': double.parse(data["compensation"]),
+        'officerNote': data["officerNote"],
+        'approved': accepted,
+        'status': "Completed",
+      });
+      return true;
+    } catch (e) {
+      throw AgriclaimException(e.toString());
+    }
+  }
+
   Stream<List<Claim>> getClaimsList(ClaimStates claimType) {
     final claimList = _store
         .collection(DatabaseNames.claim)

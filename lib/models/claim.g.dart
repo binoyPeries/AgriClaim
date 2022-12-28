@@ -12,8 +12,12 @@ Claim _$ClaimFromJson(Map<String, dynamic> json) => Claim(
       json['farmerId'] as String,
       json['farmId'] as String,
       json['farmerNote'] as String?,
-      (json['claimPhotos'] as List<dynamic>).map((e) => e as String).toList(),
-      json['claimVideo'] as String?,
+      (json['claimPhotos'] as List<dynamic>)
+          .map((e) => ClaimMedia.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      json['claimVideo'] == null
+          ? null
+          : ClaimMedia.fromJson(json['claimVideo'] as Map<String, dynamic>),
       (json['compensation'] as num).toDouble(),
       json['officerNote'] as String?,
       json['status'] as String,

@@ -7,12 +7,13 @@ part of 'claim_media.dart';
 // **************************************************************************
 
 ClaimMedia _$ClaimMediaFromJson(Map<String, dynamic> json) => ClaimMedia(
-      ClaimMedia.toNull(json['mediaFile']),
-      json['mediaUrl'] as String,
-      (json['latitude'] as num).toDouble(),
-      (json['longitude'] as num).toDouble(),
-      json['accepted'] as bool,
-      ClaimMedia._fromJson(json['capturedDateTime'] as String),
+      mediaFile: ClaimMedia.toNull(json['mediaFile']),
+      mediaUrl: json['mediaUrl'] as String,
+      latitude: (json['latitude'] as num).toDouble(),
+      longitude: (json['longitude'] as num).toDouble(),
+      accepted: json['accepted'] as bool,
+      capturedDateTime:
+          ClaimMedia._fromJson(json['capturedDateTime'] as String),
     );
 
 Map<String, dynamic> _$ClaimMediaToJson(ClaimMedia instance) {

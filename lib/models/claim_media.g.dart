@@ -7,7 +7,7 @@ part of 'claim_media.dart';
 // **************************************************************************
 
 ClaimMedia _$ClaimMediaFromJson(Map<String, dynamic> json) => ClaimMedia(
-      mediaFile: ClaimMedia.toNull(json['mediaFile']),
+      mediaFile: ClaimMedia.returnDummyFile(json['mediaFile']),
       mediaUrl: json['mediaUrl'] as String,
       latitude: (json['latitude'] as num).toDouble(),
       longitude: (json['longitude'] as num).toDouble(),

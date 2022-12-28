@@ -13,7 +13,8 @@ class ClaimMedia {
   @JsonKey(fromJson: _fromJson, toJson: _toJson)
   final DateTime capturedDateTime;
   static toNull(_) => null;
-  @JsonKey(toJson: toNull, fromJson: toNull, includeIfNull: false)
+  static returnDummyFile(_) => XFile("");
+  @JsonKey(toJson: toNull, fromJson: returnDummyFile, includeIfNull: false)
   final XFile mediaFile;
 
   ClaimMedia({

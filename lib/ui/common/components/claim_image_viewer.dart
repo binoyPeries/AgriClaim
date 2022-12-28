@@ -1,3 +1,4 @@
+import 'package:agriclaim/models/claim_media.dart';
 import 'package:agriclaim/routes.dart';
 import 'package:agriclaim/ui/constants/colors.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -7,7 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'package:sizer/sizer.dart';
 
 class ClaimImagesViewer extends StatefulWidget {
-  final List<String> images;
+  final List<ClaimMedia> images;
 
   const ClaimImagesViewer({Key? key, required this.images}) : super(key: key);
 
@@ -32,9 +33,9 @@ class _ClaimImagesViewerState extends State<ClaimImagesViewer> {
                 GestureDetector(
                   onTap: () => context.push(
                       AgriClaimRoutes.viewSingleClaimImage,
-                      extra: widget.images[index]),
+                      extra: widget.images[index].mediaUrl),
                   child: CachedNetworkImage(
-                    imageUrl: widget.images[index],
+                    imageUrl: widget.images[index].mediaUrl,
                     imageBuilder: (context, imageProvider) => Container(
                       decoration: BoxDecoration(
                         image: DecorationImage(

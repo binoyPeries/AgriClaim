@@ -1,3 +1,4 @@
+import 'package:agriclaim/models/claim_media.dart';
 import 'package:agriclaim/ui/constants/colors.dart';
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
@@ -5,8 +6,8 @@ import 'package:sizer/sizer.dart';
 import 'package:video_player/video_player.dart';
 
 class ClaimVideoPlayer extends StatefulWidget {
-  final String videoUrl;
-  const ClaimVideoPlayer({Key? key, required this.videoUrl}) : super(key: key);
+  final ClaimMedia video;
+  const ClaimVideoPlayer({Key? key, required this.video}) : super(key: key);
 
   @override
   State<ClaimVideoPlayer> createState() => _ClaimVideoPlayerState();
@@ -24,7 +25,8 @@ class _ClaimVideoPlayerState extends State<ClaimVideoPlayer> {
   }
 
   Future<void> initializePlayer() async {
-    _videoPlayerController = VideoPlayerController.network(widget.videoUrl);
+    _videoPlayerController =
+        VideoPlayerController.network(widget.video.mediaUrl);
 
     await _videoPlayerController.initialize();
     _createChewieController();

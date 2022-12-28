@@ -1,4 +1,5 @@
 import 'package:agriclaim/models/claim.dart';
+import 'package:agriclaim/models/claim_media.dart';
 import 'package:agriclaim/providers/claim_provider.dart';
 import 'package:agriclaim/ui/common/components/claim_image_viewer.dart';
 import 'package:agriclaim/ui/common/components/claim_video_player.dart';
@@ -74,7 +75,7 @@ class ClaimViewPage extends ConsumerWidget {
             const SectionDivider(sectionName: "Submitted Video"),
             SizedBox(height: 3.h),
             if (claim.claimVideo != null)
-              ClaimVideoPlayer(videoUrl: claim.claimVideo as String),
+              ClaimVideoPlayer(video: claim.claimVideo as ClaimMedia),
             SizedBox(height: 2.h),
           ],
         ),

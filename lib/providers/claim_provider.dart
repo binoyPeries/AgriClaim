@@ -39,6 +39,9 @@ final searchClaimList =
     StreamProvider.autoDispose.family<List<Claim>, String>((ref, claimId) {
   final claimRepository = ref.watch(claimRepositoryProvider);
   final claimList = claimRepository.searchClaimsList(claimId);
-  print(claimList);
   return claimList;
+});
+
+final claimAcceptedStateProvider = StateProvider<bool>((ref) {
+  return false;
 });

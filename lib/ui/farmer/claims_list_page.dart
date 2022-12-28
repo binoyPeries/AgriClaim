@@ -45,16 +45,7 @@ class ClaimsListPage extends ConsumerWidget {
                         height: 40.h),
                     Center(
                       child: Text(
-                        "Sorry !!",
-                        style: TextStyle(
-                            color: AgriClaimColors.tertiaryColor,
-                            fontSize: 3.h,
-                            fontWeight: FontWeight.w600),
-                      ),
-                    ),
-                    Center(
-                      child: Text(
-                        "No ${getClaimPageName(claimType)} at the moment",
+                        "No ${getClaimPageName(claimType).toLowerCase()} at the moment.",
                         style: TextStyle(
                             color: AgriClaimColors.secondaryColor,
                             fontSize: 2.2.h,

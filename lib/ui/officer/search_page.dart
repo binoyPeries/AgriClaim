@@ -19,8 +19,8 @@ class SearchPage extends ConsumerWidget {
         ),
         child: TextField(
           controller: editingController,
-          onChanged: (value) async {
-            claimList = ref.read(searchClaimList(value));
+          onChanged: (value) {
+            claimList = ref.refresh(searchClaimList(value));
           },
           decoration: const InputDecoration(
             labelText: "Search",
@@ -34,24 +34,19 @@ class SearchPage extends ConsumerWidget {
       ),
       claimList.when(
           data: (items) {
-            List widgets = [];
-            for (var element in items) {
-              widgets.add(
-                Text("Claim ID: ${element.claimId}"),
-              );
-            }
             return Expanded(
               child: ListView.builder(
                 shrinkWrap: true,
-                itemCount: widgets.length,
+                itemCount: items.length,
                 itemBuilder: (context, index) {
                   return Container(
-                      padding: const EdgeInsets.all(15),
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                        color: AgriClaimColors.primaryColor,
-                      )),
-                      child: widgets[index]);
+                    padding: const EdgeInsets.all(15),
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                      color: AgriClaimColors.primaryColor,
+                    )),
+                    child: Text("Claim ID: ${items[index].claimId}"),
+                  );
                 },
               ),
             );

@@ -1,13 +1,13 @@
 import 'dart:io';
 
 import 'package:agriclaim/models/claim.dart';
+import 'package:agriclaim/models/claim_media.dart';
 import 'package:agriclaim/ui/constants/database.dart';
 import 'package:agriclaim/ui/constants/enums.dart';
 import 'package:agriclaim/utils/agriclaim_exception.dart';
 import 'package:agriclaim/utils/helper_functions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:video_compress/video_compress.dart';
 
 class ClaimRepository {
@@ -17,17 +17,20 @@ class ClaimRepository {
 
   ClaimRepository(this._store, this._storage, this.loggedUserId);
 
-  Future<List<String>> _uploadImage(List<XFile> images) async {
+  Future<List<ClaimMedia>> _uploadImage(List<ClaimMedia> images) async {
     final storageRef = _storage.ref();
     final claimPhotosRef = storageRef.child("claims/images");
-    List<String> imageUrls = [];
+    List<ClaimMedia> imageUrls = [];
     for (final item in images) {
-      final fileName = item.name;
+      final imageFile = item.mediaFile;
+      final fileName = imageFile.name;
       try {
         final snapshot =
-            await claimPhotosRef.child(fileName).putFile(File(item.path));
+            await claimPhotosRef.child(fileName).putFile(File(imageFile.path));
         final downloadUrl = await snapshot.ref.getDownloadURL();
-        imageUrls.add(downloadUrl);
+        // to add the image url to existing ClaimMedia object
+        final result = item.clone(mediaUrl: downloadUrl);
+        imageUrls.add(result);
       } on FirebaseException catch (e) {
         //:TODO check later
         throw AgriclaimException(e.message ?? "");
@@ -36,15 +39,15 @@ class ClaimRepository {
     return imageUrls;
   }
 
-  Future<String> _uploadVideo(XFile video) async {
+  Future<ClaimMedia> _uploadVideo(ClaimMedia video) async {
     final storageRef = _storage.ref();
     final claimPhotosRef = storageRef.child("claims/videos");
-
-    final fileName = video.name;
+    final videoFile = video.mediaFile;
+    final fileName = videoFile.name;
     try {
       // compress the video
       final compressedVideo = await VideoCompress.compressVideo(
-        video.path,
+        videoFile.path,
         quality: VideoQuality.LowQuality,
         includeAudio: false,
       );
@@ -52,7 +55,9 @@ class ClaimRepository {
           .child(fileName)
           .putFile(File(compressedVideo?.path ?? ""));
       final downloadUrl = await snapshot.ref.getDownloadURL();
-      return downloadUrl;
+      // to add the video url to existing ClaimMedia object
+      final result = video.clone(mediaUrl: downloadUrl);
+      return result;
     } on FirebaseException catch (e) {
       //:TODO check later
       throw AgriclaimException(e.message ?? "");
@@ -62,18 +67,23 @@ class ClaimRepository {
   Future<bool> createClaim(
       {required Map<String, dynamic> mediaData,
       required Map<String, dynamic> data}) async {
-    final List<XFile> photoList = mediaData['claimPhotos'];
+    final List<ClaimMedia> photoList = mediaData['claimPhotos'];
 
     Map<String, dynamic> finalDataMap = {...data};
 
-    final XFile? video = mediaData['claimVideo'];
+    final ClaimMedia? video = mediaData['claimVideo'];
     final imageUrlList = await _uploadImage(photoList);
 
-    finalDataMap["claimPhotos"] = imageUrlList;
+    // convert the list of objects to a list of maps
+    List<Map<String, dynamic>> images = [];
+    for (var element in imageUrlList) {
+      images.add(element.toJson());
+    }
+    finalDataMap["claimPhotos"] = images;
 
     if (video != null) {
       final uploadedVideo = await _uploadVideo(video);
-      finalDataMap["claimVideo"] = uploadedVideo;
+      finalDataMap["claimVideo"] = uploadedVideo.toJson();
     }
     finalDataMap["farmerId"] = loggedUserId;
     finalDataMap["status"] = ClaimStates.pending.name;

@@ -1,4 +1,7 @@
+import 'package:agriclaim/models/claim_media.dart';
 import 'package:agriclaim/ui/constants/enums.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 String convertPhoneToEmail(String phoneNumber) {
@@ -49,4 +52,26 @@ Map<String, dynamic> getDifferenceOfTwoMaps(
   });
 
   return finalMap;
+}
+
+Future<List<double>> getCurrentLocation() async {
+  await Geolocator.isLocationServiceEnabled();
+  await Geolocator.checkPermission();
+  await Geolocator.requestPermission();
+
+  Position position = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high);
+  return [position.latitude, position.longitude];
+}
+
+List<XFile> getImageFileList(List<ClaimMedia> media) {
+  List<XFile> result = [];
+  for (var el in media) {
+    result.add(el.mediaFile);
+  }
+  return result;
+}
+
+String getDateTimeIn12HrFormat(DateTime time) {
+  return DateFormat('dd-MM-yyyy hh:mm a').format(time);
 }

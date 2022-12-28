@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:sizer/sizer.dart';
 
 class DefaultScaffold extends StatelessWidget {
   final PreferredSizeWidget? appBar;
@@ -28,7 +29,7 @@ class DefaultScaffold extends StatelessWidget {
         child: Scaffold(
           appBar: appBar,
           body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+            padding: EdgeInsets.symmetric(horizontal: 5.w),
             child: body,
           ),
           bottomNavigationBar: bottomNavBar,

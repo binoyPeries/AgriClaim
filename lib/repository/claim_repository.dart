@@ -108,8 +108,6 @@ class ClaimRepository {
   }
 
   Stream<List<Claim>> searchClaimsList(String claimId) {
-    print("claimId");
-    print(claimId);
     final claimList = _store
         .collection(DatabaseNames.claim)
         .where('assignedOfficer', isEqualTo: loggedUserId)

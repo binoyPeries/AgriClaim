@@ -9,7 +9,7 @@ class SearchPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     TextEditingController editingController = TextEditingController();
-    var claimList = ref.watch(searchClaimList("-"));
+    var claimList = ref.watch(searchClaimList(editingController.text));
 
     return Column(children: [
       Padding(
@@ -36,11 +36,9 @@ class SearchPage extends ConsumerWidget {
           data: (items) {
             List widgets = [];
             for (var element in items) {
-              if (element.claimId.startsWith(editingController.text)) {
-                widgets.add(
-                  Text("Claim ID: ${element.claimId}"),
-                );
-              }
+              widgets.add(
+                Text("Claim ID: ${element.claimId}"),
+              );
             }
             return Expanded(
               child: ListView.builder(

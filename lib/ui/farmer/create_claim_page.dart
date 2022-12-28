@@ -1,3 +1,4 @@
+import 'package:agriclaim/models/claim_media.dart';
 import 'package:agriclaim/models/farm.dart';
 import 'package:agriclaim/providers/claim_provider.dart';
 import 'package:agriclaim/providers/farm_provider.dart';
@@ -14,18 +15,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:sizer/sizer.dart';
 
 class CreateClaimPage extends ConsumerWidget {
   CreateClaimPage({super.key});
-  List<XFile> imageList = [];
-  XFile? video;
-  setImageList(List<XFile> photoList) {
+  List<ClaimMedia> imageList = [];
+  ClaimMedia? video;
+  setImageList(List<ClaimMedia> photoList) {
     imageList = photoList;
   }
 
-  setVideo(XFile capturedVideo) {
+  setVideo(ClaimMedia capturedVideo) {
     video = capturedVideo;
   }
 

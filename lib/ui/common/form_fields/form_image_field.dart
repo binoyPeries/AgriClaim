@@ -1,8 +1,10 @@
 import 'dart:io';
 
+import 'package:agriclaim/models/claim_media.dart';
 import 'package:agriclaim/ui/common/components/info_snack_bar.dart';
 import 'package:agriclaim/ui/common/components/primary_button.dart';
 import 'package:agriclaim/ui/constants/colors.dart';
+import 'package:agriclaim/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
@@ -11,7 +13,7 @@ import 'package:sizer/sizer.dart';
 class FormImageField extends StatefulWidget {
   final String fieldName;
   final int maxImages;
-  final Function(List<XFile>) setImageListInParent;
+  final Function(List<ClaimMedia>) setImageListInParent;
 
   const FormImageField({
     Key? key,
@@ -26,18 +28,34 @@ class FormImageField extends StatefulWidget {
 
 class _FormImageFieldState extends State<FormImageField> {
   final ImagePicker imagePicker = ImagePicker();
-  List<XFile> imageFileList = [];
+  List<ClaimMedia> imageFileList = [];
+  bool isLoading = false;
 
   void selectImages() async {
+    setState(() {
+      isLoading = true;
+    });
     final XFile? selectedImages = await imagePicker.pickImage(
         source: ImageSource.camera, imageQuality: 50);
     if (selectedImages != null) {
       if (imageFileList.length < widget.maxImages) {
-        imageFileList.add(selectedImages);
+        final location = await getCurrentLocation();
+        final time = DateTime.now();
+        //:TODO add the boundary checking logic here
+        ClaimMedia media = ClaimMedia(
+            mediaFile: selectedImages,
+            latitude: location[0],
+            longitude: location[1],
+            capturedDateTime: time,
+            accepted: true,
+            mediaUrl: "");
+        imageFileList.add(media);
         widget.setImageListInParent(imageFileList);
       }
     }
-    setState(() {});
+    setState(() {
+      isLoading = false;
+    });
   }
 
   void deleteImage(int index) {
@@ -55,22 +73,26 @@ class _FormImageFieldState extends State<FormImageField> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         SizedBox(
-          height: imageFileList.isNotEmpty ? 40.h : 10,
+          height: imageFileList.isNotEmpty ? 40.h : 10.h,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: GridView.builder(
-                physics: const ScrollPhysics(),
-                scrollDirection: Axis.horizontal,
-                itemCount: imageFileList.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 1, mainAxisSpacing: 3.w),
-                itemBuilder: (BuildContext context, int index) {
-                  return ImageViewer(
-                    imageFileList: imageFileList,
-                    imageIndex: index,
-                    onPressed: () => deleteImage(index),
-                  );
-                }),
+            child: isLoading
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : GridView.builder(
+                    physics: const ScrollPhysics(),
+                    scrollDirection: Axis.horizontal,
+                    itemCount: imageFileList.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 1, mainAxisSpacing: 3.w),
+                    itemBuilder: (BuildContext context, int index) {
+                      return ImageViewer(
+                        imageFileList: getImageFileList(imageFileList),
+                        imageIndex: index,
+                        onPressed: () => deleteImage(index),
+                      );
+                    }),
           ),
         ),
         PrimaryButton(

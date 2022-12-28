@@ -1,3 +1,4 @@
+import 'package:agriclaim/models/claim_media.dart';
 import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -10,8 +11,8 @@ class Claim {
   final String farmerId;
   final String farmId;
   final String? farmerNote;
-  final List<String> claimPhotos;
-  final String? claimVideo;
+  final List<ClaimMedia> claimPhotos;
+  final ClaimMedia? claimVideo;
   final double compensation;
   final String? officerNote;
   final String status;

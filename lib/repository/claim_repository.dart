@@ -136,7 +136,7 @@ class ClaimRepository {
     return claimList;
   }
 
-  Stream<List<Claim>> searchClaimsList(String claimId) {
+  Stream<List<Claim>> searchClaimsList(String searchString) {
     final claimList = _store
         .collection(DatabaseNames.claim)
         .where('assignedOfficer', isEqualTo: loggedUserId)
@@ -147,9 +147,10 @@ class ClaimRepository {
         Claim claim = Claim.fromJson(data);
         return claim;
       }).toList();
-      return result
-          .where((element) => element.claimId.startsWith(claimId))
-          .toList();
+      return result.where((element) {
+        final claimId = element.claimId.toLowerCase();
+        return claimId.startsWith(searchString.toLowerCase());
+      }).toList();
     });
     return claimList;
   }

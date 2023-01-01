@@ -6,7 +6,7 @@ class FarmListTile extends StatelessWidget {
   final String title;
   final String subtitle;
   final List<Map<String, double>> locations;
-  final Function? onPressed;
+  final Function onPressed;
   const FarmListTile({
     Key? key,
     required this.title,
@@ -109,7 +109,7 @@ class FarmListTile extends StatelessWidget {
             ),
           ),
         ),
-        onTap: () => onPressed!(),
+        onTap: () => onPressed(),
       ),
     );
   }

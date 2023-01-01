@@ -9,3 +9,9 @@ enum ClaimStates {
   inReview,
   completed,
 }
+
+enum BoundaryStates {
+  inBoundary,
+  outOfBoundary,
+  onBoundary,
+}

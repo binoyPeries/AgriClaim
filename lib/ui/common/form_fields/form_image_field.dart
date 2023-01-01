@@ -14,12 +14,14 @@ class FormImageField extends StatefulWidget {
   final String fieldName;
   final int maxImages;
   final Function(List<ClaimMedia>) setImageListInParent;
+  final List<Map<String, double>> locations;
 
   const FormImageField({
     Key? key,
     required this.fieldName,
     required this.maxImages,
     required this.setImageListInParent,
+    required this.locations,
   }) : super(key: key);
 
   @override
@@ -41,7 +43,9 @@ class _FormImageFieldState extends State<FormImageField> {
       if (imageFileList.length < widget.maxImages) {
         final location = await getCurrentLocation();
         final time = DateTime.now();
-        //:TODO add the boundary checking logic here
+
+        // bool accepted = FarmBoundary.checkIsWithinBoundary(point, boundaryPoints);
+
         ClaimMedia media = ClaimMedia(
             mediaFile: selectedImages,
             latitude: location[0],

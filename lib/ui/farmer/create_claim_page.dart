@@ -1,5 +1,6 @@
 import 'package:agriclaim/models/claim_media.dart';
 import 'package:agriclaim/models/farm.dart';
+import 'package:agriclaim/providers/claim_farm_provider.dart';
 import 'package:agriclaim/providers/claim_provider.dart';
 import 'package:agriclaim/providers/farm_provider.dart';
 import 'package:agriclaim/ui/common/components/default_appbar.dart';
@@ -51,6 +52,7 @@ class CreateClaimPage extends ConsumerWidget {
                 Consumer(
                   builder: (BuildContext context, WidgetRef ref, _) {
                     final farmsList = ref.watch(farmListProvider);
+
                     return farmsList.when(
                       data: (data) {
                         return FormDropdownField<Farm>(
@@ -59,6 +61,20 @@ class CreateClaimPage extends ConsumerWidget {
                           items: data,
                           setValue: (farm) => farm.id,
                           setDisplayText: (farm) => farm.farmName,
+                          setObjectValue: (farmId) {
+                            Farm? farm = farmsList.value
+                                ?.firstWhere((element) => element.id == farmId);
+                            if (farm != null) {
+                              ref
+                                  .read(
+                                      claimSelectedFarmLocationsNotifierProvider
+                                          .notifier)
+                                  .setFarmLocations(farm.locations);
+                            } else {
+                              print("Farm empty");
+                              print("================");
+                            }
+                          },
                         );
                       },
                       loading: () =>
@@ -84,11 +100,26 @@ class CreateClaimPage extends ConsumerWidget {
                   ),
                   textAlign: TextAlign.justify,
                 ),
-                FormImageField(
-                  fieldName: "claimPhotos",
-                  maxImages: 10,
-                  setImageListInParent: setImageList,
+                Consumer(
+                  builder: (context, ref, child) {
+                    print("rebuilding");
+                    print("===============");
+                    List<Map<String, double>> farmLocations =
+                        ref.watch(claimSelectedFarmLocationsNotifierProvider);
+                    print(farmLocations);
+                    return FormImageField(
+                      fieldName: "claimPhotos",
+                      maxImages: 10,
+                      setImageListInParent: setImageList,
+                      locations: farmLocations,
+                    );
+                  },
                 ),
+                // FormImageField(
+                //   fieldName: "claimPhotos",
+                //   maxImages: 10,
+                //   setImageListInParent: setImageList,
+                // ),
                 SizedBox(height: 4.h),
                 Text(
                   "Video (max 30 seconds)",

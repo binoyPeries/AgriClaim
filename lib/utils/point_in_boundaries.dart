@@ -32,8 +32,8 @@ class FarmBoundary {
     return (numOfIntersections % 2) == 1;
   }
 
-  /// accuracy checked to 5 decimal places
-  /// accurate of +- 1m
+  /// accuracy checked to 6 decimal places
+  /// accurate of +- 10cm
   /// http://wiki.gis.com/wiki/index.php/Decimal_degrees
   static BoundaryStates getBoundaryState(
       Coordinates point, Coordinates a, Coordinates b) {

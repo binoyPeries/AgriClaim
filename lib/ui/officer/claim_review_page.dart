@@ -182,7 +182,6 @@ class ClaimReviewPage extends ConsumerWidget {
     if (!isValid) {
       return false;
     }
-    print(formKey.currentState?.value);
     await claimRepository.updateClaim(
         claimId: claimId,
         data: formKey.currentState?.value ?? {},

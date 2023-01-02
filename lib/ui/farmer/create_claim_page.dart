@@ -66,7 +66,7 @@ class CreateClaimPage extends ConsumerWidget {
                             Farm? farm = farmsList.value
                                 ?.firstWhere((element) => element.id == farmId);
                             if (farm != null) {
-                              // to clear the already taken photos, since the farm in changed
+                              // to clear the already taken photos n videos, since the farm in changed
                               imageList.clear();
                               video = null;
                               ref

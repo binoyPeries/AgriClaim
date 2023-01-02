@@ -102,24 +102,16 @@ class CreateClaimPage extends ConsumerWidget {
                 ),
                 Consumer(
                   builder: (context, ref, child) {
-                    print("rebuilding");
-                    print("===============");
                     List<Map<String, double>> farmLocations =
                         ref.watch(claimSelectedFarmLocationsNotifierProvider);
-                    print(farmLocations);
                     return FormImageField(
                       fieldName: "claimPhotos",
                       maxImages: 10,
                       setImageListInParent: setImageList,
-                      locations: farmLocations,
+                      farmLocations: farmLocations,
                     );
                   },
                 ),
-                // FormImageField(
-                //   fieldName: "claimPhotos",
-                //   maxImages: 10,
-                //   setImageListInParent: setImageList,
-                // ),
                 SizedBox(height: 4.h),
                 Text(
                   "Video (max 30 seconds)",

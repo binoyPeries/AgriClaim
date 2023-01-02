@@ -16,17 +16,20 @@ class FormTextField extends StatelessWidget {
   final double? labelFontSize;
   final double? textFontSize;
   final String? initialValue;
-
+  final FontWeight? labelFontWeight;
+  final Color? labelFontColor;
   const FormTextField({
     Key? key,
     required this.fieldName,
     required this.label,
+    this.labelFontColor,
     this.hintText,
     this.readOnly = false,
     this.validators = const [],
     this.required = true,
     this.obscureText = false,
     this.keyboardType,
+    this.labelFontWeight,
     this.labelFontSize,
     this.textFontSize,
     this.initialValue,
@@ -42,9 +45,9 @@ class FormTextField extends StatelessWidget {
         Text(
           label,
           style: TextStyle(
-              color: AgriClaimColors.secondaryColor,
+              color: labelFontColor ?? AgriClaimColors.secondaryColor,
               fontSize: labelFontSize ?? 2.2.h,
-              fontWeight: FontWeight.w500),
+              fontWeight: labelFontWeight ?? FontWeight.w500),
         ),
         SizedBox(height: 1.2.h),
         FormBuilderTextField(

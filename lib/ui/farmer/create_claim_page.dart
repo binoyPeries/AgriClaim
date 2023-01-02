@@ -63,6 +63,7 @@ class CreateClaimPage extends ConsumerWidget {
                           setValue: (farm) => farm.id,
                           setDisplayText: (farm) => farm.farmName,
                           setObjectValue: (farmId) {
+                            print("rebuilding");
                             Farm? farm = farmsList.value
                                 ?.firstWhere((element) => element.id == farmId);
                             if (farm != null) {
@@ -99,7 +100,7 @@ class CreateClaimPage extends ConsumerWidget {
                 const PhotoRejectedInfo(),
                 SizedBox(height: 2.5.h),
                 Text(
-                  "Submit maximum of 10 picture that clearly shows the damaged crop area. "
+                  "Submit a maximum of 10 pictures that clearly shows the damaged crop area. "
                   "These photos will be vital in reviewing your claim.",
                   style: TextStyle(
                     fontSize: 1.8.h,

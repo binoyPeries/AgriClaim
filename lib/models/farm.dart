@@ -6,9 +6,9 @@ part 'farm.g.dart';
 class Farm {
   late final String id;
   final String ownerId;
-  final String farmAddress;
-  final String farmName;
-  late final List<Map<String, double>> locations;
+  String farmAddress;
+  String farmName;
+  late List<Map<String, double>> locations;
 
   Farm({
     required this.ownerId,

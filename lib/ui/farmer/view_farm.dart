@@ -2,12 +2,14 @@ import 'package:agriclaim/providers/farm_provider.dart';
 import 'package:agriclaim/ui/common/components/default_appbar.dart';
 import 'package:agriclaim/ui/common/components/default_scaffold.dart';
 import 'package:agriclaim/ui/common/components/primary_button.dart';
+import 'package:agriclaim/ui/common/form_fields/form_text_field.dart';
 import 'package:agriclaim/ui/constants/colors.dart';
 import 'package:agriclaim/utils/display_lat_long.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:sizer/sizer.dart';
 import 'package:geolocator/geolocator.dart';
 import '../../generated/l10n.dart';
@@ -40,33 +42,61 @@ class ViewFarmPage extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       SizedBox(height: 2.h),
-                      Text(
-                        "Farm Name",
-                        style: TextStyle(
-                            color: AgriClaimColors.primaryColor,
-                            fontSize: 2.5.h,
-                            fontWeight: FontWeight.w700),
-                      ),
-                      Text(
-                        farm.farmName,
-                        style: TextStyle(
-                          fontSize: 2.3.h,
+                      Visibility(
+                        visible: !editable,
+                        child: Text(
+                          "Farm Name",
+                          style: TextStyle(
+                              color: AgriClaimColors.primaryColor,
+                              fontSize: 2.5.h,
+                              fontWeight: FontWeight.w700),
                         ),
                       ),
+                      editable
+                          ? FormTextField(
+                              labelFontColor: AgriClaimColors.primaryColor,
+                              labelFontWeight: FontWeight.w700,
+                              labelFontSize: 2.5.h,
+                              fieldName: "farmName",
+                              label: "Farm Name",
+                              initialValue: farm.farmName,
+                              keyboardType: TextInputType.text,
+                              validators: [FormBuilderValidators.min(1)],
+                            )
+                          : Text(
+                              farm.farmName,
+                              style: TextStyle(
+                                fontSize: 2.3.h,
+                              ),
+                            ),
                       SizedBox(height: 2.h),
-                      Text(
-                        "Farm Address",
-                        style: TextStyle(
-                            color: AgriClaimColors.primaryColor,
-                            fontSize: 2.5.h,
-                            fontWeight: FontWeight.w700),
-                      ),
-                      Text(
-                        farm.farmAddress,
-                        style: TextStyle(
-                          fontSize: 2.3.h,
+                      Visibility(
+                        visible: !editable,
+                        child: Text(
+                          "Farm Address",
+                          style: TextStyle(
+                              color: AgriClaimColors.primaryColor,
+                              fontSize: 2.5.h,
+                              fontWeight: FontWeight.w700),
                         ),
                       ),
+                      editable
+                          ? FormTextField(
+                              labelFontColor: AgriClaimColors.primaryColor,
+                              labelFontWeight: FontWeight.w700,
+                              labelFontSize: 2.5.h,
+                              fieldName: "farmAddress",
+                              label: "Farm Address",
+                              initialValue: farm.farmAddress,
+                              keyboardType: TextInputType.text,
+                              validators: [FormBuilderValidators.min(1)],
+                            )
+                          : Text(
+                              farm.farmAddress,
+                              style: TextStyle(
+                                fontSize: 2.3.h,
+                              ),
+                            ),
                       SizedBox(height: 2.h),
                       FarmLocationsWidget(farm),
                       SizedBox(height: 3.h),
@@ -129,6 +159,13 @@ class ViewFarmPage extends ConsumerWidget {
     if (!isValid) {
       return false;
     }
+    String farmName = formKey.currentState?.value["farmName"];
+    String farmAddress = formKey.currentState?.value["farmAddress"];
+    farm.farmName = farmName;
+    farm.farmAddress = farmAddress;
+    farm.locations = farm.locations
+        .where((element) => element["lat"] != 0 && element["long"] != 0)
+        .toList();
     await farmRepository.updateFarm(farm);
     return true;
   }

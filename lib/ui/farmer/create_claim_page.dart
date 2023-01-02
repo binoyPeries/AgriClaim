@@ -12,6 +12,7 @@ import 'package:agriclaim/ui/common/form_fields/form_text_area_field.dart';
 import 'package:agriclaim/ui/common/form_fields/form_text_field.dart';
 import 'package:agriclaim/ui/common/form_fields/form_video_field.dart';
 import 'package:agriclaim/ui/constants/colors.dart';
+import 'package:agriclaim/ui/farmer/claim_view_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -92,6 +93,10 @@ class CreateClaimPage extends ConsumerWidget {
                       fontWeight: FontWeight.w500),
                 ),
                 SizedBox(height: 2.2.h),
+                const PhotoAcceptedInfo(),
+                SizedBox(height: 1.h),
+                const PhotoRejectedInfo(),
+                SizedBox(height: 2.5.h),
                 Text(
                   "Submit maximum of 10 picture that clearly shows the damaged crop area. "
                   "These photos will be vital in reviewing your claim.",

@@ -96,7 +96,7 @@ class _FormImageFieldState extends State<FormImageField> {
                         crossAxisCount: 1, mainAxisSpacing: 3.w),
                     itemBuilder: (BuildContext context, int index) {
                       return ImageViewer(
-                        imageFileList: getImageFileList(imageFileList),
+                        imageFileList: imageFileList,
                         imageIndex: index,
                         onPressed: () => deleteImage(index),
                       );
@@ -124,7 +124,7 @@ class _FormImageFieldState extends State<FormImageField> {
 class ImageViewer extends StatelessWidget {
   final int imageIndex;
   final Function onPressed;
-  final List<XFile> imageFileList;
+  final List<ClaimMedia> imageFileList;
 
   const ImageViewer({
     Key? key,
@@ -144,10 +144,26 @@ class ImageViewer extends StatelessWidget {
               borderRadius: const BorderRadius.all(Radius.circular(20)),
               border: Border.all(color: AgriClaimColors.secondaryColor)),
           child: Image.file(
-            File(imageFileList[imageIndex].path),
+            File(imageFileList[imageIndex].mediaFile.path),
             fit: BoxFit.contain,
           ),
         ),
+        Align(
+            alignment: Alignment.topLeft,
+            child: Padding(
+              padding: EdgeInsets.only(left: 1.h, top: 1.h),
+              child: imageFileList[imageIndex].accepted
+                  ? Icon(
+                      FontAwesomeIcons.circleCheck,
+                      color: AgriClaimColors.secondaryColor,
+                      size: 6.h,
+                    )
+                  : Icon(
+                      FontAwesomeIcons.circleXmark,
+                      color: Colors.red,
+                      size: 6.h,
+                    ),
+            )),
         Positioned(
           top: 2.h,
           right: 2.h,

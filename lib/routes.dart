@@ -10,16 +10,14 @@ import 'package:agriclaim/ui/common/pages/login_page.dart';
 import 'package:agriclaim/ui/common/pages/sign_up.dart';
 import 'package:agriclaim/ui/common/pages/welcome_page.dart';
 import 'package:agriclaim/ui/constants/enums.dart';
-import 'package:agriclaim/ui/farmer/claim_view_page.dart';
 import 'package:agriclaim/ui/farmer/claims_list_page.dart';
 import 'package:agriclaim/ui/farmer/create_claim_page.dart';
-import 'package:agriclaim/ui/farmer/farm_navigation_page.dart';
 import 'package:agriclaim/ui/farmer/home_screen.dart';
-import 'package:agriclaim/ui/farmer/register_farm.dart';
 import 'package:agriclaim/ui/farmer/signup_page.dart';
 import 'package:agriclaim/ui/farmer/view_farm.dart';
 import 'package:agriclaim/ui/farmer/view_farm_list.dart';
 import 'package:agriclaim/ui/officer/assigned_claims.dart';
+import 'package:agriclaim/ui/officer/claim_review_page.dart';
 import 'package:agriclaim/ui/officer/home_screen.dart';
 import 'package:agriclaim/ui/officer/search_page.dart';
 import 'package:agriclaim/ui/officer/signup_page.dart';
@@ -44,6 +42,7 @@ abstract class AgriClaimRoutes {
   static const String viewFarmsList = "/view-farms";
   static const String viewSingleFarm = "/farm";
   static const String viewSingleClaim = "/claim";
+  static const String reviewSingleClaim = "/review-claim";
   static const String viewSingleClaimImage = "/claim-photo";
   static const String viewFarm = "/view-farm";
   static const String search = "/search";
@@ -131,6 +130,13 @@ abstract class AgriClaimRoutes {
           path: assignedClaims, builder: (_, __) => const AssignedClaimsPage()),
       GoRoute(
           path: officerProfilePage, builder: (_, __) => const ProfilePage()),
+      GoRoute(
+        path: reviewSingleClaim,
+        builder: (_, state) {
+          Claim claim = state.extra as Claim; // -> casting is important
+          return ClaimReviewPage(claim: claim);
+        },
+      ),
     ];
   }
 

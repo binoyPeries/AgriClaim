@@ -100,6 +100,25 @@ class ClaimRepository {
     }
   }
 
+  Future<bool> updateClaim(
+      {required Map<String, dynamic> data,
+      required String claimId,
+      required bool accepted}) async {
+    try {
+      await _store.doc("${DatabaseNames.claim}/$claimId").update({
+        'compensation': data["compensation"] != null
+            ? double.parse(data["compensation"])
+            : 0.0,
+        'officerNote': data["officerNote"],
+        'approved': accepted,
+        'status': ClaimStates.completed.name,
+      });
+      return true;
+    } catch (e) {
+      throw AgriclaimException(e.toString());
+    }
+  }
+
   Stream<List<Claim>> getClaimsList(ClaimStates claimType) {
     final claimList = _store
         .collection(DatabaseNames.claim)
@@ -111,6 +130,42 @@ class ClaimRepository {
         final data = {"claimId": element.id, ...element.data()};
         Claim farm = Claim.fromJson(data);
         return farm;
+      }).toList();
+      return result;
+    });
+    return claimList;
+  }
+
+  Stream<List<Claim>> searchClaimsList(String searchString) {
+    final claimList = _store
+        .collection(DatabaseNames.claim)
+        .where('assignedOfficer', isEqualTo: loggedUserId)
+        .snapshots()
+        .map((event) {
+      final result = event.docs.map((element) {
+        final data = {"claimId": element.id, ...element.data()};
+        Claim claim = Claim.fromJson(data);
+        return claim;
+      }).toList();
+      return result.where((element) {
+        final claimId = element.claimId.toLowerCase();
+        return claimId.startsWith(searchString.toLowerCase());
+      }).toList();
+    });
+    return claimList;
+  }
+
+  Stream<List<Claim>> getClaimsListForOfficer(ClaimStates claimType) {
+    final claimList = _store
+        .collection(DatabaseNames.claim)
+        .where('assignedOfficer', isEqualTo: loggedUserId)
+        .where('status', isEqualTo: claimType.name)
+        .snapshots()
+        .map((event) {
+      final result = event.docs.map((element) {
+        final data = {"claimId": element.id, ...element.data()};
+        Claim claim = Claim.fromJson(data);
+        return claim;
       }).toList();
       return result;
     });

@@ -14,12 +14,14 @@ class FormImageField extends StatefulWidget {
   final String fieldName;
   final int maxImages;
   final Function(List<ClaimMedia>) setImageListInParent;
+  final List<Map<String, double>> farmLocations;
 
   const FormImageField({
     Key? key,
     required this.fieldName,
     required this.maxImages,
     required this.setImageListInParent,
+    required this.farmLocations,
   }) : super(key: key);
 
   @override
@@ -41,15 +43,17 @@ class _FormImageFieldState extends State<FormImageField> {
       if (imageFileList.length < widget.maxImages) {
         final location = await getCurrentLocation();
         final time = DateTime.now();
-        //:TODO add the boundary checking logic here
+
+        bool accepted = isWithinFarmBoundaries(location, widget.farmLocations);
+
         ClaimMedia media = ClaimMedia(
             mediaFile: selectedImages,
             latitude: location[0],
             longitude: location[1],
             capturedDateTime: time,
-            accepted: true,
+            accepted: accepted,
             mediaUrl: "");
-        imageFileList.add(media);
+        imageFileList.insert(0, media);
         widget.setImageListInParent(imageFileList);
       }
     }
@@ -88,7 +92,7 @@ class _FormImageFieldState extends State<FormImageField> {
                         crossAxisCount: 1, mainAxisSpacing: 3.w),
                     itemBuilder: (BuildContext context, int index) {
                       return ImageViewer(
-                        imageFileList: getImageFileList(imageFileList),
+                        imageFileList: imageFileList,
                         imageIndex: index,
                         onPressed: () => deleteImage(index),
                       );
@@ -101,9 +105,15 @@ class _FormImageFieldState extends State<FormImageField> {
                     ScaffoldMessenger.of(context).showSnackBar(infoSnackBar(
                         msg: "Can't add more than ${widget.maxImages} images"));
                   }
-                : () async {
-                    selectImages();
-                  },
+                : widget.farmLocations.isEmpty
+                    ? () {
+                        ScaffoldMessenger.of(context).showSnackBar(infoSnackBar(
+                            msg:
+                                "You have to select a farm before taking images"));
+                      }
+                    : () async {
+                        selectImages();
+                      },
             buttonColor: Colors.white,
             textColor: AgriClaimColors.tertiaryColor,
             borderColor: AgriClaimColors.tertiaryColor,
@@ -116,7 +126,7 @@ class _FormImageFieldState extends State<FormImageField> {
 class ImageViewer extends StatelessWidget {
   final int imageIndex;
   final Function onPressed;
-  final List<XFile> imageFileList;
+  final List<ClaimMedia> imageFileList;
 
   const ImageViewer({
     Key? key,
@@ -136,10 +146,26 @@ class ImageViewer extends StatelessWidget {
               borderRadius: const BorderRadius.all(Radius.circular(20)),
               border: Border.all(color: AgriClaimColors.secondaryColor)),
           child: Image.file(
-            File(imageFileList[imageIndex].path),
+            File(imageFileList[imageIndex].mediaFile.path),
             fit: BoxFit.contain,
           ),
         ),
+        Align(
+            alignment: Alignment.topLeft,
+            child: Padding(
+              padding: EdgeInsets.only(left: 1.h, top: 1.h),
+              child: imageFileList[imageIndex].accepted
+                  ? Icon(
+                      FontAwesomeIcons.circleCheck,
+                      color: AgriClaimColors.secondaryColor,
+                      size: 6.h,
+                    )
+                  : Icon(
+                      FontAwesomeIcons.circleXmark,
+                      color: Colors.red,
+                      size: 6.h,
+                    ),
+            )),
         Positioned(
           top: 2.h,
           right: 2.h,

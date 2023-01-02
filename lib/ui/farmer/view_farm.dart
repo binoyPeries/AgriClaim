@@ -84,18 +84,6 @@ class ViewFarmPage extends ConsumerWidget {
                             text: S.of(context).add_another_location),
                       ),
                       SizedBox(height: 1.h),
-                      // editable
-                      //     ? PrimaryButton(
-                      //         onPressed: () {
-                      //           ref
-                      //               .read(farmEditableStateProvider.notifier)
-                      //               .state = false;
-                      //         },
-                      //         buttonColor: Colors.white,
-                      //         textColor: AgriClaimColors.primaryColor,
-                      //         borderColor: AgriClaimColors.primaryColor,
-                      //         text: "Not editing")
-                      //     :
                       Visibility(
                         visible: !editable,
                         child: PrimaryButton(

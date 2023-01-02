@@ -1,5 +1,6 @@
 import 'package:agriclaim/models/claim_media.dart';
 import 'package:agriclaim/ui/constants/enums.dart';
+import 'package:agriclaim/utils/point_in_boundaries.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -74,4 +75,17 @@ List<XFile> getImageFileList(List<ClaimMedia> media) {
 
 String getDateTimeIn12HrFormat(DateTime time) {
   return DateFormat('dd-MM-yyyy hh:mm a').format(time);
+}
+
+bool isWithinFarmBoundaries(
+    List<double> point, List<Map<String, double>> farmBoundaries) {
+  final Coordinates pointCoordinates = Coordinates(x: point[1], y: point[0]);
+  List<Coordinates> farmCoordinates = [];
+  for (var element in farmBoundaries) {
+    farmCoordinates
+        .add(Coordinates(x: element["long"] ?? 0.0, y: element["lat"] ?? 0.0));
+  }
+  final bool isAccepted =
+      FarmBoundary.checkIsWithinBoundary(pointCoordinates, farmCoordinates);
+  return isAccepted;
 }

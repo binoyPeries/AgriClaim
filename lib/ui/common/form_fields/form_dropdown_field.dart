@@ -13,6 +13,7 @@ class FormDropdownField<T> extends StatelessWidget {
   final List<T> items;
   final String Function(T) setValue;
   final String Function(T) setDisplayText;
+  final void Function(String?) setObjectValue;
 
   const FormDropdownField({
     Key? key,
@@ -24,6 +25,7 @@ class FormDropdownField<T> extends StatelessWidget {
     required this.items,
     required this.setValue,
     required this.setDisplayText,
+    required this.setObjectValue,
   }) : super(key: key);
 
   @override
@@ -55,6 +57,7 @@ class FormDropdownField<T> extends StatelessWidget {
                   errorText: "The $label is required"),
             ...validators,
           ]),
+          onChanged: (t) => setObjectValue(t),
           items: [
             for (final item in items)
               DropdownMenuItem<String>(

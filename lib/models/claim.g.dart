@@ -23,6 +23,7 @@ Claim _$ClaimFromJson(Map<String, dynamic> json) => Claim(
       json['status'] as String,
       json['assignedOfficer'] as String?,
       Claim._fromJson(json['claimDate'] as String),
+      json['approved'] as bool?,
     );
 
 Map<String, dynamic> _$ClaimToJson(Claim instance) => <String, dynamic>{
@@ -31,6 +32,7 @@ Map<String, dynamic> _$ClaimToJson(Claim instance) => <String, dynamic>{
       'farmerId': instance.farmerId,
       'farmId': instance.farmId,
       'farmerNote': instance.farmerNote,
+      'approved': instance.approved,
       'claimPhotos': instance.claimPhotos,
       'claimVideo': instance.claimVideo,
       'compensation': instance.compensation,

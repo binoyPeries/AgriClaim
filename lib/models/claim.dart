@@ -11,6 +11,7 @@ class Claim {
   final String farmerId;
   final String farmId;
   final String? farmerNote;
+  final bool? approved;
   final List<ClaimMedia> claimPhotos;
   final ClaimMedia? claimVideo;
   final double compensation;
@@ -33,6 +34,7 @@ class Claim {
     this.status,
     this.assignedOfficer,
     this.claimDate,
+    this.approved,
   );
   factory Claim.fromJson(Map<String, dynamic> json) => _$ClaimFromJson(json);
 

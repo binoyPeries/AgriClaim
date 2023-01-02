@@ -29,9 +29,7 @@ class _OfficerHomePageState extends State<OfficerHomePage> {
     return DefaultScaffold(
       appBar: DefaultAppBar(
           title: _appbarTitle[_selectedIndex], backButtonVisible: false),
-      body: Center(
-        child: _pages.elementAt(_selectedIndex),
-      ),
+      body: _pages.elementAt(_selectedIndex),
       bottomNavBar: BottomNavigationBar(
         type: BottomNavigationBarType.shifting,
         selectedFontSize: 2.h,

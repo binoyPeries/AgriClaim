@@ -1,5 +1,6 @@
 import 'package:agriclaim/models/claim_media.dart';
 import 'package:agriclaim/models/farm.dart';
+import 'package:agriclaim/providers/claim_farm_provider.dart';
 import 'package:agriclaim/providers/claim_provider.dart';
 import 'package:agriclaim/providers/farm_provider.dart';
 import 'package:agriclaim/ui/common/components/default_appbar.dart';
@@ -11,6 +12,7 @@ import 'package:agriclaim/ui/common/form_fields/form_text_area_field.dart';
 import 'package:agriclaim/ui/common/form_fields/form_text_field.dart';
 import 'package:agriclaim/ui/common/form_fields/form_video_field.dart';
 import 'package:agriclaim/ui/constants/colors.dart';
+import 'package:agriclaim/ui/farmer/claim_view_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -51,6 +53,7 @@ class CreateClaimPage extends ConsumerWidget {
                 Consumer(
                   builder: (BuildContext context, WidgetRef ref, _) {
                     final farmsList = ref.watch(farmListProvider);
+
                     return farmsList.when(
                       data: (data) {
                         return FormDropdownField<Farm>(
@@ -59,6 +62,21 @@ class CreateClaimPage extends ConsumerWidget {
                           items: data,
                           setValue: (farm) => farm.id,
                           setDisplayText: (farm) => farm.farmName,
+                          setObjectValue: (farmId) {
+                            Farm? farm = farmsList.value
+                                ?.firstWhere((element) => element.id == farmId);
+                            if (farm != null) {
+                              // to clear the already taken photos, since the farm in changed
+                              imageList.clear();
+                              ref
+                                  .read(
+                                      claimSelectedFarmLocationsNotifierProvider
+                                          .notifier)
+                                  .setFarmLocations(farm.locations);
+                            } else {
+                              print("Farm empty");
+                            }
+                          },
                         );
                       },
                       loading: () =>
@@ -76,6 +94,10 @@ class CreateClaimPage extends ConsumerWidget {
                       fontWeight: FontWeight.w500),
                 ),
                 SizedBox(height: 2.2.h),
+                const PhotoAcceptedInfo(),
+                SizedBox(height: 1.h),
+                const PhotoRejectedInfo(),
+                SizedBox(height: 2.5.h),
                 Text(
                   "Submit maximum of 10 picture that clearly shows the damaged crop area. "
                   "These photos will be vital in reviewing your claim.",
@@ -84,10 +106,17 @@ class CreateClaimPage extends ConsumerWidget {
                   ),
                   textAlign: TextAlign.justify,
                 ),
-                FormImageField(
-                  fieldName: "claimPhotos",
-                  maxImages: 10,
-                  setImageListInParent: setImageList,
+                Consumer(
+                  builder: (context, ref, child) {
+                    List<Map<String, double>> farmLocations =
+                        ref.watch(claimSelectedFarmLocationsNotifierProvider);
+                    return FormImageField(
+                      fieldName: "claimPhotos",
+                      maxImages: 10,
+                      setImageListInParent: setImageList,
+                      farmLocations: farmLocations,
+                    );
+                  },
                 ),
                 SizedBox(height: 4.h),
                 Text(

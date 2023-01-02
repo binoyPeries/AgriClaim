@@ -4,7 +4,6 @@ import 'package:sizer/sizer.dart';
 SnackBar infoSnackBar({String? msg, Color? color, IconData? icon}) {
   return SnackBar(
     content: SizedBox(
-      height: 3.h,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -15,9 +14,11 @@ SnackBar infoSnackBar({String? msg, Color? color, IconData? icon}) {
             size: 3.h,
           ),
           const SizedBox(width: 10),
-          Text(
-            msg ?? "ERROR",
-            style: TextStyle(fontSize: 2.h),
+          Flexible(
+            child: Text(
+              msg ?? "ERROR",
+              style: TextStyle(fontSize: 2.h),
+            ),
           ),
         ],
       ),

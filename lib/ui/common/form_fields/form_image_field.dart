@@ -53,7 +53,7 @@ class _FormImageFieldState extends State<FormImageField> {
             capturedDateTime: time,
             accepted: accepted,
             mediaUrl: "");
-        imageFileList.add(media);
+        imageFileList.insert(0, media);
         widget.setImageListInParent(imageFileList);
       }
     }

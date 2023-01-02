@@ -112,7 +112,7 @@ class CreateClaimPage extends ConsumerWidget {
                         ref.watch(claimSelectedFarmLocationsNotifierProvider);
                     return FormImageField(
                       fieldName: "claimPhotos",
-                      maxImages: 1,
+                      maxImages: 10,
                       setImageListInParent: setImageList,
                       farmLocations: farmLocations,
                     );

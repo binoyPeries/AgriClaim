@@ -82,9 +82,9 @@ class ClaimReviewPage extends ConsumerWidget {
               ),
             ),
             SizedBox(height: 1.h),
-            const PhotoAcceptedInfo(),
+            const MediaAcceptedInfo(),
             SizedBox(height: 1.h),
-            const PhotoRejectedInfo(),
+            const MediaRejectedInfo(),
             SizedBox(height: 3.h),
             FormBuilder(
                 key: formKey,

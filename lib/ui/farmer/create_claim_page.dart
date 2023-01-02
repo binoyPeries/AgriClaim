@@ -66,8 +66,9 @@ class CreateClaimPage extends ConsumerWidget {
                             Farm? farm = farmsList.value
                                 ?.firstWhere((element) => element.id == farmId);
                             if (farm != null) {
-                              // to clear the already taken photos, since the farm in changed
+                              // to clear the already taken photos n videos, since the farm in changed
                               imageList.clear();
+                              video = null;
                               ref
                                   .read(
                                       claimSelectedFarmLocationsNotifierProvider
@@ -94,9 +95,9 @@ class CreateClaimPage extends ConsumerWidget {
                       fontWeight: FontWeight.w500),
                 ),
                 SizedBox(height: 2.2.h),
-                const PhotoAcceptedInfo(),
+                const MediaAcceptedInfo(),
                 SizedBox(height: 1.h),
-                const PhotoRejectedInfo(),
+                const MediaRejectedInfo(),
                 SizedBox(height: 2.5.h),
                 Text(
                   "Submit a maximum of 10 pictures that clearly shows the damaged crop area. "
@@ -136,10 +137,17 @@ class CreateClaimPage extends ConsumerWidget {
                   textAlign: TextAlign.justify,
                 ),
                 SizedBox(height: 2.5.h),
-                FormVideoField(
-                  fieldName: "claimVideo",
-                  maxDurationInSec: 5,
-                  setVideoOnParent: setVideo,
+                Consumer(
+                  builder: (context, ref, _) {
+                    List<Map<String, double>> farmLocations =
+                        ref.watch(claimSelectedFarmLocationsNotifierProvider);
+                    return FormVideoField(
+                      fieldName: "claimVideo",
+                      maxDurationInSec: 5,
+                      setVideoOnParent: setVideo,
+                      farmLocations: farmLocations,
+                    );
+                  },
                 ),
                 SizedBox(height: 2.5.h),
                 const FormTextAreaField(

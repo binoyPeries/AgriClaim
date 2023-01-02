@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:agriclaim/models/claim_media.dart';
+import 'package:agriclaim/ui/common/components/info_snack_bar.dart';
 import 'package:agriclaim/ui/common/components/primary_button.dart';
 import 'package:agriclaim/ui/constants/colors.dart';
 import 'package:agriclaim/utils/helper_functions.dart';
@@ -14,12 +15,14 @@ class FormVideoField extends StatefulWidget {
   final String fieldName;
   final int maxDurationInSec;
   final Function(ClaimMedia) setVideoOnParent;
+  final List<Map<String, double>> farmLocations;
 
   const FormVideoField(
       {Key? key,
       required this.fieldName,
       required this.maxDurationInSec,
-      required this.setVideoOnParent})
+      required this.setVideoOnParent,
+      required this.farmLocations})
       : super(key: key);
 
   @override
@@ -33,6 +36,7 @@ class _FormVideoFieldState extends State<FormVideoField> {
   File? capturedVideo;
   bool videoCaptured = false;
   bool isLoading = false;
+  ClaimMedia? capturedMedia;
 
   void selectVideo() async {
     setState(() {
@@ -46,15 +50,17 @@ class _FormVideoFieldState extends State<FormVideoField> {
       videoCaptured = true;
       final location = await getCurrentLocation();
       final time = DateTime.now();
-      //:TODO add the boundary checking logic here
+      bool accepted = isWithinFarmBoundaries(location, widget.farmLocations);
+
       ClaimMedia media = ClaimMedia(
           mediaFile: video,
           latitude: location[0],
           longitude: location[1],
           capturedDateTime: time,
-          accepted: true,
+          accepted: accepted,
           mediaUrl: "");
       widget.setVideoOnParent(media);
+      capturedMedia = media;
       _controller = VideoPlayerController.file(capturedVideo!)
         ..initialize().then((_) {
           setState(() {
@@ -63,6 +69,9 @@ class _FormVideoFieldState extends State<FormVideoField> {
           _controller.setLooping(true);
         });
     }
+    setState(() {
+      isLoading = false;
+    });
   }
 
   @override
@@ -78,6 +87,23 @@ class _FormVideoFieldState extends State<FormVideoField> {
                       child: AspectRatio(
                         aspectRatio: _controller.value.aspectRatio,
                         child: VideoPlayer(_controller),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 1.h, top: 1.h),
+                        child: capturedMedia?.accepted ?? false
+                            ? Icon(
+                                FontAwesomeIcons.circleCheck,
+                                color: AgriClaimColors.secondaryColor,
+                                size: 6.h,
+                              )
+                            : Icon(
+                                FontAwesomeIcons.circleXmark,
+                                color: Colors.red,
+                                size: 6.h,
+                              ),
                       ),
                     ),
                     Positioned(
@@ -112,9 +138,15 @@ class _FormVideoFieldState extends State<FormVideoField> {
               )
             : SizedBox(height: 10.h),
         PrimaryButton(
-            onPressed: () {
-              selectVideo();
-            },
+            onPressed: widget.farmLocations.isEmpty
+                ? () {
+                    ScaffoldMessenger.of(context).showSnackBar(infoSnackBar(
+                        msg:
+                            "You have to select a farm before recording the video"));
+                  }
+                : () {
+                    selectVideo();
+                  },
             buttonColor: Colors.white,
             textColor: AgriClaimColors.tertiaryColor,
             borderColor: AgriClaimColors.tertiaryColor,

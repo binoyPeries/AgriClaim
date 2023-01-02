@@ -90,9 +90,9 @@ class ClaimViewPage extends ConsumerWidget {
               ),
             ),
             SizedBox(height: 1.h),
-            const PhotoAcceptedInfo(),
+            const MediaAcceptedInfo(),
             SizedBox(height: 1.h),
-            const PhotoRejectedInfo(),
+            const MediaRejectedInfo(),
             SizedBox(height: 3.h),
           ],
         ),
@@ -144,8 +144,8 @@ class VideoDetailsCard extends StatelessWidget {
   }
 }
 
-class PhotoAcceptedInfo extends StatelessWidget {
-  const PhotoAcceptedInfo({Key? key}) : super(key: key);
+class MediaAcceptedInfo extends StatelessWidget {
+  const MediaAcceptedInfo({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -160,7 +160,7 @@ class PhotoAcceptedInfo extends StatelessWidget {
         ),
         Flexible(
           child: Text(
-            " - The provided photo is within the farm boundaries",
+            " - The provided photo/video is within the farm boundaries",
             style: TextStyle(
               fontSize: 2.h,
             ),
@@ -172,8 +172,8 @@ class PhotoAcceptedInfo extends StatelessWidget {
   }
 }
 
-class PhotoRejectedInfo extends StatelessWidget {
-  const PhotoRejectedInfo({Key? key}) : super(key: key);
+class MediaRejectedInfo extends StatelessWidget {
+  const MediaRejectedInfo({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -188,7 +188,7 @@ class PhotoRejectedInfo extends StatelessWidget {
         ),
         Flexible(
           child: Text(
-            " - The provided photo is NOT within the farm boundaries",
+            " - The provided  photo/video is NOT within the farm boundaries",
             style: TextStyle(
               fontSize: 2.h,
             ),

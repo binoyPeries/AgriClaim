@@ -15,6 +15,7 @@ final claimRepositoryProvider = Provider<ClaimRepository>((ref) {
       FirebaseFirestore.instance, FirebaseStorage.instance, currentUser?.uid);
 });
 
+/// displays the list of claims for a given claimType
 final claimListProvider = StreamProvider.autoDispose
     .family<List<Claim>, ClaimStates>((ref, claimType) {
   final claimRepository = ref.watch(claimRepositoryProvider);
@@ -22,12 +23,14 @@ final claimListProvider = StreamProvider.autoDispose
   return claimList;
 });
 
+/// gets the farm for a given farmID
 final claimFarmProvider =
     FutureProvider.autoDispose.family<Farm, String>((ref, farmId) {
   final value = ref.watch(farmRepositoryProvider).getFarm(farmId);
   return value;
 });
 
+/// gets the claim list for an officer (filtered by assignedOfficer attribute in database)
 final claimListForOfficerProvider = StreamProvider.autoDispose
     .family<List<Claim>, ClaimStates>((ref, claimType) {
   final claimRepository = ref.watch(claimRepositoryProvider);
@@ -35,6 +38,8 @@ final claimListForOfficerProvider = StreamProvider.autoDispose
   return claimList;
 });
 
+/// for search functionality
+/// TODO: decide to keep or not
 final searchClaimList =
     StreamProvider.autoDispose.family<List<Claim>, String>((ref, claimId) {
   final claimRepository = ref.watch(claimRepositoryProvider);
@@ -42,6 +47,7 @@ final searchClaimList =
   return claimList;
 });
 
+/// for claim acceptance by officer
 final claimAcceptedStateProvider = StateProvider<bool>((ref) {
   return true;
 });

@@ -66,6 +66,8 @@ class CreateClaimPage extends ConsumerWidget {
                             Farm? farm = farmsList.value
                                 ?.firstWhere((element) => element.id == farmId);
                             if (farm != null) {
+                              // to clear the already taken photos, since the farm in changed
+                              imageList.clear();
                               ref
                                   .read(
                                       claimSelectedFarmLocationsNotifierProvider
@@ -73,7 +75,6 @@ class CreateClaimPage extends ConsumerWidget {
                                   .setFarmLocations(farm.locations);
                             } else {
                               print("Farm empty");
-                              print("================");
                             }
                           },
                         );
@@ -111,7 +112,7 @@ class CreateClaimPage extends ConsumerWidget {
                         ref.watch(claimSelectedFarmLocationsNotifierProvider);
                     return FormImageField(
                       fieldName: "claimPhotos",
-                      maxImages: 10,
+                      maxImages: 1,
                       setImageListInParent: setImageList,
                       farmLocations: farmLocations,
                     );

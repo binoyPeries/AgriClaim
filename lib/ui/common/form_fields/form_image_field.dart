@@ -54,10 +54,6 @@ class _FormImageFieldState extends State<FormImageField> {
             accepted: accepted,
             mediaUrl: "");
         imageFileList.add(media);
-        //:TODO check here
-        print("==============");
-        print(media.toJson());
-        print("========================");
         widget.setImageListInParent(imageFileList);
       }
     }
@@ -109,9 +105,15 @@ class _FormImageFieldState extends State<FormImageField> {
                     ScaffoldMessenger.of(context).showSnackBar(infoSnackBar(
                         msg: "Can't add more than ${widget.maxImages} images"));
                   }
-                : () async {
-                    selectImages();
-                  },
+                : widget.farmLocations.isEmpty
+                    ? () {
+                        ScaffoldMessenger.of(context).showSnackBar(infoSnackBar(
+                            msg:
+                                "You have to select a farm before taking images"));
+                      }
+                    : () async {
+                        selectImages();
+                      },
             buttonColor: Colors.white,
             textColor: AgriClaimColors.tertiaryColor,
             borderColor: AgriClaimColors.tertiaryColor,

@@ -163,6 +163,9 @@ class ViewFarmPage extends ConsumerWidget {
     String farmAddress = formKey.currentState?.value["farmAddress"];
     farm.farmName = farmName;
     farm.farmAddress = farmAddress;
+    farm.locations = farm.locations
+        .where((element) => element["lat"] != 0 && element["long"] != 0)
+        .toList();
     await farmRepository.updateFarm(farm);
     return true;
   }

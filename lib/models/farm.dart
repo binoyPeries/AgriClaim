@@ -8,7 +8,7 @@ class Farm {
   final String ownerId;
   String farmAddress;
   String farmName;
-  late final List<Map<String, double>> locations;
+  late List<Map<String, double>> locations;
 
   Farm({
     required this.ownerId,

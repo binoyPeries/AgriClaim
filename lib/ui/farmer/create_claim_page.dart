@@ -63,7 +63,6 @@ class CreateClaimPage extends ConsumerWidget {
                           setValue: (farm) => farm.id,
                           setDisplayText: (farm) => farm.farmName,
                           setObjectValue: (farmId) {
-                            print("rebuilding");
                             Farm? farm = farmsList.value
                                 ?.firstWhere((element) => element.id == farmId);
                             if (farm != null) {

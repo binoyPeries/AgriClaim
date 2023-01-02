@@ -10,7 +10,6 @@ class ClaimSelectedFarmLocationsNotifier
   ClaimSelectedFarmLocationsNotifier() : super([]);
 
   void setFarmLocations(List<Map<String, double>> farmLocations) {
-    // state = farm.copyWith(null, null, null, null, null);
     state = [...farmLocations];
   }
 }

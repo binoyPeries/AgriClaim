@@ -9,7 +9,7 @@ class Coordinates {
 }
 
 class FarmBoundary {
-  static const int _accuracy = 5;
+  static const int _accuracy = 6;
 
   /// return true if point is within or on boundary of farm
   static bool checkIsWithinBoundary(

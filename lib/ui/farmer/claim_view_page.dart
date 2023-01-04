@@ -68,7 +68,9 @@ class ClaimViewPage extends ConsumerWidget {
             NoteSection(
                 value: "Officer Note: ",
                 data: claim.officerNote ?? "No notes provided"),
-            SizedBox(height: 3.h),
+            if (claim.approved != null)
+              ClaimAcceptanceCard(accepted: claim.approved ?? false),
+            SizedBox(height: 2.h),
             const SectionDivider(sectionName: "Submitted Photos"),
             SizedBox(height: 2.h),
             ClaimImagesViewer(images: claim.claimPhotos),
@@ -95,6 +97,55 @@ class ClaimViewPage extends ConsumerWidget {
             const MediaRejectedInfo(),
             SizedBox(height: 3.h),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class ClaimAcceptanceCard extends StatelessWidget {
+  final bool accepted;
+  const ClaimAcceptanceCard({
+    Key? key,
+    required this.accepted,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 2.h),
+      child: Container(
+        height: 6.5.h,
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(Radius.circular(5)),
+          border: Border.all(
+              color: accepted
+                  ? AgriClaimColors.secondaryColor
+                  : AgriClaimColors.warningRedColor,
+              width: 0.2.h),
+        ),
+        child: Container(
+          margin: EdgeInsets.all(1.w),
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.all(Radius.circular(5)),
+            border: Border.all(
+                color: accepted
+                    ? AgriClaimColors.secondaryColor
+                    : AgriClaimColors.warningRedColor,
+                width: 0.2.h),
+          ),
+          child: Center(
+            child: Text(
+              accepted ? "Approved" : "Rejected",
+              style: TextStyle(
+                color: accepted
+                    ? AgriClaimColors.secondaryColor
+                    : AgriClaimColors.warningRedColor,
+                fontSize: 2.7.h,
+                fontWeight: FontWeight.w900,
+              ),
+            ),
+          ),
         ),
       ),
     );

@@ -5,6 +5,7 @@ abstract class AgriClaimColors {
   static const Color secondaryColor = Color(0xFF1AC95A);
   static const Color tertiaryColor = Color(0xFF005A97);
   static const Color hintColor = Color(0xFFADAEB7);
+  static const Color warningRedColor = Color(0xFFff2400);
 
   static MaterialColor primaryMaterialColor =
       MaterialColor(primaryColor.value, const {

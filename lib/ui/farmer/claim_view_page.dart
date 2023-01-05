@@ -32,6 +32,7 @@ class ClaimViewPage extends ConsumerWidget {
             const SectionDivider(sectionName: "Basic Details"),
             SizedBox(height: 2.h),
             ClaimInfoPair(value: "Claim ID", data: claim.claimId),
+            ClaimInfoPair(value: "Claim Reference", data: claim.claimReference),
             Consumer(
               builder: (BuildContext context, WidgetRef ref, Widget? child) {
                 final farm = ref.watch(claimFarmProvider(claim.farmId));

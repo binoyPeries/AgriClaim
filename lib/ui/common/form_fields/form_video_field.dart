@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sizer/sizer.dart';
+import 'package:video_compress/video_compress.dart';
 import 'package:video_player/video_player.dart';
 
 class FormVideoField extends StatefulWidget {
@@ -46,14 +47,21 @@ class _FormVideoFieldState extends State<FormVideoField> {
         source: ImageSource.camera,
         maxDuration: Duration(seconds: widget.maxDurationInSec));
     if (video != null) {
-      capturedVideo = File(video.path);
+      // compress the video
+      final compressedVideoRaw = await VideoCompress.compressVideo(
+        video.path,
+        quality: VideoQuality.LowQuality,
+        includeAudio: false,
+      );
+      final compressedVideo = XFile(compressedVideoRaw?.path ?? "");
+      capturedVideo = File(compressedVideo.path);
       videoCaptured = true;
       final location = await getCurrentLocation();
       final time = DateTime.now();
       bool accepted = isWithinFarmBoundaries(location, widget.farmLocations);
 
       ClaimMedia media = ClaimMedia(
-          mediaFile: video,
+          mediaFile: compressedVideo,
           latitude: location[0],
           longitude: location[1],
           capturedDateTime: time,

@@ -8,7 +8,6 @@ import 'package:agriclaim/utils/agriclaim_exception.dart';
 import 'package:agriclaim/utils/helper_functions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:video_compress/video_compress.dart';
 
 class ClaimRepository {
   final FirebaseFirestore _store;
@@ -45,15 +44,8 @@ class ClaimRepository {
     final videoFile = video.mediaFile;
     final fileName = videoFile.name;
     try {
-      // compress the video
-      final compressedVideo = await VideoCompress.compressVideo(
-        videoFile.path,
-        quality: VideoQuality.LowQuality,
-        includeAudio: false,
-      );
-      final snapshot = await claimPhotosRef
-          .child(fileName)
-          .putFile(File(compressedVideo?.path ?? ""));
+      final snapshot =
+          await claimPhotosRef.child(fileName).putFile(File(videoFile.path));
       final downloadUrl = await snapshot.ref.getDownloadURL();
       // to add the video url to existing ClaimMedia object
       final result = video.clone(mediaUrl: downloadUrl);

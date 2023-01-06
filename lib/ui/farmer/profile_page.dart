@@ -1,5 +1,6 @@
 import 'package:agriclaim/models/farmer.dart';
 import 'package:agriclaim/providers/auth_provider.dart';
+import 'package:agriclaim/providers/connectivity_provider.dart';
 import 'package:agriclaim/providers/user_provider.dart';
 import 'package:agriclaim/repository/auth_repository.dart';
 import 'package:agriclaim/ui/common/components/submission_button.dart';
@@ -15,11 +16,12 @@ import 'package:sizer/sizer.dart';
 
 class ProfilePage extends ConsumerWidget {
   const ProfilePage({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final formKey = GlobalKey<FormBuilderState>();
-
+    final connectivityService =
+        ref.watch(networkAwareProvider.notifier).newState;
+    print("========================");
     final farmer = ref.watch(farmerDetailsProvider);
     final authRepository = ref.read(authRepositoryProvider);
     final labelTextSize = 2.3.h;
@@ -34,6 +36,7 @@ class ProfilePage extends ConsumerWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       SizedBox(height: 4.h),
+                      Text(connectivityService.name),
                       const SectionDivider(sectionName: "Personal Details"),
                       SizedBox(height: 3.h),
                       FormTextField(

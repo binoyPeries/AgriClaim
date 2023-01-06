@@ -6,7 +6,8 @@ import 'auth_provider.dart';
 
 final farmRepositoryProvider = Provider<FarmRepository>((ref) {
   final currentUser = ref.watch(authRepositoryProvider).getLoggedInUser();
-  return FarmRepository(FirebaseFirestore.instance, currentUser?.uid);
+  FirebaseFirestore ff = FirebaseFirestore.instance;
+  return FarmRepository(ff, currentUser?.uid);
 });
 
 /// Editable toggle for editing farm information

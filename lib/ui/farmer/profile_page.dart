@@ -19,11 +19,11 @@ class ProfilePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final formKey = GlobalKey<FormBuilderState>();
-    final connectivityService =
-        ref.watch(networkAwareProvider.notifier).newState;
-    print("========================");
+
+    final connectivityService = ref.watch(networkAwareProvider);
     final farmer = ref.watch(farmerDetailsProvider);
     final authRepository = ref.read(authRepositoryProvider);
+
     final labelTextSize = 2.3.h;
     final valueTextSize = 2.3.h;
 

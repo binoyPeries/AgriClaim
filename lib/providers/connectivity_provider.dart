@@ -1,8 +1,7 @@
 import 'dart:async';
+import 'package:agriclaim/ui/constants/enums.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-enum NetworkStatus { notDetermined, on, off }
 
 class NetworkDetectorNotifier extends StateNotifier<NetworkStatus> {
   StreamController<ConnectivityResult> controller =

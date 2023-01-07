@@ -1,9 +1,12 @@
+import 'package:agriclaim/providers/connectivity_provider.dart';
 import 'package:agriclaim/providers/farm_provider.dart';
 import 'package:agriclaim/ui/common/components/default_appbar.dart';
 import 'package:agriclaim/ui/common/components/default_scaffold.dart';
+import 'package:agriclaim/ui/common/components/info_snack_bar.dart';
 import 'package:agriclaim/ui/common/components/primary_button.dart';
 import 'package:agriclaim/ui/common/form_fields/form_text_field.dart';
 import 'package:agriclaim/ui/constants/colors.dart';
+import 'package:agriclaim/ui/constants/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -105,11 +108,21 @@ class RegisterFarmPage extends ConsumerWidget {
     if (!isValid) {
       return false;
     }
-
     Map farmData = formKey.currentState?.value ?? {};
     locationsList
         .removeWhere((element) => element["lat"] == 0 && element["long"] == 0);
     Map<String, dynamic> data = {...farmData, "locations": locationsList};
+    // TODO: check here
+    var connectivityStatus = ref.watch(networkAwareProvider);
+    print("=================================================================");
+    print(connectivityStatus.name);
+    print("=================================================================");
+
+    if (connectivityStatus == NetworkStatus.off) {
+      ScaffoldMessenger.of(context).showSnackBar(infoSnackBar(
+          msg:
+              "You are in offline mode.\nThis wll be submitted automatically once internet connection is restored."));
+    }
     await farmRepository.addFarm(data);
 
     return true;

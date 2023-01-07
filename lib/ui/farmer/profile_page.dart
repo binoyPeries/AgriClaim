@@ -15,13 +15,13 @@ import 'package:sizer/sizer.dart';
 
 class ProfilePage extends ConsumerWidget {
   const ProfilePage({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final formKey = GlobalKey<FormBuilderState>();
 
     final farmer = ref.watch(farmerDetailsProvider);
     final authRepository = ref.read(authRepositoryProvider);
+
     final labelTextSize = 2.3.h;
     final valueTextSize = 2.3.h;
 

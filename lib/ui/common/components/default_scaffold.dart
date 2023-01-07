@@ -1,8 +1,12 @@
+import 'package:agriclaim/providers/connectivity_provider.dart';
+import 'package:agriclaim/ui/common/components/info_snack_bar.dart';
+import 'package:agriclaim/ui/constants/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sizer/sizer.dart';
 
-class DefaultScaffold extends StatelessWidget {
+class DefaultScaffold extends ConsumerWidget {
   final PreferredSizeWidget? appBar;
   final Widget body;
   final Widget? bottomNavBar;
@@ -16,7 +20,14 @@ class DefaultScaffold extends StatelessWidget {
       : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.listen<NetworkStatus>(networkAwareProvider, (previous, current) {
+      if ((previous != current) && (current == NetworkStatus.off)) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          infoSnackBar(msg: "You are in offline mode."),
+        );
+      }
+    });
     final appTheme = Theme.of(context);
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(

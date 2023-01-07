@@ -15,3 +15,9 @@ enum BoundaryStates {
   outOfBoundary,
   onBoundary,
 }
+
+enum NetworkStatus {
+  notDetermined,
+  on,
+  off,
+}

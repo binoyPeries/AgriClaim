@@ -32,8 +32,8 @@ abstract class AgriClaimRoutes {
   static const String commonSignUp = "/signup/:role";
   static const String farmerSignUp = "/signup-farmer";
   static const String officerSignUp = "/signup-officer";
-  static const String farmerHome = "/home-farmer";
-  static const String officerHome = "/home-farmer";
+  static const String farmerHome = "/farmer-home";
+  static const String officerHome = "/officer-home";
   static const String registerFarm = "/register-farm";
   //:TODO add a way to load specific page in the home nav bar
   static const String claimList = "/claims/:type";

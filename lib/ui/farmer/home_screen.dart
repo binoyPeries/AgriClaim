@@ -80,6 +80,6 @@ class _FarmerHomePageState extends State<FarmerHomePage> {
   static const List<Widget> _pages = <Widget>[
     ClaimsHomePage(),
     ViewFarmListPage(),
-    ProfilePage(),
+    FarmerProfilePage(),
   ];
 }

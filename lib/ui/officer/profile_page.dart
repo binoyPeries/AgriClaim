@@ -13,8 +13,8 @@ import 'package:sizer/sizer.dart';
 
 import '../../models/officer.dart';
 
-class ProfilePage extends ConsumerWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+class OfficerProfilePage extends ConsumerWidget {
+  const OfficerProfilePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

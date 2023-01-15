@@ -67,6 +67,6 @@ class _OfficerHomePageState extends State<OfficerHomePage> {
   static const List<Widget> _pages = <Widget>[
     AssignedClaimsPage(),
     SearchPage(),
-    ProfilePage(),
+    OfficerProfilePage(),
   ];
 }

@@ -15,7 +15,6 @@ class LoginCheck extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final authState = ref.watch(authStateProvider);
-
     return authState.when(
         data: (user) {
           if (user != null) {
@@ -23,7 +22,6 @@ class LoginCheck extends ConsumerWidget {
                 ? const FarmerHomePage()
                 : const OfficerHomePage();
           }
-
           return const WelcomePage();
         },
         loading: () => const SplashScreen(),

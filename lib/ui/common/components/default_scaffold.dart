@@ -27,7 +27,9 @@ class DefaultScaffold extends ConsumerWidget {
       if ((previous != current) && (current == NetworkStatus.off)) {
         ScaffoldMessenger.of(context).showSnackBar(
           infoSnackBar(
-              msg: "You are in offline mode.", time: const Duration(hours: 1)),
+              msg: "You are in offline mode",
+              time: const Duration(hours: 1),
+              bottomPadding: 60.h),
         );
       }
       if ((previous != current) &&
@@ -36,9 +38,10 @@ class DefaultScaffold extends ConsumerWidget {
         ScaffoldMessenger.of(context).hideCurrentSnackBar();
         ScaffoldMessenger.of(context).showSnackBar(
           infoSnackBar(
-              msg: "You are back online.",
+              msg: "You are back online",
               color: AgriClaimColors.primaryColor,
-              icon: FontAwesomeIcons.circleCheck),
+              icon: FontAwesomeIcons.circleCheck,
+              bottomPadding: 60.h),
         );
       }
     });

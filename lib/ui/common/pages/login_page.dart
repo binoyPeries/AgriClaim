@@ -73,8 +73,8 @@ class LoginPage extends ConsumerWidget {
                       text: S.of(context).login,
                       onSubmit: () => submitLogin(formKey, ref),
                       afterSubmit: (context) => userType == UserRoles.farmer
-                          ? context.push(AgriClaimRoutes.farmerHome)
-                          : context.push(AgriClaimRoutes.officerHome),
+                          ? context.replace(AgriClaimRoutes.farmerHome)
+                          : context.replace(AgriClaimRoutes.officerHome),
                     ),
                     SizedBox(height: 5.h),
                     Row(

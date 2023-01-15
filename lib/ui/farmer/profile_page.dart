@@ -11,6 +11,7 @@ import 'package:agriclaim/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sizer/sizer.dart';
 
 class ProfilePage extends ConsumerWidget {
@@ -19,8 +20,8 @@ class ProfilePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final formKey = GlobalKey<FormBuilderState>();
 
-    final farmer = ref.watch(farmerDetailsProvider);
-    final authRepository = ref.read(authRepositoryProvider);
+    var farmer = ref.watch(farmerDetailsProvider);
+    final authRepository = ref.watch(authRepositoryProvider);
 
     final labelTextSize = 2.3.h;
     final valueTextSize = 2.3.h;
@@ -69,8 +70,20 @@ class ProfilePage extends ConsumerWidget {
                       ),
                     ],
                   )
-                : const Center(
-                    child: Text("Couldn't load profile Information"),
+                : Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Text("Couldn't load profile Information"),
+                      IconButton(
+                        onPressed: () {
+                          farmer = ref.refresh(farmerDetailsProvider);
+                        },
+                        icon: const Icon(FontAwesomeIcons.arrowRotateRight),
+                        color: AgriClaimColors.tertiaryColor,
+                        iconSize: 5.h,
+                      )
+                    ],
                   ));
       },
       loading: () => const Center(child: CircularProgressIndicator()),

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
-SnackBar infoSnackBar({String? msg, Color? color, IconData? icon}) {
+SnackBar infoSnackBar(
+    {String? msg, Color? color, IconData? icon, Duration? time}) {
   return SnackBar(
+    duration: time ?? const Duration(seconds: 5),
     content: SizedBox(
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Icon(

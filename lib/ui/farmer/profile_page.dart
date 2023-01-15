@@ -74,7 +74,12 @@ class FarmerProfilePage extends ConsumerWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const Text("Couldn't load profile Information"),
+                      Text(
+                        "Failed to load profile Information",
+                        style: TextStyle(
+                            fontSize: 2.2.h,
+                            color: AgriClaimColors.warningRedColor),
+                      ),
                       IconButton(
                         onPressed: () {
                           farmer = ref.refresh(farmerDetailsProvider);

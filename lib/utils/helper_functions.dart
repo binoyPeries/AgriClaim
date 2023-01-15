@@ -89,3 +89,7 @@ bool isWithinFarmBoundaries(
       FarmBoundary.checkIsWithinBoundary(pointCoordinates, farmCoordinates);
   return isAccepted;
 }
+
+String capitalizeFirstLetter(String val) {
+  return val[0].toUpperCase() + val.substring(1);
+}

@@ -6,6 +6,7 @@ import 'package:agriclaim/ui/common/components/default_scaffold.dart';
 import 'package:agriclaim/ui/common/components/submission_button.dart';
 import 'package:agriclaim/ui/common/form_fields/form_text_field.dart';
 import 'package:agriclaim/ui/constants/enums.dart';
+import 'package:agriclaim/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -22,7 +23,9 @@ class CommonSignUpPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final formKey = GlobalKey<FormBuilderState>();
     return DefaultScaffold(
-      appBar: const DefaultAppBar(title: "Sign Up", backButtonVisible: true),
+      appBar: DefaultAppBar(
+          title: "${capitalizeFirstLetter(userType.name)} Sign Up",
+          backButtonVisible: true),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15),

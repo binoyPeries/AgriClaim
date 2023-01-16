@@ -14,8 +14,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sizer/sizer.dart';
 
-class ProfilePage extends ConsumerWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+class FarmerProfilePage extends ConsumerWidget {
+  const FarmerProfilePage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final formKey = GlobalKey<FormBuilderState>();
@@ -74,7 +74,12 @@ class ProfilePage extends ConsumerWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const Text("Couldn't load profile Information"),
+                      Text(
+                        "Failed to load profile Information",
+                        style: TextStyle(
+                            fontSize: 2.2.h,
+                            color: AgriClaimColors.warningRedColor),
+                      ),
                       IconButton(
                         onPressed: () {
                           farmer = ref.refresh(farmerDetailsProvider);

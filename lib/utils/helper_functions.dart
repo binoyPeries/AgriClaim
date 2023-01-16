@@ -97,3 +97,7 @@ List<Claim> filterSearchResults(List<Claim> claims, String searchString) {
           element.claimId.toLowerCase().startsWith(searchString.toLowerCase()))
       .toList();
 }
+
+String capitalizeFirstLetter(String val) {
+  return val[0].toUpperCase() + val.substring(1);
+}

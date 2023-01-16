@@ -4,7 +4,6 @@ enum UserRoles {
 }
 
 enum ClaimStates {
-  draft,
   pending,
   inReview,
   completed,

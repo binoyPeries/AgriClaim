@@ -13,8 +13,8 @@ import 'package:sizer/sizer.dart';
 
 import '../../models/officer.dart';
 
-class ProfilePage extends ConsumerWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+class OfficerProfilePage extends ConsumerWidget {
+  const OfficerProfilePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -28,59 +28,74 @@ class ProfilePage extends ConsumerWidget {
     return officer.when(
       data: (data) {
         return SingleChildScrollView(
-            child: data != null
-                ? Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      SizedBox(height: 4.h),
-                      const SectionDivider(sectionName: "Personal Details"),
-                      SizedBox(height: 3.h),
-                      FormTextField(
-                        initialValue: data.officerId,
-                        fieldName: "accID",
-                        label: "Account ID",
-                        readOnly: true,
-                        labelFontSize: labelTextSize,
-                        textFontSize: valueTextSize,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              data != null
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 4.h),
+                        const SectionDivider(sectionName: "Personal Details"),
+                        SizedBox(height: 3.h),
+                        FormTextField(
+                          initialValue: data.officerId,
+                          fieldName: "accID",
+                          label: "Account ID",
+                          readOnly: true,
+                          labelFontSize: labelTextSize,
+                          textFontSize: valueTextSize,
+                        ),
+                        SizedBox(height: 2.h),
+                        FormTextField(
+                          initialValue: data.phoneNumber,
+                          fieldName: "mobile",
+                          label: "Mobile Number",
+                          readOnly: true,
+                          labelFontSize: labelTextSize,
+                          textFontSize: valueTextSize,
+                        ),
+                        SizedBox(height: 2.h),
+                        FormTextField(
+                          initialValue: data.officerRegNo,
+                          fieldName: "officerRegNo",
+                          label: "Officer ID",
+                          readOnly: true,
+                          labelFontSize: labelTextSize,
+                          textFontSize: valueTextSize,
+                        ),
+                        ProfileEditableForm(
+                          formKey: formKey,
+                          labelTextSize: labelTextSize,
+                          valueTextSize: valueTextSize,
+                          data: data,
+                        ),
+                        SizedBox(height: 1.5.h),
+                      ],
+                    )
+                  : Padding(
+                      padding: EdgeInsets.only(top: 40.h, bottom: 5.h),
+                      child: Center(
+                        child: Text(
+                          "Failed to load profile Information",
+                          style: TextStyle(
+                              fontSize: 2.2.h,
+                              color: AgriClaimColors.warningRedColor),
+                        ),
                       ),
-                      SizedBox(height: 2.h),
-                      FormTextField(
-                        initialValue: data.phoneNumber,
-                        fieldName: "mobile",
-                        label: "Mobile Number",
-                        readOnly: true,
-                        labelFontSize: labelTextSize,
-                        textFontSize: valueTextSize,
-                      ),
-                      SizedBox(height: 2.h),
-                      FormTextField(
-                        initialValue: data.officerRegNo,
-                        fieldName: "officerRegNo",
-                        label: "Officer ID",
-                        readOnly: true,
-                        labelFontSize: labelTextSize,
-                        textFontSize: valueTextSize,
-                      ),
-                      ProfileEditableForm(
-                        formKey: formKey,
-                        labelTextSize: labelTextSize,
-                        valueTextSize: valueTextSize,
-                        data: data,
-                      ),
-                      SizedBox(height: 1.5.h),
-                      SubmissionButton(
-                        text: "Logout",
-                        onSubmit: () => logout(authRepository),
-                        afterSubmit: (context) {},
-                        buttonColor: Colors.white,
-                        textColor: AgriClaimColors.tertiaryColor,
-                      ),
-                    ],
-                  )
-                : const Center(
-                    child: Text("Couldn't load profile Information"),
-                  ));
+                    ),
+              SubmissionButton(
+                text: "Logout",
+                onSubmit: () => logout(authRepository),
+                afterSubmit: (context) {},
+                buttonColor: Colors.white,
+                textColor: AgriClaimColors.tertiaryColor,
+              ),
+            ],
+          ),
+        );
       },
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (e, st) => Center(child: Text(e.toString())),

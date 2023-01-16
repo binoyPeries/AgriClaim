@@ -2,9 +2,11 @@ import 'package:agriclaim/models/claim_media.dart';
 import 'package:agriclaim/models/farm.dart';
 import 'package:agriclaim/providers/claim_farm_provider.dart';
 import 'package:agriclaim/providers/claim_provider.dart';
+import 'package:agriclaim/providers/connectivity_provider.dart';
 import 'package:agriclaim/providers/farm_provider.dart';
 import 'package:agriclaim/ui/common/components/default_appbar.dart';
 import 'package:agriclaim/ui/common/components/default_scaffold.dart';
+import 'package:agriclaim/ui/common/components/info_snack_bar.dart';
 import 'package:agriclaim/ui/common/components/submission_button.dart';
 import 'package:agriclaim/ui/common/form_fields/form_dropdown_field.dart';
 import 'package:agriclaim/ui/common/form_fields/form_image_field.dart';
@@ -12,6 +14,7 @@ import 'package:agriclaim/ui/common/form_fields/form_text_area_field.dart';
 import 'package:agriclaim/ui/common/form_fields/form_text_field.dart';
 import 'package:agriclaim/ui/common/form_fields/form_video_field.dart';
 import 'package:agriclaim/ui/constants/colors.dart';
+import 'package:agriclaim/ui/constants/enums.dart';
 import 'package:agriclaim/ui/farmer/claim_view_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -21,8 +24,10 @@ import 'package:sizer/sizer.dart';
 
 class CreateClaimPage extends ConsumerWidget {
   CreateClaimPage({super.key});
+
   List<ClaimMedia> imageList = [];
   ClaimMedia? video;
+
   setImageList(List<ClaimMedia> photoList) {
     imageList = photoList;
   }
@@ -175,12 +180,27 @@ class CreateClaimPage extends ConsumerWidget {
       BuildContext context, WidgetRef ref) async {
     final isValid = formKey.currentState?.saveAndValidate() ?? false;
     final claimRepository = ref.read(claimRepositoryProvider);
+    final connectivityStatus = ref.watch(networkAwareProvider);
     if (!isValid) {
       return false;
     }
     Map<String, dynamic> mediaData = {};
     mediaData["claimPhotos"] = imageList;
     mediaData["claimVideo"] = video;
+
+    if (connectivityStatus == NetworkStatus.off) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        infoSnackBar(
+          msg: "You are in offline mode.\n"
+              "This wll be submitted automatically once internet connection is restored.",
+          time: const Duration(seconds: 3),
+        ),
+      );
+      await Future.delayed(const Duration(seconds: 3), () {
+        context.pop();
+      });
+    }
+
     await claimRepository.createClaim(
         mediaData: mediaData, data: formKey.currentState?.value ?? {});
 

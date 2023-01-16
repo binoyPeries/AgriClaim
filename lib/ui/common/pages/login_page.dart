@@ -7,6 +7,7 @@ import 'package:agriclaim/ui/common/form_fields/form_text_field.dart';
 import 'package:agriclaim/ui/constants/assets.dart';
 import 'package:agriclaim/ui/constants/colors.dart';
 import 'package:agriclaim/ui/constants/enums.dart';
+import 'package:agriclaim/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -26,8 +27,10 @@ class LoginPage extends ConsumerWidget {
     final formKey = GlobalKey<FormBuilderState>();
 
     return DefaultScaffold(
-      appBar:
-          DefaultAppBar(title: S.of(context).login, backButtonVisible: true),
+      appBar: DefaultAppBar(
+          title:
+              " ${capitalizeFirstLetter(userType.name)} ${S.of(context).login}",
+          backButtonVisible: true),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -73,8 +76,8 @@ class LoginPage extends ConsumerWidget {
                       text: S.of(context).login,
                       onSubmit: () => submitLogin(formKey, ref),
                       afterSubmit: (context) => userType == UserRoles.farmer
-                          ? context.push(AgriClaimRoutes.farmerHome)
-                          : context.push(AgriClaimRoutes.officerHome),
+                          ? context.replace(AgriClaimRoutes.farmerHome)
+                          : context.replace(AgriClaimRoutes.officerHome),
                     ),
                     SizedBox(height: 5.h),
                     Row(

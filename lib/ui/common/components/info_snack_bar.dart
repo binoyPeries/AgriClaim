@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
-SnackBar infoSnackBar({String? msg, Color? color, IconData? icon}) {
+SnackBar infoSnackBar(
+    {String? msg,
+    Color? color,
+    IconData? icon,
+    Duration? time,
+    double? bottomPadding}) {
   return SnackBar(
+    duration: time ?? const Duration(seconds: 5),
     content: SizedBox(
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Icon(
@@ -27,6 +33,7 @@ SnackBar infoSnackBar({String? msg, Color? color, IconData? icon}) {
     shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(8))),
     behavior: SnackBarBehavior.floating,
-    margin: const EdgeInsets.symmetric(vertical: 15, horizontal: 8),
+    margin: EdgeInsets.only(
+        bottom: bottomPadding ?? 5.h, left: 1.5.h, right: 1.5.h),
   );
 }

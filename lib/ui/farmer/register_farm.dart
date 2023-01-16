@@ -25,74 +25,72 @@ class RegisterFarmPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final formKey = GlobalKey<FormBuilderState>();
-    return SafeArea(
-      child: DefaultScaffold(
-        appBar: const DefaultAppBar(
-            title: "Register Farm", backButtonVisible: true),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                FormBuilder(
-                  key: formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      SizedBox(height: 2.h),
-                      FormTextField(
-                        fieldName: "farmName",
-                        label: "Farm Name (ex: Farm 1)",
-                        keyboardType: TextInputType.text,
-                        validators: [FormBuilderValidators.min(1)],
-                      ),
-                      SizedBox(height: 2.h),
-                      FormTextAreaField(
-                        fieldName: "farmAddress",
-                        label: S.of(context).farm_address,
-                        maxLines: 3,
-                        validators: [FormBuilderValidators.min(1)],
-                      ),
-                      SizedBox(height: 2.h),
-                      const FarmLocationsWidget(),
-                      Consumer(
-                        builder: (
-                          BuildContext context,
-                          WidgetRef ref,
-                          Widget? child,
-                        ) {
-                          final locationsList =
-                              ref.watch(farmLocationCountStateProvider);
+    return DefaultScaffold(
+      appBar:
+          const DefaultAppBar(title: "Register Farm", backButtonVisible: true),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              FormBuilder(
+                key: formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    SizedBox(height: 2.h),
+                    FormTextField(
+                      fieldName: "farmName",
+                      label: "Farm Name (ex: Farm 1)",
+                      keyboardType: TextInputType.text,
+                      validators: [FormBuilderValidators.min(1)],
+                    ),
+                    SizedBox(height: 2.h),
+                    FormTextAreaField(
+                      fieldName: "farmAddress",
+                      label: S.of(context).farm_address,
+                      maxLines: 3,
+                      validators: [FormBuilderValidators.min(1)],
+                    ),
+                    SizedBox(height: 2.h),
+                    const FarmLocationsWidget(),
+                    Consumer(
+                      builder: (
+                        BuildContext context,
+                        WidgetRef ref,
+                        Widget? child,
+                      ) {
+                        final locationsList =
+                            ref.watch(farmLocationCountStateProvider);
 
-                          return locationsList
-                                      .where((element) =>
-                                          element["lat"] != 0 &&
-                                          element["long"] != 0)
-                                      .length <
-                                  4
-                              ? const DisabledButton()
-                              : SubmissionButton(
-                                  text: S.of(context).register,
-                                  onSubmit: () =>
-                                      registerFarm(formKey, context, ref),
-                                  afterSubmit: (context) {
-                                    context.pop();
-                                    ref
-                                        .read(farmLocationCountStateProvider
-                                            .notifier)
-                                        .clearList();
-                                  },
-                                );
-                        },
-                      ),
-                      SizedBox(height: 3.h),
-                    ],
-                  ),
-                )
-              ],
-            ),
+                        return locationsList
+                                    .where((element) =>
+                                        element["lat"] != 0 &&
+                                        element["long"] != 0)
+                                    .length <
+                                4
+                            ? const DisabledButton()
+                            : SubmissionButton(
+                                text: S.of(context).register,
+                                onSubmit: () =>
+                                    registerFarm(formKey, context, ref),
+                                afterSubmit: (context) {
+                                  context.pop();
+                                  ref
+                                      .read(farmLocationCountStateProvider
+                                          .notifier)
+                                      .clearList();
+                                },
+                              );
+                      },
+                    ),
+                    SizedBox(height: 3.h),
+                  ],
+                ),
+              )
+            ],
           ),
         ),
       ),
@@ -112,16 +110,15 @@ class RegisterFarmPage extends ConsumerWidget {
     locationsList
         .removeWhere((element) => element["lat"] == 0 && element["long"] == 0);
     Map<String, dynamic> data = {...farmData, "locations": locationsList};
-    // TODO: check here
     var connectivityStatus = ref.watch(networkAwareProvider);
-    print("=================================================================");
-    print(connectivityStatus.name);
-    print("=================================================================");
-
     if (connectivityStatus == NetworkStatus.off) {
       ScaffoldMessenger.of(context).showSnackBar(infoSnackBar(
-          msg:
-              "You are in offline mode.\nThis wll be submitted automatically once internet connection is restored."));
+          msg: "You are in offline mode.\n"
+              "This wll be submitted automatically once internet connection is restored.",
+          time: const Duration(seconds: 3)));
+      await Future.delayed(const Duration(seconds: 3), () {
+        context.pop();
+      });
     }
     await farmRepository.addFarm(data);
 

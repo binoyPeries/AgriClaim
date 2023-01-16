@@ -24,128 +24,125 @@ class ViewFarmPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final formKey = GlobalKey<FormBuilderState>();
     final editable = ref.watch(farmEditableStateProvider);
-    return SafeArea(
-      child: DefaultScaffold(
-        appBar: DefaultAppBar(
-            title: editable ? "Edit Farm Information" : "View Farm Information",
-            backButtonVisible: true),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                FormBuilder(
-                  key: formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      SizedBox(height: 2.h),
-                      Visibility(
-                        visible: !editable,
-                        child: Text(
-                          "Farm Name",
-                          style: TextStyle(
-                              color: AgriClaimColors.primaryColor,
-                              fontSize: 2.5.h,
-                              fontWeight: FontWeight.w700),
-                        ),
+    return DefaultScaffold(
+      appBar: DefaultAppBar(
+          title: editable ? "Edit Farm Information" : "View Farm Information",
+          backButtonVisible: true),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              FormBuilder(
+                key: formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    SizedBox(height: 2.h),
+                    Visibility(
+                      visible: !editable,
+                      child: Text(
+                        "Farm Name",
+                        style: TextStyle(
+                            color: AgriClaimColors.primaryColor,
+                            fontSize: 2.5.h,
+                            fontWeight: FontWeight.w700),
                       ),
-                      editable
-                          ? FormTextField(
-                              labelFontColor: AgriClaimColors.primaryColor,
-                              labelFontWeight: FontWeight.w700,
-                              labelFontSize: 2.5.h,
-                              fieldName: "farmName",
-                              label: "Farm Name",
-                              initialValue: farm.farmName,
-                              keyboardType: TextInputType.text,
-                              validators: [FormBuilderValidators.min(1)],
-                            )
-                          : Text(
-                              farm.farmName,
-                              style: TextStyle(
-                                fontSize: 2.3.h,
-                              ),
+                    ),
+                    editable
+                        ? FormTextField(
+                            labelFontColor: AgriClaimColors.primaryColor,
+                            labelFontWeight: FontWeight.w700,
+                            labelFontSize: 2.5.h,
+                            fieldName: "farmName",
+                            label: "Farm Name",
+                            initialValue: farm.farmName,
+                            keyboardType: TextInputType.text,
+                            validators: [FormBuilderValidators.min(1)],
+                          )
+                        : Text(
+                            farm.farmName,
+                            style: TextStyle(
+                              fontSize: 2.3.h,
                             ),
-                      SizedBox(height: 2.h),
-                      Visibility(
-                        visible: !editable,
-                        child: Text(
-                          "Farm Address",
-                          style: TextStyle(
-                              color: AgriClaimColors.primaryColor,
-                              fontSize: 2.5.h,
-                              fontWeight: FontWeight.w700),
-                        ),
+                          ),
+                    SizedBox(height: 2.h),
+                    Visibility(
+                      visible: !editable,
+                      child: Text(
+                        "Farm Address",
+                        style: TextStyle(
+                            color: AgriClaimColors.primaryColor,
+                            fontSize: 2.5.h,
+                            fontWeight: FontWeight.w700),
                       ),
-                      editable
-                          ? FormTextField(
-                              labelFontColor: AgriClaimColors.primaryColor,
-                              labelFontWeight: FontWeight.w700,
-                              labelFontSize: 2.5.h,
-                              fieldName: "farmAddress",
-                              label: "Farm Address",
-                              initialValue: farm.farmAddress,
-                              keyboardType: TextInputType.text,
-                              validators: [FormBuilderValidators.min(1)],
-                            )
-                          : Text(
-                              farm.farmAddress,
-                              style: TextStyle(
-                                fontSize: 2.3.h,
-                              ),
+                    ),
+                    editable
+                        ? FormTextField(
+                            labelFontColor: AgriClaimColors.primaryColor,
+                            labelFontWeight: FontWeight.w700,
+                            labelFontSize: 2.5.h,
+                            fieldName: "farmAddress",
+                            label: "Farm Address",
+                            initialValue: farm.farmAddress,
+                            keyboardType: TextInputType.text,
+                            validators: [FormBuilderValidators.min(1)],
+                          )
+                        : Text(
+                            farm.farmAddress,
+                            style: TextStyle(
+                              fontSize: 2.3.h,
                             ),
-                      SizedBox(height: 2.h),
-                      FarmLocationsWidget(farm),
-                      SizedBox(height: 3.h),
-                      Visibility(
-                        visible: editable,
-                        child: PrimaryButton(
-                            onPressed: () {
-                              ref
-                                  .read(farmNotifierProvider(farm).notifier)
-                                  .addLocation();
-                            },
-                            buttonColor: Colors.white,
-                            textColor: AgriClaimColors.primaryColor,
-                            borderColor: AgriClaimColors.primaryColor,
-                            text: S.of(context).add_another_location),
-                      ),
-                      SizedBox(height: 1.h),
-                      Visibility(
-                        visible: !editable,
-                        child: PrimaryButton(
-                            onPressed: () {
-                              ref
-                                  .read(farmEditableStateProvider.notifier)
-                                  .state = true;
-                            },
-                            buttonColor: Colors.white,
-                            textColor: AgriClaimColors.primaryColor,
-                            borderColor: AgriClaimColors.primaryColor,
-                            text: "Edit"),
-                      ),
-                      SizedBox(height: 3.h),
-                      Visibility(
-                        visible: editable,
-                        child: SubmissionButton(
-                          text: "Submit Updates",
-                          onSubmit: () => updateFarm(formKey, context, ref,
-                              ref.read(farmNotifierProvider(farm))),
-                          afterSubmit: (context) {
-                            ref.read(farmEditableStateProvider.notifier).state =
-                                false;
+                          ),
+                    SizedBox(height: 2.h),
+                    FarmLocationsWidget(farm),
+                    SizedBox(height: 3.h),
+                    Visibility(
+                      visible: editable,
+                      child: PrimaryButton(
+                          onPressed: () {
+                            ref
+                                .read(farmNotifierProvider(farm).notifier)
+                                .addLocation();
                           },
-                        ),
+                          buttonColor: Colors.white,
+                          textColor: AgriClaimColors.primaryColor,
+                          borderColor: AgriClaimColors.primaryColor,
+                          text: S.of(context).add_another_location),
+                    ),
+                    SizedBox(height: 1.h),
+                    Visibility(
+                      visible: !editable,
+                      child: PrimaryButton(
+                          onPressed: () {
+                            ref.read(farmEditableStateProvider.notifier).state =
+                                true;
+                          },
+                          buttonColor: Colors.white,
+                          textColor: AgriClaimColors.primaryColor,
+                          borderColor: AgriClaimColors.primaryColor,
+                          text: "Edit"),
+                    ),
+                    SizedBox(height: 3.h),
+                    Visibility(
+                      visible: editable,
+                      child: SubmissionButton(
+                        text: "Submit Updates",
+                        onSubmit: () => updateFarm(formKey, context, ref,
+                            ref.read(farmNotifierProvider(farm))),
+                        afterSubmit: (context) {
+                          ref.read(farmEditableStateProvider.notifier).state =
+                              false;
+                        },
                       ),
-                      SizedBox(height: 3.h),
-                    ],
-                  ),
-                )
-              ],
-            ),
+                    ),
+                    SizedBox(height: 3.h),
+                  ],
+                ),
+              )
+            ],
           ),
         ),
       ),

@@ -52,10 +52,22 @@ class _ClaimImagesViewerState extends State<ClaimImagesViewer> {
                             child: CircularProgressIndicator(
                                 value: downloadProgress.progress)),
                     errorWidget: (context, url, error) => Center(
-                        child: Icon(
-                      Icons.error,
-                      size: 3.h,
-                    )),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.error,
+                            size: 5.h,
+                            color: AgriClaimColors.warningRedColor,
+                          ),
+                          Text(
+                            "Failed to load media content",
+                            style: TextStyle(fontSize: 2.h),
+                          )
+                        ],
+                      ),
+                    ),
                   ),
                 ),
                 Align(

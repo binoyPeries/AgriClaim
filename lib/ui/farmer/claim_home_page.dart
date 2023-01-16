@@ -43,12 +43,6 @@ class ClaimsHomePage extends ConsumerWidget {
             description: "View all completed claims",
             claimType: ClaimStates.completed,
           ),
-          const ClaimsOptions(
-            option: "Drafts",
-            optionImage: AgriClaimAssets.claimDraft,
-            description: "Edit draft claims",
-            claimType: ClaimStates.draft,
-          ),
         ],
       ),
     );

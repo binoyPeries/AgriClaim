@@ -2,17 +2,16 @@ import 'package:agriclaim/models/claim.dart';
 import 'package:agriclaim/models/farm.dart';
 import 'package:agriclaim/ui/common/components/claim_photo_full_screen_viewer.dart';
 import 'package:agriclaim/ui/common/pages/login_check.dart';
-import 'package:agriclaim/ui/farmer/claim_view_page.dart';
-import 'package:agriclaim/ui/farmer/farm_navigation_page.dart';
-import 'package:agriclaim/ui/farmer/profile_page.dart';
-import 'package:agriclaim/ui/farmer/register_farm.dart';
 import 'package:agriclaim/ui/common/pages/login_page.dart';
 import 'package:agriclaim/ui/common/pages/sign_up.dart';
 import 'package:agriclaim/ui/common/pages/welcome_page.dart';
 import 'package:agriclaim/ui/constants/enums.dart';
+import 'package:agriclaim/ui/farmer/claim_view_page.dart';
 import 'package:agriclaim/ui/farmer/claims_list_page.dart';
 import 'package:agriclaim/ui/farmer/create_claim_page.dart';
+import 'package:agriclaim/ui/farmer/farm_navigation_page.dart';
 import 'package:agriclaim/ui/farmer/home_screen.dart';
+import 'package:agriclaim/ui/farmer/register_farm.dart';
 import 'package:agriclaim/ui/farmer/signup_page.dart';
 import 'package:agriclaim/ui/farmer/view_farm.dart';
 import 'package:agriclaim/ui/farmer/view_farm_list.dart';
@@ -128,8 +127,8 @@ abstract class AgriClaimRoutes {
       GoRoute(path: search, builder: (_, __) => const SearchPage()),
       GoRoute(
           path: assignedClaims, builder: (_, __) => const AssignedClaimsPage()),
-      GoRoute(
-          path: officerProfilePage, builder: (_, __) => const ProfilePage()),
+      // GoRoute(
+      //     path: officerProfilePage, builder: (_, __) => const ProfilePage()),
       GoRoute(
         path: reviewSingleClaim,
         builder: (_, state) {

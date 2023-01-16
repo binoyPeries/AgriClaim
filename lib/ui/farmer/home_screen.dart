@@ -63,14 +63,16 @@ class _FarmerHomePageState extends State<FarmerHomePage> {
       floatingButton: _selectedIndex == 0
           ? FloatingActionButton(
               key: const Key("claim_add"),
-              child: const Icon(FontAwesomeIcons.plus),
               onPressed: () => context.push(AgriClaimRoutes.createClaim),
+              tooltip: "Add Claim",
+              child: const Icon(FontAwesomeIcons.plus),
             )
           : _selectedIndex == 1
               ? FloatingActionButton(
                   key: const Key("farm_add"),
-                  child: const Icon(FontAwesomeIcons.plus),
                   onPressed: () => context.push(AgriClaimRoutes.registerFarm),
+                  tooltip: "Add new Farm",
+                  child: const Icon(FontAwesomeIcons.plus),
                 )
               : null,
     );

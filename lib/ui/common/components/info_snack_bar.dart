@@ -34,6 +34,6 @@ SnackBar infoSnackBar(
         borderRadius: BorderRadius.all(Radius.circular(8))),
     behavior: SnackBarBehavior.floating,
     margin: EdgeInsets.only(
-        bottom: bottomPadding ?? 80.h, left: 1.5.h, right: 1.5.h),
+        bottom: bottomPadding ?? 5.h, left: 1.5.h, right: 1.5.h),
   );
 }

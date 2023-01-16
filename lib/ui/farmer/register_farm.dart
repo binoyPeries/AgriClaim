@@ -114,8 +114,9 @@ class RegisterFarmPage extends ConsumerWidget {
     if (connectivityStatus == NetworkStatus.off) {
       ScaffoldMessenger.of(context).showSnackBar(infoSnackBar(
           msg: "You are in offline mode.\n"
-              "This wll be submitted automatically once internet connection is restored."));
-      await Future.delayed(const Duration(seconds: 5), () {
+              "This wll be submitted automatically once internet connection is restored.",
+          time: const Duration(seconds: 3)));
+      await Future.delayed(const Duration(seconds: 3), () {
         context.pop();
       });
     }

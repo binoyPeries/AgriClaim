@@ -30,7 +30,7 @@ class DefaultScaffold extends ConsumerWidget {
           infoSnackBar(
               msg: "You are in offline mode",
               time: const Duration(hours: 1),
-              bottomPadding: 64.h),
+              ),
         );
       }
       if ((previous != current) &&
@@ -42,7 +42,7 @@ class DefaultScaffold extends ConsumerWidget {
               msg: "You are back online",
               color: AgriClaimColors.primaryColor,
               icon: FontAwesomeIcons.circleCheck,
-              bottomPadding: 64.h),
+              ),
         );
       }
     });

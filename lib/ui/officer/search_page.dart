@@ -1,6 +1,8 @@
+import 'package:agriclaim/ui/constants/colors.dart';
 import 'package:agriclaim/ui/farmer/claims_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sizer/sizer.dart';
 import '../../providers/claim_provider.dart';
 
 class SearchPage extends StatefulWidget {
@@ -12,6 +14,7 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   TextEditingController editingController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Consumer(
@@ -50,18 +53,28 @@ class _SearchPageState extends State<SearchPage> {
                               .length ==
                           1
                       ? ClaimInfoCard(claim: data[0])
-                      : const Text("No valid search results");
+                      : editingController.text.isEmpty
+                          ? const SizedBox()
+                          : Text(
+                              "No valid search results",
+                              style: TextStyle(
+                                fontSize: 2.2.h,
+                                color: AgriClaimColors.tertiaryColor,
+                              ),
+                            );
                   // return Text(data.toString());
                 },
                 error: (e, st) {
-                  return const Text("Failed to load search results");
+                  return Text(
+                    "Failed to load search results",
+                    style: TextStyle(
+                      fontSize: 2.h,
+                      color: AgriClaimColors.warningRedColor,
+                    ),
+                  );
                 },
-                loading: () => const CircularProgressIndicator()),
-            // SubmissionButton(
-            //   text: "Search",
-            //   onSubmit: () {},
-            //   afterSubmit: (context) {},
-            // ),
+                loading: () =>
+                    const Center(child: CircularProgressIndicator())),
           ],
         );
       },

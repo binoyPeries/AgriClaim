@@ -1,9 +1,11 @@
 import 'package:agriclaim/ui/constants/colors.dart';
+import 'package:agriclaim/models/claim.dart';
+import 'package:agriclaim/providers/claim_provider.dart';
 import 'package:agriclaim/ui/farmer/claims_list_page.dart';
+import 'package:agriclaim/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sizer/sizer.dart';
-import '../../providers/claim_provider.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
@@ -19,7 +21,7 @@ class _SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     return Consumer(
       builder: (context, ref, child) {
-        var claimsList = ref.watch(searchResultsProvider);
+        AsyncValue<List<Claim>> claimsList = ref.watch(searchResultsProvider);
 
         return Column(
           children: [
@@ -44,17 +46,22 @@ class _SearchPageState extends State<SearchPage> {
               ),
             ),
             claimsList.when(
-                data: (data) {
-                  return data
-                              .where((element) => element.claimId
-                                  .toLowerCase()
-                                  .startsWith(
-                                      editingController.text.toLowerCase()))
-                              .length ==
-                          1
-                      ? ClaimInfoCard(claim: data[0])
-                      : editingController.text.isEmpty
-                          ? const SizedBox()
+                data: (searchResults) {
+                  List<Claim> filteredResults = filterSearchResults(
+                      searchResults, editingController.text);
+                  return editingController.text.isEmpty
+                      ? const SizedBox()
+                      : filteredResults.isNotEmpty
+                          ? SingleChildScrollView(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  SizedBox(height: 5.h),
+                                  for (final claim in filteredResults)
+                                    ClaimInfoCard(claim: claim)
+                                ],
+                              ),
+                            )
                           : Text(
                               "No valid search results",
                               style: TextStyle(

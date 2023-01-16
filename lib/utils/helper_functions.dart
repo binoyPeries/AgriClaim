@@ -1,3 +1,4 @@
+import 'package:agriclaim/models/claim.dart';
 import 'package:agriclaim/models/claim_media.dart';
 import 'package:agriclaim/ui/constants/enums.dart';
 import 'package:agriclaim/utils/point_in_boundaries.dart';
@@ -88,4 +89,11 @@ bool isWithinFarmBoundaries(
   final bool isAccepted =
       FarmBoundary.checkIsWithinBoundary(pointCoordinates, farmCoordinates);
   return isAccepted;
+}
+
+List<Claim> filterSearchResults(List<Claim> claims, String searchString) {
+  return claims
+      .where((element) =>
+          element.claimId.toLowerCase().startsWith(searchString.toLowerCase()))
+      .toList();
 }

@@ -1,58 +1,70 @@
-import 'package:agriclaim/ui/constants/colors.dart';
+import 'package:agriclaim/ui/farmer/claims_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../providers/claim_provider.dart';
 
-class SearchPage extends ConsumerWidget {
+class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    TextEditingController editingController = TextEditingController();
-    var claimList = ref.watch(searchClaimList(editingController.text));
+  State<SearchPage> createState() => _SearchPageState();
+}
 
-    return Column(children: [
-      Padding(
-        padding: const EdgeInsets.symmetric(
-          vertical: 20.0,
-          horizontal: 5.0,
-        ),
-        child: TextField(
-          controller: editingController,
-          onChanged: (value) {
-            claimList = ref.refresh(searchClaimList(value));
-          },
-          decoration: const InputDecoration(
-            labelText: "Search",
-            hintText: "Search",
-            prefixIcon: Icon(Icons.search),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(50.0)),
-            ),
-          ),
-        ),
-      ),
-      claimList.when(
-          data: (items) {
-            return Expanded(
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: items.length,
-                itemBuilder: (context, index) {
-                  return Container(
-                    padding: const EdgeInsets.all(15),
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                      color: AgriClaimColors.primaryColor,
-                    )),
-                    child: Text("Claim ID: ${items[index].claimId}"),
-                  );
-                },
+class _SearchPageState extends State<SearchPage> {
+  TextEditingController editingController = TextEditingController();
+  @override
+  Widget build(BuildContext context) {
+    return Consumer(
+      builder: (context, ref, child) {
+        var claimsList = ref.watch(searchResultsProvider);
+
+        return Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 20.0,
+                horizontal: 5.0,
               ),
-            );
-          },
-          loading: () => const Center(child: CircularProgressIndicator()),
-          error: (e, st) => Center(child: Text(e.toString())))
-    ]);
+              child: TextField(
+                controller: editingController,
+                onChanged: (text) {
+                  setState(() {});
+                },
+                decoration: const InputDecoration(
+                  labelText: "Search",
+                  hintText: "Search",
+                  prefixIcon: Icon(Icons.search),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                  ),
+                ),
+              ),
+            ),
+            claimsList.when(
+                data: (data) {
+                  return data
+                              .where((element) => element.claimId
+                                  .toLowerCase()
+                                  .startsWith(
+                                      editingController.text.toLowerCase()))
+                              .length ==
+                          1
+                      ? ClaimInfoCard(claim: data[0])
+                      : const Text("No valid search results");
+                  // return Text(data.toString());
+                },
+                error: (e, st) {
+                  return const Text("Failed to load search results");
+                },
+                loading: () => const CircularProgressIndicator()),
+            // SubmissionButton(
+            //   text: "Search",
+            //   onSubmit: () {},
+            //   afterSubmit: (context) {},
+            // ),
+          ],
+        );
+      },
+    );
   }
 }

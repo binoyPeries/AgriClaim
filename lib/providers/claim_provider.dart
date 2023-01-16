@@ -23,7 +23,7 @@ final claimListProvider = StreamProvider.autoDispose
   return claimList;
 });
 
-/// gets the farm for a given farmID
+/// gets the farm for a given farm ID
 final claimFarmProvider =
     FutureProvider.autoDispose.family<Farm, String>((ref, farmId) {
   final value = ref.watch(farmRepositoryProvider).getFarm(farmId);
@@ -38,16 +38,13 @@ final claimListForOfficerProvider = StreamProvider.autoDispose
   return claimList;
 });
 
-/// for search functionality
-/// TODO: decide to keep or not
-final searchClaimList =
-    StreamProvider.autoDispose.family<List<Claim>, String>((ref, claimId) {
-  final claimRepository = ref.watch(claimRepositoryProvider);
-  final claimList = claimRepository.searchClaimsList(claimId);
-  return claimList;
-});
-
 /// for claim acceptance by officer
 final claimAcceptedStateProvider = StateProvider<bool>((ref) {
   return true;
+});
+
+final searchResultsProvider = StreamProvider.autoDispose<List<Claim>>((ref) {
+  final claimRepository = ref.watch(claimRepositoryProvider);
+  final value = claimRepository.searchClaims();
+  return value;
 });

@@ -82,42 +82,42 @@ class _FormImageFieldState extends State<FormImageField> {
             padding: const EdgeInsets.all(8.0),
             child: isLoading
                 ? const Center(
-                    child: CircularProgressIndicator(),
-                  )
+              child: CircularProgressIndicator(),
+            )
                 : GridView.builder(
-                    physics: const ScrollPhysics(),
-                    scrollDirection: Axis.horizontal,
-                    itemCount: imageFileList.length,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 1, mainAxisSpacing: 3.w),
-                    itemBuilder: (BuildContext context, int index) {
-                      return ImageViewer(
-                        imageFileList: imageFileList,
-                        imageIndex: index,
-                        onPressed: () => deleteImage(index),
-                      );
-                    }),
+                physics: const ScrollPhysics(),
+                scrollDirection: Axis.horizontal,
+                itemCount: imageFileList.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 1, mainAxisSpacing: 3.w),
+                itemBuilder: (BuildContext context, int index) {
+                  return ImageViewer(
+                    imageFileList: imageFileList,
+                    imageIndex: index,
+                    onPressed: () => deleteImage(index),
+                  );
+                }),
           ),
         ),
         PrimaryButton(
             onPressed: imageFileList.length == widget.maxImages
                 ? () {
-                    ScaffoldMessenger.of(context).showSnackBar(infoSnackBar(
-                        msg: "Can't add more than ${widget.maxImages} images"));
-                  }
+              ScaffoldMessenger.of(context).showSnackBar(infoSnackBar(
+                  msg: "Can't add more than ${widget.maxImages} images"));
+            }
                 : widget.farmLocations.isEmpty
-                    ? () {
-                        ScaffoldMessenger.of(context).showSnackBar(infoSnackBar(
-                            msg:
-                                "You have to select a farm before taking images"));
-                      }
-                    : () async {
-                        selectImages();
-                      },
+                ? () {
+              ScaffoldMessenger.of(context).showSnackBar(infoSnackBar(
+                  msg:
+                  "You have to select a farm before taking images"));
+            }
+                : () async {
+              selectImages();
+            },
             buttonColor: Colors.white,
             textColor: AgriClaimColors.tertiaryColor,
             borderColor: AgriClaimColors.tertiaryColor,
-            text: "Add Photo")
+            text: "Add Photos")
       ],
     );
   }
@@ -156,15 +156,15 @@ class ImageViewer extends StatelessWidget {
               padding: EdgeInsets.only(left: 1.h, top: 1.h),
               child: imageFileList[imageIndex].accepted
                   ? Icon(
-                      FontAwesomeIcons.circleCheck,
-                      color: AgriClaimColors.secondaryColor,
-                      size: 6.h,
-                    )
+                FontAwesomeIcons.circleCheck,
+                color: AgriClaimColors.secondaryColor,
+                size: 6.h,
+              )
                   : Icon(
-                      FontAwesomeIcons.circleXmark,
-                      color: Colors.red,
-                      size: 6.h,
-                    ),
+                FontAwesomeIcons.circleXmark,
+                color: Colors.red,
+                size: 6.h,
+              ),
             )),
         Positioned(
           top: 2.h,

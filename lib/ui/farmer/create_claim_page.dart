@@ -184,6 +184,15 @@ class CreateClaimPage extends ConsumerWidget {
     if (!isValid) {
       return false;
     }
+    if (imageList.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        infoSnackBar(
+          msg: "You must add at least one image to complete the process",
+          time: const Duration(seconds: 3),
+        ),
+      );
+      return false;
+    }
     Map<String, dynamic> mediaData = {};
     mediaData["claimPhotos"] = imageList;
     mediaData["claimVideo"] = video;

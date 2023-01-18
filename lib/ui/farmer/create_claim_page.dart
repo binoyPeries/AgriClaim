@@ -148,7 +148,7 @@ class CreateClaimPage extends ConsumerWidget {
                         ref.watch(claimSelectedFarmLocationsNotifierProvider);
                     return FormVideoField(
                       fieldName: "claimVideo",
-                      maxDurationInSec: 5,
+                      maxDurationInSec: 30,
                       setVideoOnParent: setVideo,
                       farmLocations: farmLocations,
                     );

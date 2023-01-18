@@ -61,6 +61,15 @@ class CommonSignUpPage extends ConsumerWidget {
                       label: S.of(context).confirm_password,
                       hintText: S.of(context).confirm_password,
                       obscureText: true,
+                      validators: [
+                        (value) {
+                          final pw = formKey.currentState?.value["password"];
+                          if (pw != value) {
+                            return "Passwords do not match";
+                          }
+                          return null;
+                        }
+                      ],
                     ),
                     SizedBox(height: 8.h),
                     SubmissionButton(

@@ -148,7 +148,7 @@ class CreateClaimPage extends ConsumerWidget {
                         ref.watch(claimSelectedFarmLocationsNotifierProvider);
                     return FormVideoField(
                       fieldName: "claimVideo",
-                      maxDurationInSec: 5,
+                      maxDurationInSec: 30,
                       setVideoOnParent: setVideo,
                       farmLocations: farmLocations,
                     );
@@ -182,6 +182,15 @@ class CreateClaimPage extends ConsumerWidget {
     final claimRepository = ref.read(claimRepositoryProvider);
     final connectivityStatus = ref.watch(networkAwareProvider);
     if (!isValid) {
+      return false;
+    }
+    if (imageList.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        infoSnackBar(
+          msg: "You must add at least one image to complete the process",
+          time: const Duration(seconds: 3),
+        ),
+      );
       return false;
     }
     Map<String, dynamic> mediaData = {};

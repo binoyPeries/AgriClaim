@@ -20,7 +20,7 @@ class FarmBoundary {
       Coordinates b = i == boundaryPoints.length - 1
           ? boundaryPoints[0]
           : boundaryPoints[i + 1];
-      final boundaryState = getBoundaryState(point, a, b);
+      final boundaryState = getLineIntersectionState(point, a, b);
       if (boundaryState == LineIntersectionStates.onTheLine) {
         return true;
       }
@@ -35,7 +35,7 @@ class FarmBoundary {
   /// accuracy checked to 6 decimal places
   /// accurate of +- 10cm
   /// http://wiki.gis.com/wiki/index.php/Decimal_degrees
-  static LineIntersectionStates getBoundaryState(
+  static LineIntersectionStates getLineIntersectionState(
       Coordinates point, Coordinates a, Coordinates b) {
     final double aY = roundOff(a.y);
     final double bY = roundOff(b.y);

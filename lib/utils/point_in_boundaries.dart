@@ -21,10 +21,10 @@ class FarmBoundary {
           ? boundaryPoints[0]
           : boundaryPoints[i + 1];
       final boundaryState = getBoundaryState(point, a, b);
-      if (boundaryState == BoundaryStates.onBoundary) {
+      if (boundaryState == LineIntersectionStates.onTheLine) {
         return true;
       }
-      if (boundaryState == BoundaryStates.inBoundary) {
+      if (boundaryState == LineIntersectionStates.intersectsWithLine) {
         numOfIntersections += 1;
       }
     }
@@ -35,7 +35,7 @@ class FarmBoundary {
   /// accuracy checked to 6 decimal places
   /// accurate of +- 10cm
   /// http://wiki.gis.com/wiki/index.php/Decimal_degrees
-  static BoundaryStates getBoundaryState(
+  static LineIntersectionStates getBoundaryState(
       Coordinates point, Coordinates a, Coordinates b) {
     final double aY = roundOff(a.y);
     final double bY = roundOff(b.y);
@@ -46,7 +46,7 @@ class FarmBoundary {
 
     // checks to see if the point is completely above, below or to the right of the line
     if ((aY > pY && bY > pY) || (aY < pY && bY < pY) || (aX < pX && bX < pX)) {
-      return BoundaryStates.outOfBoundary;
+      return LineIntersectionStates.noIntersectsWithLine;
     }
 
     // calculate gradient of line
@@ -63,14 +63,14 @@ class FarmBoundary {
     // x is the point of intersection between the horizontal line
     // and the line connecting a and b
     if (x == pX) {
-      return BoundaryStates.onBoundary;
+      return LineIntersectionStates.onTheLine;
     }
 
     if (x < pX) {
-      return BoundaryStates.outOfBoundary;
+      return LineIntersectionStates.noIntersectsWithLine;
     }
 
-    return BoundaryStates.inBoundary;
+    return LineIntersectionStates.intersectsWithLine;
   }
 
   static double roundOff(double number) {

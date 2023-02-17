@@ -9,10 +9,10 @@ enum ClaimStates {
   completed,
 }
 
-enum BoundaryStates {
-  inBoundary,
-  outOfBoundary,
-  onBoundary,
+enum LineIntersectionStates {
+  intersectsWithLine,
+  noIntersectsWithLine,
+  onTheLine,
 }
 
 enum NetworkStatus {

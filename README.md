@@ -14,3 +14,5 @@ The current system involves a visit by the assigned government officer to the fa
 The proposed solution will digitise this process and allow farmers to submit claims electronically via the mobile application, and the government officers can view and assess the claim via the mobile application without having to go to the farm. The compensation will be collected by the farmer via their bank account or in person, based on their preference.
 
 ## User Manual
+
+https://drive.google.com/file/d/1T1hDRIHtiwRSXUST1M3uWAd5T_ACz_nq/view?usp=sharing
